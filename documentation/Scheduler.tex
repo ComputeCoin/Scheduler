@@ -1,6 +1,6 @@
 
 
-\documentclass{article}
+\documentclass{article} 
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 
@@ -19,11 +19,15 @@
 \theoremstyle{definition}
 \newtheorem{proposition}{Proposition}[section]
 
-\newcommand{\path}[1]{$\mathbf{Path}_{#1}$}
+\newcommand{\path}[2]{\mathbf{Path}^{#2}_{#1}}
+
+\newcommand{\pathall}[1]{\mathbf{Path}_{#1}}
 
 \newcommand{\func}[3]{#1:#2\rightarrow#3}
 \newcommand{\reqfunc}[2]{#1:#2\rightarrow\mathbb{B}}
 \newcommand{\reqop}[2]{\mathbf{Req}_{#1}(#2)}
+
+\newcommand{\labeledarrow}[1]{\stackrel{#1}{\rightarrow}}
 
 \newcommand{\setbuild}[3]{
 	\{\hspace{0.05in} 
@@ -161,6 +165,22 @@
 	\subsection{Policy Graph}
 	
 	\begin{definition}
-		Let $G = (V, E, src, tgt)$ be a graph. A \emph{path of length n} in $G$, denoted $p \in$ \path{G}, 
+		Let $G = (V, E, src, tgt)$ be a graph. A \emph{path of length n} in $G$, denoted $p \in$ $\path{G}{(n)}$, is a head-to-tail sequence:
+		\[
+		p = (v_{1}   \labeledarrow{a_{1}}   v_{2}   \labeledarrow{a_{2}}  \cdots   \labeledarrow{a_{n-2}}  v_{n-1}   \labeledarrow{a_{n-1}}   v_{n})
+		\]
+		
+		The \emph{set of all paths on G} is defined such that: 
+		
+		\[
+		\pathall{G} : = \bigsqcup_{n \in \mathbb{N}}{\path{G}{(n)}}
+		\]
 	\end{definition}
+
+	\begin{definition}
+		
+	\end{definition}
+	
+		
+	
 \end{document}

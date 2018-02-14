@@ -1,0 +1,166 @@
+
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+\usepackage{amsthm}
+\usepackage{amsfonts}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\theoremstyle{theorem}
+\newtheorem*{theorem}{Theorem}
+
+\theoremstyle{definition}
+\newtheorem{proposition}{Proposition}[section]
+
+\newcommand{\path}[1]{$\mathbf{Path}_{#1}$}
+
+\newcommand{\func}[3]{#1:#2\rightarrow#3}
+\newcommand{\reqfunc}[2]{#1:#2\rightarrow\mathbb{B}}
+\newcommand{\reqop}[2]{\mathbf{Req}_{#1}(#2)}
+
+\newcommand{\setbuild}[3]{
+	\{\hspace{0.05in} 
+	#1 \in #2 \hspace{0.05in} 
+	| \hspace{0.05in}#3\hspace{0.05in}
+	\}	
+}
+
+
+
+
+
+\begin{document}
+	
+	
+	\part{Requirement Algebra}
+	
+	\section{Introduction}
+	
+	In order to build a scheduling algorithm that is capable of dealing with heterogeneous resources and consumers, we must learn how to build a scheduling process that is decomposable. With a decomposable scheduling process we will be able to impose a solution on each prime component of the process and therefore solve the larger process. The reinforcement solution will analogously follow the decomposition of the problem, for it too is something that can be decomposed.  \\
+	
+	The reinforcement learning algorithm decomposition depends on the ability for the system itself to be highly seperable. Therefore that is where the solution will first be addressed. The system depends on resources and consumers who want to use resources for a certain period of time. In order for the consumer to tell the system what it wants, it must enter a resource specification that explains the different requirements that must be met in order for them to have the acceptable product that they wanted. This is the place where the system will undergo the first decomposition, the decomposition of consumers. To properly do this we have constructed a simple algebra that can aid in this endeavor.
+	
+	\section{Requirement}
+	
+		\begin{definition} 
+			A \emph{requirement} is a function, $\reqfunc{\rho}{X}$, where $X$ is a set, and $\mathbb{B} = \{0,1\}$.\\
+			
+			The set, X, is referred to as the required set of the requirement $\rho$.
+		\end{definition}
+	
+	    \begin{proposition}[Properties]
+	    	
+	    	\begin{enumerate}
+	    		\item[(1)]
+	    	\end{enumerate}
+	    \end{proposition}
+	
+		\begin{definition}
+			A requirement, $\rho$, is said to be \emph{seperable} if and only if it can be written as $\rho(x) = \prod_{i \in I}{\rho_{i}(x)}$, where $\forall i \in I$, $\rho_{i}(x)$, is a requirement with required set $X$.
+		\end{definition}
+	
+		\begin{definition}
+			A \emph{requirement operator} is a mapping, $\mathbf{Req}: \mathbf{Set} \rightarrow \mathbf{Set}$,
+			such that,
+			\[
+			\reqop{\rho}{X} := \setbuild{x}{X}{\rho(x) = 1}.
+			\]
+		\end{definition}
+	
+		\begin{proposition}
+			Given requirement $\rho$, if $\rho = \rho_{1}\cdot\rho_{2}$, where $\rho_{1}$ and $\rho_{2}$ are requirements with required set X, then  
+			\[
+			\reqop{\rho}{X} = \reqop{\rho_{1}}{X}\cdot\reqop{\rho_{2}}{X}
+			\]
+		\end{proposition}
+	
+		\begin{proof}
+			The proof of this proposition is very straightforward. Let $X$ be a set and $\rho$ be a requirement with required set $X$. Then,
+			
+			\begin{eqnarray}
+			\reqop{\rho}{X} & = & \setbuild{x}{X}{\rho(x) = 1} \\
+			                & = & \setbuild{x}{X}{\rho_{1}(x)\rho_{2}(x) = 1} \\
+			                & = & \setbuild{x}{X}{\rho_{1}(x) = 1 and \rho_{2}(x) = 1} \\
+							& = & \setbuild{x}{X}{\rho_{1}(x) = 1}\cdot\setbuild{x}{X}{\rho_{2}(x) = 1} \\
+							& = & \reqop{\rho_{1}}{X}\cdot\reqop{\rho_{2}}{X} 
+			\end{eqnarray}
+		
+		\end{proof}
+	
+		\begin{remark}
+			The binary operation between two requirements is the same as the symbol, $\wedge$, used in boolean algebra to represent the join, $and$, between two boolean statements. 
+		\end{remark}
+	
+		\begin{proposition}
+			Given requirement $\rho = \prod_{i \in I}{\rho_{i}}$, where $\rho_{i}$ are requirements all with required set X,  
+			\[
+			\reqop{\rho}{X} = \bigcap_{i \in I}{\reqop{\rho_{i}}{X}}
+			\]
+			 
+		\end{proposition}
+	
+		\subsection{Specification}
+		
+		\begin{definition}
+			A set, $X$, is said to be inspectable if and only if, there exists a function, $\func{\psi}{X}{\prod_{i \in I}{X_{i}}}$, where $X \ne X_{i}, \forall i \in I$. This function is referred to as an \emph{inspection function} of $X$.
+		\end{definition}
+	
+		\begin{remark}
+			The inspection function may also be expressed as, $\psi(x) = (\psi_{i}(x))_{i \in I}.$ 
+		\end{remark}
+		
+		\begin{definition}
+			A \emph{specification} is a requirement, $\reqfunc{\phi}{X}$, such that the following conditions hold:
+			
+			\begin{enumerate}
+				\item The required set, $X$, is inspectable.
+				
+				\item There exists a requirement, $\reqfunc{\varphi}{\prod_{i \in I}{X_{i}}}$, such that $\rho = \varphi \circ \psi$, where $\psi$ is an inspection function of $X$, with $X \ne X_{i}, \forall i \in I$. The requirement, $\varphi$, is referred to as an \emph{acceptance requirement} of X.
+			\end{enumerate}
+		
+		\end{definition}
+	
+		\begin{theorem}
+			Given a specification, $\phi$, with a seperable acceptance requirement, $\varphi(x_i)_{i \in I}$, then following isomorphism holds:
+			
+			\[
+			\reqop{\phi}{X} = \prod_{i \in I}\reqop{\phi_{i}}{X_{i}}
+			\] 
+		\end{theorem}
+			
+	\part{Consumers, Producers, and Resources}
+	
+	\section{Resources}
+	
+	\begin{definition}
+		A \emph{resource} is $\cdots$
+	\end{definition}
+	
+	\section{Consumer}
+	
+	\begin{definition}
+		A \emph{consumer}, $c$, is a triple $(k, \phi, t)$, where $k \in \mathbb{N}$, $\phi$ is a specification, and $t \in \mathbb{R}^{+}$. 
+	\end{definition}
+	
+	\part{Scheduling Process}
+	
+	\section{Process Decomposition}
+	
+	
+	\part{Schedule Learning}
+	
+	\section{Policy Routing}
+	
+	\subsection{Policy Graph}
+	
+	\begin{definition}
+		Let $G = (V, E, src, tgt)$ be a graph. A \emph{path of length n} in $G$, denoted $p \in$ \path{G}, 
+	\end{definition}
+\end{document}

@@ -49,9 +49,19 @@
 	
 	\section{Introduction}
 	
-	In order to build a scheduling algorithm that is capable of dealing with heterogeneous resources and consumers, we must learn how to build a scheduling process that is decomposable. With a decomposable scheduling process we will be able to impose a solution on each prime component of the process and therefore solve the larger process. The reinforcement solution will analogously follow the decomposition of the problem, for it too is something that can be decomposed.  \\
+	In order to build a scheduling algorithm that is capable of dealing with heterogeneous resources and consumers,
+    we must learn how to build a scheduling process that is decomposable. With a decomposable scheduling process we
+    will be able to impose a solution on each prime component of the process and therefore solve the larger process.
+    The reinforcement solution will analogously follow the decomposition of the problem, for it too is something that
+    can be decomposed.  \\
 	
-	The reinforcement learning algorithm decomposition depends on the ability for the system itself to be highly seperable. Therefore that is where the solution will first be addressed. The system depends on resources and consumers who want to use resources for a certain period of time. In order for the consumer to tell the system what it wants, it must enter a resource specification that explains the different requirements that must be met in order for them to have the acceptable product that they wanted. This is the place where the system will undergo the first decomposition, the decomposition of consumers. To properly do this we have constructed a simple algebra that can aid in this endeavor.
+	The reinforcement learning algorithm decomposition depends on the ability for the system itself to be highly
+    seperable. Therefore that is where the solution will first be addressed. The system depends on resources and
+    consumers who want to use resources for a certain period of time. In order for the consumer to tell the system
+    what it wants, it must enter a resource specification that explains the different requirements that must be met
+    in order for them to have the acceptable product that they wanted. This is the place where the system will undergo
+    the first decomposition, the decomposition of consumers. To properly do this we have constructed a simple algebra
+    that can aid in this endeavor. \\
 	
 	\section{Requirement}
 	
@@ -134,10 +144,11 @@
 		\end{definition}
 	
 		\begin{theorem}
-			Given a specification, $\phi$, with a seperable acceptance requirement, $\varphi(x_i)_{i \in I}$, then following isomorphism holds:
+			Given a separable specification, $\phi$, with an acceptance requirement that is mutually independent,
+            $\varphi(x_i)_{i \in I}$, then following isomorphism holds:
 			
 			\[
-			\reqop{\phi}{X} = \prod_{i \in I}\reqop{\phi_{i}}{X_{i}}
+			\reqop{\phi}{X} = \prod_{i \in I}\reqop{\varphi_{i}}{X_{i}}
 			\] 
 		\end{theorem}
 			
@@ -146,10 +157,7 @@
 	\section{Resources}
 	
 	\begin{definition}
-		A \emph{resource} $r$ is a property $p$, $r = (p_i )_{i\in I}$ which is belong to sets of resouce $R$. The resource $R$ can be defined such that:
-		\[
-		R = \prod_{i \in I}p_i
-		\]
+		Let $U = (R, \mu)$ 
 		
 	\end{definition}
 	
@@ -167,9 +175,9 @@
 	\end{definition}
 
 	\begin{definition}
-		Let \emph{service} $v$ be the avaible resource can be provide which related with a subset of resource $\^{R}$ and a boolean variable $\beta$ can be defined such that:
+		Let \emph{service} $v$ be the available resource can be provide which related with a subset of resource $R'$ and a boolean variable $\beta$ can be defined such that:
 		\[
-		v := (\^{R}, \beta)
+		v := (R', \beta)
 		\]
 		\[
 		V = 2^{R}*{\ss}
@@ -189,7 +197,7 @@
 	\end{definition}
 	
 	\begin{definition}
-		let $g$ reprosent the assigment process, $g = (c,\sigma_w, v)$. Then the assigment action G can be defined as:
+		let $g$ reprosent the assigment process, $g = (c,\sigma_w, v)$. Then the assignment action G can be defined as:
 		\[
 		G = C*[0,\sigma_m)*V
 		\]

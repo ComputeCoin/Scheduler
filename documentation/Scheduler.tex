@@ -57,15 +57,41 @@
 	\newpage
 	\pagenumbering{arabic}
 	
-	\part{Requirements and Specifications}
-	
 	\section{Introduction}
 	
-		\indent
+	\indent
+	
+	The aim of this project is to design an optimal scheduling algorithm for a scalable computing cloud, where computing resources are dynamically allocated to meet the demands of an inhomogeneous set of consumers. Resources are not uniformly distributed, geographically or otherwise, as the nodes comprising the cloud are of variable type and processing power. Clients will submit job specifications (indicating the number and type of cores, ideal network topology, required run time, etc.) to the scheduler, which should designate a time to run and a cluster of nodes that adheres to the specification. The algorithm should maximize throughput (efficient use of resources) while maintaining fairness, with wait times minimal and consistent between jobs that place similar demands on the system.
+	
+	In order to build an algorithm capable of operating on a complex, heterogeneous system of resources and consumers, we must consider the process from an abstract yet granular point of view. In an attempt to do so we have defined the system in terms of simple mathematical objects, and constructed an algebra over those objects to describe their interaction. By decomposing the scheduling process into its constituent parts, we were able to describe each component of the process in terms of this algebra and thus devise a mathematical model for the process as a whole. 
+	
+	Due to the difficulty of processing such a dynamic, diverse system (given the sheer number of factors to account for), we elected to confront the problem with a reinforcement learning algorithm built on the aforementioned model. The algorithm is highly dependent on the system's partitioning into measurable (numerically describable) components, and typifying these components for efficient processing - thus the focus on separability and producing quantifiable descriptors of the system. What follows is a detailed specification of the resultant scheduling paradigm: first of the environment and scheduling process, component by component, and then the construction of the reinforcement model from those components.
+	
+	\newpage
+	
+	\part{Consumers, Requirements and Specifications}
+	
+	\section{Consumer}
+	
+		\begin{definition}
+			A \emph{consumer}, $c$, is a triple $(k, \phi, t)$, where $k \in \mathbb{N}$, $\phi$ is a specification, and $t \in \mathbb{R}^{+}$. The consumer $C$ is the subset of consumer $c$ which defined such that:
+			\[
+			c = (\phi , \sigma_m)
+			\]
+			\[
+			C = 2^{\phi}*[0,\sigma_m)
+			\]
+		\end{definition}
 		
-		In order to build a scheduling algorithm that is capable of dealing with heterogeneous resources and consumers, we must learn how to build a scheduling process that is decomposable. With a decomposable scheduling process we will be able to impose a solution on each prime component of the process and therefore solve the larger process. The reinforcement solution will analogously follow the decomposition of the problem, for it too is something that can be decomposed.
-		
-		The reinforcement learning algorithm decomposition depends on the ability for the system itself to be highly separable. Therefore that is where the solution will first be addressed. The system depends on resources and consumers who want to use resources for a certain period of time. In order for the consumer to tell the system what it wants, it must enter a resource specification that explains the different requirements that must be met in order for them to have the acceptable product that they wanted. This is the place where the system will undergo the first decomposition, the decomposition of consumers. To properly do this we have constructed a simple algebra that can aid in this endeavor.
+		\begin{definition}
+			Let \emph{service} $v$ be the available resource can be provide which related with a subset of resource $R'$ and a boolean variable $\beta$ can be defined such that:
+			\[
+			v := (R', \beta)
+			\]
+			\[
+			V = 2^{R}*{\ss}
+			\]
+		\end{definition}
 	
 	\section{Requirements}
 	
@@ -107,7 +133,7 @@
 	\section{Specifications}
 	
 		\begin{definition}
-			A set, $X$, is said to be inspectable if and only if, there exists a function, $\func{\psi}{X}{\prod_{i \in I}{X_{i}}}$, where $X \ne X_{i}, \forall i \in I$. This function is referred to as an \emph{inspection function} of $X$.
+			A set, $X$, is said to be inspectable if and only if there exists a function, $\func{\psi}{X}{\prod_{i \in I}{X_{i}}}$, where $X \ne X_{i}, \forall i \in I$. This function is referred to as an \emph{inspection function} of $X$.
 		\end{definition}
 		
 		\begin{remark}
@@ -140,35 +166,7 @@
 	
 	\newpage
 	
-	\part{Consumers, Producers, and Resources}
-	
-	\section{Resources}
-	
-		\begin{definition}
-			Let $U = (R, \mu)$
-		\end{definition}
-		
-	\section{Consumer}
-		
-		\begin{definition}
-			A \emph{consumer}, $c$, is a triple $(k, \phi, t)$, where $k \in \mathbb{N}$, $\phi$ is a specification, and $t \in \mathbb{R}^{+}$. The consumer $C$ is the subset of consumer $c$ which defined such that:
-			\[
-			c = (\phi , \sigma_m)
-			\]
-			\[
-			C = 2^{\phi}*[0,\sigma_m)
-			\]
-		\end{definition}
-		
-		\begin{definition}
-			Let \emph{service} $v$ be the available resource can be provide which related with a subset of resource $R'$ and a boolean variable $\beta$ can be defined such that:
-			\[
-			v := (R', \beta)
-			\]
-			\[
-			V = 2^{R}*{\ss}
-			\]
-		\end{definition}
+	\part{Resources}
 	
 	\newpage
 	
@@ -199,7 +197,7 @@
 	
 	\newpage
 	
-	\part{Schedule Learning}
+	\part{Reinforcement Model}
 	
 	\section{Policy Routing}
 	

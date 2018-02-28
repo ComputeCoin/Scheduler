@@ -71,6 +71,9 @@
 	
 	Due to the difficulty of processing such a dynamic, diverse system (given the sheer number of factors to account for), we elected to confront the problem with a reinforcement learning algorithm built on the aforementioned model. The algorithm is highly dependent on the system's partitioning into measurable (numerically describable) components, and typifying these components for efficient processing - thus the focus on separability and producing quantifiable descriptors of the system. What follows is a detailed specification of the resultant scheduling paradigm: first of the environment and scheduling process, component by component, and then the construction of the reinforcement model from those components.
 	
+	\subsection{Motivation}
+	The architecture of the scheduling model is named the \emph{Policy Advisor Network and Decision Architecture}, abbreviated as \emph{PANDA}. The objective of this architecture is to encode policies into reinforcement learning agents that are aligned with the goals they have been tasked with completing. The goal of a scheduling agent, in the case of this application, is defined as finding the resource cluster that satisfies the specification of a consumer, who must fill in the specification parameters defined by the resource provider. The specification parameters therefore define the goal of the scheduling agent, and encode their policy for reaching said goal. 
+	
 
 	\subsection{General Process}
 	
@@ -250,34 +253,14 @@
 	
 	\part{Reinforcement Model}
 	
-	\section{Policy Routing}
+	\section{Data Processing}
 	
-	\subsection{Policy Graph}
+	\subsection{Consumer Classification}
+	Using bayesian hiearchical clustering, consumers are classified into a certain consumer type represented by a numeric label (e.g. 1, 2). After classification, the consumer then enters their specfication parameters and consumer type into a policy advisor which then outputs policy parameters for a scheduling agent to use, for the duration of their search.
 	
-		\begin{definition} 
-			Let $G = (V, E, src, tgt)$ be a graph. A \emph{path of length n} in $G$, denoted $p \in$ $\path{G}{(n)}$, is a head-to-tail sequence:
-			\[
-			p = (v_{1}   \labeledarrow{a_{1}}   v_{2}   \labeledarrow{a_{2}}  \cdots   \labeledarrow{a_{n-2}}  v_{n-1}   \labeledarrow{a_{n-1}}   v_{n})
-			\]
-			
-			The \emph{set of all paths on G} is defined such that: 
-			
-			\[
-			\pathall{G} : = \bigsqcup_{n \in \mathbb{N}}{\path{G}{(n)}}
-			\]
-		\end{definition}
-		
-		\begin{definition}
-			let $\pathall{G}(v)$ be the all path from v back to v.
-			
-			The \emph{set of all path on G} is defined such that:
-			
-			$\pathall{G}(s,t) = \pathall{G}(s,v)\sqcup \cyclepath{G}(v) \sqcup \pathall{G}(v,t)$.
-			
-			The $\cyclepath{G}$ is defined as that:
-			
-			$\cyclepath{G}(v) = \pathall{G}(v,v)$
-		\end{definition}
+	\section{Policy Advisor}
+	The policy advisor is the mechanism in which consumers utilize to encode their specification into their representative scheduling 	  agents. These agents then use the ouput given by the policy advisor corresponding to their class in order to parameterize their           policy. Upon completing this stage, the scheduling agent then starts to collect the resources specified by the consumer. The 
+	
 	
 	\newpage    
 	

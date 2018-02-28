@@ -101,3 +101,9 @@ ENV/
 .mypy_cache/
 
 .idea/
+
+# LaTeX
+.synctex.gz
+.toc
+.aux
+.log

@@ -32,6 +32,8 @@
 
 \newcommand{\labeledarrow}[1]{\stackrel{#1}{\rightarrow}}
 
+\newcommand{\addpic}[1]{\includegraphics[width=1.0\textwidth]{#1}}
+
 \newcommand{\setbuild}[3]
 {
 	\{\hspace{0.05in} 
@@ -39,6 +41,9 @@
 	| \hspace{0.05in}#3\hspace{0.05in}
 	\}	
 }
+
+
+
 
 % Preamble
 \title{Scala Job Scheduler}
@@ -69,41 +74,40 @@
 	
 	Due to the difficulty of processing such a dynamic, diverse system (given the sheer number of factors to account for), we elected to confront the problem with a reinforcement learning algorithm built on the aforementioned model. The algorithm is highly dependent on the system's partitioning into measurable (numerically describable) components, and typifying these components for efficient processing - thus the focus on separability and producing quantifiable descriptors of the system. What follows is a detailed specification of the resultant scheduling paradigm: first of the environment and scheduling process, component by component, and then the construction of the reinforcement model from those components.
 	
-	1. General Process:
-	
-	\begin{figure1}
-	\includegraphics[width=1.0\textwidth]{Intro1.jpg}
-	\caption{}
-	\end{figure1}
-	
-	
-	
-	\begin{figure2}
-	\includegraphics[width=1.0\textwidth]{Intro2.jpg}
-	\end{figure2}
 
+	\subsection{General Process}
+	
+	
+			
+	%\includegraphics[width=1.0\textwidth]{Intro1.jpg}
+	
+	\addpic{Intro1.jpg}	
+	
+	\addpic{Intro2.jpg}
+	
 
-	2. Cosumer
+	\subsection{Consumer}
 	
 	
 	
-	3. Schedulering Process
+	\subsection{Schedulering Process}
 	
-	\begin{figure3}
-	\includegraphics[width=1.0\textwidth]{Training2.jpg}
-	\end{figure3}
+	
+	\addpic{Training2.jpg}
+	
 	
 		a. Pre-Traning
 	
-	\begin{figure4}
-	\includegraphics[width=1.0\textwidth]{Pre-Train.jpg}
-	\end{figure4}
+	
+	%\includegraphics[width=1.0\textwidth]{Pre-Train.jpg}
+	\addpic{Pre-Train.jpg}
+	
 	
 		b. Policy Generator
 	
-	\begin{figure5}
-	\includegraphics[width=1.0\textwidth]{Policy.png}
-	\end{figure5}
+	
+	%\includegraphics[width=1.0\textwidth]{Policy.png}
+	\addpic{Policy.png}
 	
 	bayesian Hierarchical clustering
 	
@@ -111,9 +115,10 @@
 	
 	 d. Joint Actions
 	
-	\begin{figure6}
-	\includegraphics[width=1.0\textwidth]{Joint-action.jpg}
-	\end{figure6}
+	
+	%\includegraphics[width=1.0\textwidth]{Joint-action.jpg}
+	\addpic{Joint-action.jpg}
+	
 	
 	
 	

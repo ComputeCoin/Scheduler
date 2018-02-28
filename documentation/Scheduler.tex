@@ -76,7 +76,13 @@
 	
 	\addpic{Intro1.jpg}	
 	
+	Upon submission by user, a consumer (job) enters the scheduling process with its specifications. It leaves the scheduling process by starting consuming (running on) assigned resources. Once finished, the consumer gives feedback to the scheduler for further training improvement.
+	
+	Example: a job is submitted with specifications such as arrival time, maximum run time, required number of nodes or cores, memory size, CPU/GPU, etc. After it finishes running, it gives feedback, such as wait time, actual run time, user reward, etc, to the scheduler.
+	
 	\addpic{Intro2.jpg}
+	
+	The scheduler first takes in the consumer specifications and inspects the current resource space. Then both the specifications and resource states are collected by the training module. During the reinforcement training, the training module and resource space are constantly being updated, while resources are being assigned or released and consumers entering or leaving the scheduling process.
 	
 
 	\subsection{Consumer}
@@ -88,23 +94,28 @@
 	\addpic{Training2.jpg}
 	
 	
-		a. Pre-Training
+	a. Pre-Training
 	
 	\addpic{Pre-Train.jpg}
 	
+	b. Nerual Network
+
+	\addpic{Neural-Network.jpeg}
 	
-		b. Policy Generator
+	c. Policy Generator
 	
 	\addpic{Policy.png}
 	
 	Bayesian Hierarchical Clustering
 	
-	c. Bins
+	d. Bins
 	
-	 d. Joint Actions
+	e. Joint Actions
 	
 	\addpic{Joint-action.jpg}
 	
+	There are three agent actions: catch, wait and release. An agent can either catch unoccupied resources to assign to a consumer, make a consumer wait for a certain amount of time, or release the resources occupied by a consumer. Based on their corresponding policies, multiple agents can have different actions on one consumer. Then these actions will jointly apply to this consumer in a time order.
+		
 	4.
 	
 	\newpage

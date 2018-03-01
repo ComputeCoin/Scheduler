@@ -15,3 +15,5 @@
 \contentsline {section}{\numberline {6}Data Processing}{9}
 \contentsline {subsection}{\numberline {6.1}Consumer Classification}{9}
 \contentsline {section}{\numberline {7}Policy Advisor}{9}
+\contentsline {part}{V\hspace {1em}Appendix}{11}
+\contentsline {section}{\numberline {8}Mathematical Symbols and Notation}{11}

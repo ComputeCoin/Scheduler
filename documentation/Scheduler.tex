@@ -146,44 +146,20 @@
 	
 	\addpic{figures/Policy-Generator.png}
 	
-	Bayesian Hierarchical Clustering
-	
-	d. Bins
-	
-	e. Joint Actions
-	
+
 
 	\addpic{figures/Joint-action.jpg}
 
 
 
 	
-	There are three agent actions: catch, wait and release. An agent can either catch unoccupied resources to assign to a consumer, make a consumer wait for a certain amount of time, or release the resources occupied by a consumer. Based on their corresponding policies, multiple agents can have different actions on one consumer. Then these actions will jointly apply to this consumer in a time order.
-		
-	4.
+	There are three agent actions: catch, wait and release. An agent can either catch unoccupied resources to assign
+    to a consumer, make a consumer wait for a certain amount of time, or release the resources occupied by a consumer.
+    Based on their corresponding policies, multiple agents can have different actions on one consumer. Then these actions
+    will jointly apply to this consumer in a time order.
 	
 	
 	\section{Consumer}
-	
-		\begin{definition}
-			A \emph{consumer}, $c$, is a triple $(k, \phi, t)$, where $k \in \mathbb{N}$, $\phi$ is a specification, and $t \in \mathbb{R}^{+}$. The consumer $C$ is the subset of consumer $c$ which defined such that:
-			\[
-			c = (\phi , \sigma_m)
-			\]
-			\[
-			C = 2^{\phi}*[0,\sigma_m)
-			\]
-		\end{definition}
-		
-		\begin{definition}
-			Let \emph{service} $v$ be the available resource can be provide which related with a subset of resource $R'$ and a boolean variable $\beta$ can be defined such that:
-			\[
-			v := (R', \beta)
-			\]
-			\[
-			V = 2^{R}*{\ss}
-			\]
-		\end{definition}
 	
 	\section{Requirements}
 	
@@ -208,13 +184,13 @@
 		
 		\begin{remark}
 			The binary operation $\cdot$ between two requirements is the same as the symbol, $\wedge$, used in boolean
- algebra to represent the join, $and$, between two boolean statements. Likewise, $\cdot$ operating on two sets
- is the intersection operation $\cap$. 
+            algebra to represent the join, $and$, between two boolean statements. Likewise, $\cdot$ operating on two sets
+            is the intersection operation $\cap$.
 		\end{remark}
 		
 		\begin{proof}
 			The proof of this proposition is very straightforward. Let $X$ be a set and $\rho$ be a requirement with
- required set $X$. Then,
+            required set $X$. Then,
 			
 			\begin{eqnarray}
 			\reqop{\rho}{X} & = & \setbuild{x}{X}{\rho(x) = 1}\\ 
@@ -229,8 +205,8 @@
 	
 		\begin{definition}
 			A set, $X$, is said to be inspectable if and only if there exists a function,
- $\func{\psi}{X}{\prod_{i \in I}{X_{i}}}$, where $X \ne X_{i}, \forall i \in I$. This function is referred to as an
- \emph{inspection function} of $X$.
+            $\func{\psi}{X}{\prod_{i \in I}{X_{i}}}$, where $X \ne X_{i}, \forall i \in I$. This function is referred to as an
+            \emph{inspection function} of $X$.
 		\end{definition}
 		
 		\begin{remark}
@@ -269,17 +245,33 @@
 
 	\section{Data Collection}
 
-	The data collected on consumers is as follows:
-	\begin{table}
+	The data collected about an agents trajectory within the scheduler includes, associated ID of the consumer, arrival
+    times, specification parameters, action sequences, rewards from the system and consumer, resource cluster, wait
+    times, and use time. The following is a more formal representation of the preceding sentence.
 
-	\end{table}
+    \begin{definition}
+    A trajectory, $\tau$, is an 8-tuple, $(c, \mathbf{\gamma}, \mathbf{\theta}, t, \mathbf{\delta}, R_{c})$, where c is a consumer, $\mathbf{\gamma}$ is a specification parameter,
+    $\mathbf{\gamma} \in \Gamma$, $\mathbf{\theta}$ is a policy parameter, $\mathbf{\theta} \in \Gamma$, $\vec{t}$
+    is a pair $(t_{a}, t_{d})$ where $t_{a}$ is an arrival time and $t_{d}$ is a departure time, $\mathbf{\delta}$
+    is a pair $(\delta_{w}, \delta_{u})$ where $\delta_{w}$ is the wait time and $\delta_{u}$ is the use time, and
+    $R_{c}$ is a list of resources that were ysed by the consumer, $c$.
+    \end{definition}
 
-	\section{Consumer Classification}
+
+	\subsection{Consumer Classification}
 	Using Bayesian hierarchical clustering, consumers are classified into a certain consumer type represented by a
     numeric label (e.g. 1, 2). After classification, the consumer then enters their specification parameters and
     consumer type into a policy advisor which then outputs policy parameters for a scheduling agent to use, for
     the duration of their search.
-	
+
+    \begin{definition}
+        A \emph{partition} function is a function $\Phi_{X}: X \rightarrow \underline{K}$, where X is a
+        set and $\underline{K} = \{1, \ldots, K\}$, where $K \in \mathbb{N}$.
+    \end{definition}
+
+    \begin{remark}
+        The above partition function is the mechanism used to label users to the correct type.
+    \end{remark}
 
 	\section{Policy Advisor}
 	The policy advisor is the mechanism in which consumers utilize to encode their specification into their
@@ -290,10 +282,6 @@
         The \emph{policy advisor} is function $\mathcal{P}: \Gamma \rightarrow \Theta$, where $\Gamma$ is the specification
 		parameter space and $\Theta$ is the policy parameter space.
     \end{definition}
-
-
-	
-
 
 	\newpage    
 

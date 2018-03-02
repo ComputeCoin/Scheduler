@@ -124,7 +124,6 @@
 	Example: a job is submitted with specifications such as arrival time, maximum run time, required number of nodes or cores, memory size, CPU/GPU, etc. After it finishes running, it gives feedback, such as wait time, actual run time, user reward, etc, to the scheduler.
 	
 	\addpic{figures/Intro-Scheduler.jpg}
-
 	
 	The scheduler first takes in the consumer specifications and inspects the current resource space. Then both the specifications and resource states are collected by the training module. During the reinforcement training, the training module and resource space are constantly being updated, while resources are being assigned or released and consumers entering or leaving the scheduling process.
 	
@@ -267,54 +266,29 @@
 	\newpage
 	
 	\part{Reinforcement Model}
-	
-	\section{Policy Routing}
-	
-	\subsection{Policy Graph}
-	
 
-	\subsection{Consumer Classification}
+	\section{Data Collection}
+
+	The data collected on consumers is as follows:
+	\begin{table}
+
+	\end{table}
+
+	\section{Consumer Classification}
 	Using Bayesian hierarchical clustering, consumers are classified into a certain consumer type represented by a
     numeric label (e.g. 1, 2). After classification, the consumer then enters their specification parameters and
     consumer type into a policy advisor which then outputs policy parameters for a scheduling agent to use, for
     the duration of their search.
-
-
-		\begin{definition} 
-			Let $G = (V, E, src, tgt)$ be a graph. A \emph{path of length n} in $G$, denoted $p \in$ $\path{G}{(n)}$, is a head-to-tail sequence:
-			\[
-			p = (v_{1}   \labeledarrow{a_{1}}   v_{2}   \labeledarrow{a_{2}}  \cdots   \labeledarrow{a_{n-2}}  v_{n-1}   \labeledarrow{a_{n-1}}   v_{n})
-			\]
-			
-			The \emph{set of all paths on G} is defined such that: 
-			
-			\[
-			\pathall{G} : = \bigsqcup_{n \in \mathbb{N}}{\path{G}{(n)}}
-			\]
-		\end{definition}
-		
-		\begin{definition}
-			let $\pathall{G}(v)$ be the all path from v back to v.
-			
-			The \emph{set of all path on G} is defined such that:
-			
-			$\pathall{G}(s,t) = \pathall{G}(s,v)\sqcup \cyclepath{G}(v) \sqcup \pathall{G}(v,t)$.
-			
-			The $\cyclepath{G}$ is defined as that:
-			
-			$\cyclepath{G}(v) = \pathall{G}(v,v)$
-		\end{definition}
-
 	
 
 	\section{Policy Advisor}
 	The policy advisor is the mechanism in which consumers utilize to encode their specification into their
     representative scheduling agents. These agents then use the output given by the policy advisor corresponding
-    to their class in order to parameterize their policy. Upon completing this stage, the scheduling agent
-    then starts to collect the resources specified by the consumer. The
+    to their class in order to parameterize their policy. The policy advisor is defined as follows.
 
     \begin{definition}
-        A \emph{policy advisor}, $\mathcal{P}(\gamma)$
+        The \emph{policy advisor} is function $\mathcal{P}: \Gamma \rightarrow \Theta$, where $\Gamma$ is the specification
+		parameter space and $\Theta$ is the policy parameter space.
     \end{definition}
 
 
@@ -324,7 +298,8 @@
 	\newpage    
 
 	\begin{notation}
-		\notate{c}{a consumer with parameters k, $\phi$ , and t}\\
+		\notate{\gamma}{specification parameter}
+		\notate{\Gamma}{specification parameter space}\\
 		\notate{C}{a subset of consumers}\\
 		\notate{v}{a service}\\
 		\notate{V}{Set of services}\\

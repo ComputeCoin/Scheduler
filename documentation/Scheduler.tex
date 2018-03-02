@@ -15,16 +15,20 @@
 
 \newtheorem{definition}{Definition}[section]
 \newtheorem{proposition}{Proposition}[section]
-\newtheorem*{remark}{Remark}
-\newtheorem*{theorem}{Theorem}
 
 \theoremstyle{remark}
+
+\newtheorem*{remark}{Remark}
+\newtheorem*{theorem}{Theorem}
 
 % Commands
 \newcommand{\func}[3]{#1:#2\rightarrow#3}
 \newcommand{\reqfunc}[2]{#1:#2\rightarrow\mathbb{B}}
 \newcommand{\reqop}[2]{\mathbf{Req}_{#1}(#2)}
 
+\newcommand{\path}[2]{\mathbf{Path}^{#2}_{#1}}
+\newcommand{\pathall}[1]{\mathbf{Path}_{#1}}
+\newcommand{\cyclepath}[1]{\mathbf{Cycle}_{#1}}
 
 \newcommand{\labeledarrow}[1]{\stackrel{#1}{\rightarrow}}
 
@@ -58,52 +62,49 @@
 	\pagenumbering{arabic}
 	
 	\section{Introduction}
+
 	
 	\indent
 	
 	The aim of this project is to design an optimal scheduling algorithm for a scalable computing cloud, where
-    computing resources are dynamically allocated to meet the demands of an inhomogeneous set of consumers. Resources
-    are not uniformly distributed, geographically or otherwise, as the nodes comprising the cloud are of variable type
-    and processing power. Clients will submit job specifications (indicating the number and type of cores, ideal
-    network topology, required run time, etc.) to the scheduler, which should designate a time to run and a cluster of
-    nodes that adheres to the specification. The algorithm should maximize throughput (efficient use of resources)
-    while maintaining fairness, with wait times minimal and consistent between jobs that place similar demands on the
-    system.
+ computing resources are dynamically allocated to meet the demands of an inhomogeneous set of consumers. Resources
+ are not uniformly distributed, geographically or otherwise, as the nodes comprising the cloud are of variable type
+ and processing power. Clients will submit job specifications (indicating the number and type of cores, ideal
+ network topology, required run time, etc.) to the scheduler, which should designate a time to run and a cluster of
+ nodes that adheres to the specification. The algorithm should maximize throughput (efficient use of resources)
+ while maintaining fairness, with wait times minimal and consistent between jobs that place similar demands on the
+ system.
 	
 	In order to build an algorithm capable of operating on a complex, heterogeneous system of resources and consumers,
-    we must consider the process from an abstract yet granular point of view. In an attempt to do so we have defined
-    the system in terms of simple mathematical objects, and constructed an algebra over those objects to describe
-    their interaction. By decomposing the scheduling process into its constituent parts, we were able to describe
-    each component of the process in terms of this algebra and thus devise a mathematical model for the process as a
-    whole.
+ we must consider the process from an abstract yet granular point of view. In an attempt to do so we have defined
+ the system in terms of simple mathematical objects, and constructed an algebra over those objects to describe
+ their interaction. By decomposing the scheduling process into its constituent parts, we were able to describe
+ each component of the process in terms of this algebra and thus devise a mathematical model for the process as a
+ whole. 
 	
 	Due to the difficulty of processing such a dynamic, diverse system (given the sheer number of factors to account
-    for), we elected to confront the problem with a reinforcement learning algorithm built on the aforementioned model.
-    The algorithm is highly dependent on the system's partitioning into measurable (numerically describable)
-    components, and typifying these components for efficient processing - thus the focus on separability and producing
-    quantifiable descriptors of the system. What follows is a detailed specification of the resultant scheduling
-    paradigm: first of the environment and scheduling process, component by component, and then the construction of
-    the reinforcement model from those components.
+ for), we elected to confront the problem with a reinforcement learning algorithm built on the aforementioned model.
+ The algorithm is highly dependent on the system's partitioning into measurable (numerically describable)
+ components, and typifying these components for efficient processing - thus the focus on separability and producing
+ quantifiable descriptors of the system. What follows is a detailed specification of the resultant scheduling
+ paradigm: first of the environment and scheduling process, component by component, and then the construction of
+ the reinforcement model from those components.
 	
-	\subsection{Motivation}
-	The architecture of the scheduling model is named the \emph{Policy Advisor Network and Decision Architecture},
-	abbreviated as \emph{PANDA}. The objective of this architecture is to encode policies into reinforcement learning
-    agents that are aligned with the goals they have been tasked with completing. The goal of a scheduling agent, in
-    the case of this application, is defined as finding the resource cluster that satisfies the specification of a
-    consumer, who must fill in the specification parameters defined by the resource provider. The specification
-    parameters therefore define the goal of the scheduling agent, and encode their policy for reaching said goal.
-	
-
 
 	\subsection{General Process}
 	
-	\addpic{Intro1.jpg}	
+	\addpic{figures/Intro-General.jpg}	
 	
-	Upon submission by user, a consumer (user) enters the scheduling process with its specifications. It leaves the scheduling process by starting consuming (running on) assigned resources. Once finished, the consumer gives feedback to the scheduler for further training improvement.
+	\addpic{figures/all-process.jpg}
 	
-	Example: a user submits a job with specifications such as arrival time, maximum run time, required number of nodes or cores, memory size, CPU/GPU, etc. After it finishes running, it gives feedback, such as wait time, actual run time, user reward, etc, to the scheduler.
+	\addpic{figures/Macro-graph.png} 
 	
-	\addpic{Intro2.jpg}
+	
+	Upon submission by user, a consumer (job) enters the scheduling process with its specifications. It leaves the scheduling process by starting consuming (running on) assigned resources. Once finished, the consumer gives feedback to the scheduler for further training improvement.
+	
+	Example: a job is submitted with specifications such as arrival time, maximum run time, required number of nodes or cores, memory size, CPU/GPU, etc. After it finishes running, it gives feedback, such as wait time, actual run time, user reward, etc, to the scheduler.
+	
+	\addpic{figures/Intro-Scheduler.jpg}
 	
 	The scheduler first takes in the consumer specifications and inspects the current resource space. Then both the specifications and resource states are collected by the training module. During the reinforcement training, the training module and resource space are constantly being updated, while resources are being assigned or released and consumers entering or leaving the scheduling process.
 	
@@ -114,21 +115,28 @@
 	\subsection{Scheduling Process}
 	
 	
-	\addpic{Training2.jpg}
+	\addpic{figures/Training-Main-Process.jpg}
 	
 	
 	a. Pre-Training
 	
-	\addpic{Pre-Train.jpg}
+	\addpic{figures/Pre-Train.jpg}
+	
+	b. Nerual Network
 
+	\addpic{figures/Neural-Network.jpeg}
 	
+	c. Policy Generator
 	
+	\addpic{figures/Policy-Generator.png}
+	
+	Bayesian Hierarchical Clustering
 	
 	d. Bins
 	
 	e. Joint Actions
 	
-	\addpic{Joint-action.jpg}
+	\addpic{figures/Joint-action.jpg}
 	
 	There are three agent actions: catch, wait and release. An agent can either catch unoccupied resources to assign to a consumer, make a consumer wait for a certain amount of time, or release the resources occupied by a consumer. Based on their corresponding policies, multiple agents can have different actions on one consumer. Then these actions will jointly apply to this consumer in a time order.
 		
@@ -183,13 +191,13 @@
 		
 		\begin{remark}
 			The binary operation $\cdot$ between two requirements is the same as the symbol, $\wedge$, used in boolean
-            algebra to represent the join, $and$, between two boolean statements. Likewise, $\cdot$ operating on two sets
-            is the intersection operation $\cap$.
+ algebra to represent the join, $and$, between two boolean statements. Likewise, $\cdot$ operating on two sets
+ is the intersection operation $\cap$. 
 		\end{remark}
 		
 		\begin{proof}
 			The proof of this proposition is very straightforward. Let $X$ be a set and $\rho$ be a requirement with
-            required set $X$. Then,
+ required set $X$. Then,
 			
 			\begin{eqnarray}
 			\reqop{\rho}{X} & = & \setbuild{x}{X}{\rho(x) = 1}\\ 
@@ -204,8 +212,8 @@
 	
 		\begin{definition}
 			A set, $X$, is said to be inspectable if and only if there exists a function,
-            $\func{\psi}{X}{\prod_{i \in I}{X_{i}}}$, where $X \ne X_{i}, \forall i \in I$. This function is referred to as an
-            \emph{inspection function} of $X$.
+ $\func{\psi}{X}{\prod_{i \in I}{X_{i}}}$, where $X \ne X_{i}, \forall i \in I$. This function is referred to as an
+ \emph{inspection function} of $X$.
 		\end{definition}
 		
 		\begin{remark}
@@ -262,7 +270,7 @@
 		
 		\begin{definition}
 			let $d$ represent the departure process $d = (c, t_d)$, we also defined $\gamma(c) = min{\sigma_r,\sigma_m}.$ Then the
-            departure action D defined as:
+ departure action D defined as:
 			\[
 			D = C * [t_a, t_a + \sigma_w + \gamma(c)]
 			\]
@@ -272,27 +280,35 @@
 	
 	\part{Reinforcement Model}
 	
-	\section{Data Processing}
+	\section{Policy Routing}
 	
-	\subsection{Consumer Classification}
-	Using bayesian hiearchical clustering, consumers are classified into a certain consumer type represented by a
-    numeric label (e.g. 1, 2). After classification, the consumer then enters their specfication parameters and
-    consumer type into a policy advisor which then outputs policy parameters for a scheduling agent to use, for
-    the duration of their search.
+	\subsection{Policy Graph}
 	
-	\section{Policy Advisor}
-	The policy advisor is the mechanism in which consumers utilize to encode their specification into their
-    representative scheduling agents. These agents then use the ouput given by the policy advisor corresponding
-    to their class in order to parameterize their policy. Upon completing this stage, the scheduling agent
-    then starts to collect the resources specified by the consumer. The
-
-    \begin{definition}
-        A \emph{policy advisor}, $\mathcal{P}(\gamma)$
-    \end{definition}
-
-	\addpic{Neural-Network.jpeg}
+		\begin{definition} 
+			Let $G = (V, E, src, tgt)$ be a graph. A \emph{path of length n} in $G$, denoted $p \in$ $\path{G}{(n)}$, is a head-to-tail sequence:
+			\[
+			p = (v_{1}   \labeledarrow{a_{1}}   v_{2}   \labeledarrow{a_{2}}  \cdots   \labeledarrow{a_{n-2}}  v_{n-1}   \labeledarrow{a_{n-1}}   v_{n})
+			\]
+			
+			The \emph{set of all paths on G} is defined such that: 
+			
+			\[
+			\pathall{G} : = \bigsqcup_{n \in \mathbb{N}}{\path{G}{(n)}}
+			\]
+		\end{definition}
+		
+		\begin{definition}
+			let $\pathall{G}(v)$ be the all path from v back to v.
+			
+			The \emph{set of all path on G} is defined such that:
+			
+			$\pathall{G}(s,t) = \pathall{G}(s,v)\sqcup \cyclepath{G}(v) \sqcup \pathall{G}(v,t)$.
+			
+			The $\cyclepath{G}$ is defined as that:
+			
+			$\cyclepath{G}(v) = \pathall{G}(v,v)$
+		\end{definition}
 	
-	\addpic{Policy.png}
 	\newpage    
 	
 \end{document}

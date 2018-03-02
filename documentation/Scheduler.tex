@@ -10,7 +10,17 @@
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{nomencl}
-\makenomenclature
+\newcommand{\notate}[2]{$#1 \hspace{0.35in} \mbox{#2}$}
+
+\newenvironment{notation}
+{
+    \newpage
+    \paragraph{\Huge Notation}
+    \begin{flushleft}
+}
+{
+    \end{flushleft}
+}
 
 % Theorems
 \theoremstyle{definition}
@@ -313,21 +323,30 @@
 
 	\newpage    
 
-	\part{Appendix}
-	\section{Mathematical Symbols and Notation}
-		\mbox{}
-			\nomenclature{$c$}{a consumer with 3 parameters}
-			\nomenclature{$C$}{a subset of consumers}
-			\nomenclature{$v$}{}
-			\nomenclature{$V$}
-			\nomenclature{$\rho$}
-			\nomenclature{reqop{\rho}{X}}
-			\nomenclature{$a$}{An arriving process}
-			\nomenclature{$A, G$}{Assignment actions}
-			\nomenclature{$g$}{An assignment process}
-			\nomenclature{$d$}{A departure process}
-			\nomenclature{$D$}{A departure action}
-	\printnomenclature
+	\begin{notation}
+		\notate{c}{a consumer with parameters k, $\phi$ , and t}\\
+		\notate{C}{a subset of consumers}\\
+		\notate{v}{a service}\\
+		\notate{V}{Set of services}\\
+		\notate{\rho(X)}{Requirement function}\\
+		\notate{\reqop{\rho}{X}}{Requirement operator with parameter set X}\\
+                \notate{\wedge}{And (joint)}\\
+                \notate{\cap}{intersection}\\
+                \notate{\psi(X)}{inspection function}\\
+                \notate{\phi}{acceptance requirement}\\
+		\notate{a}{An arriving process}\\
+		\notate{A,G}{Assignment actions}\\
+		\notate{g}{An assignment process}\\
+		\notate{d}{A departure process}\\
+		\notate{D}{A departure action}\\
+                \notate{G}{A graph with vertices V, and Edges E}\\
+                \notate{\psi(X)}{inspection function}\\
+                \notate{\path{G}{(n)}}{a path in graph G of length n}
+                \notate{\sqcup}{Disjoint union}
+                \notate{\cyclepath{G}(v)}{Cycle in graph G from vertex v to vertex v}
+                \notate{\mathcal{P}(\gamma)}{Policy advisor}
+        \end{notation}
+
 	\newpage
 	
 \end{document}

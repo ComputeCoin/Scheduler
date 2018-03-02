@@ -9,18 +9,20 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{caption}
-\usepackage{nomencl}
-\newcommand{\notate}[2]{$#1 \hspace{0.35in} \mbox{#2}$}
+\usepackage{enumitem}
 
 \newenvironment{notation}
 {
     \newpage
+    
     \paragraph{\Huge Notation}
     \begin{flushleft}
 }
 {
     \end{flushleft}
 }
+
+\newcommand{\notate}[2]{$#1 \hspace{0.35in} \mbox{#2}$}
 
 % Theorems
 \theoremstyle{definition}
@@ -78,42 +80,41 @@
 	\pagenumbering{arabic}
 	
 	\addcontentsline{toc}{section}{Introduction}
+	
 	\section*{Introduction}
 
-	
 	\indent
 	
 	The aim of this project is to design an optimal scheduling algorithm for a scalable computing cloud, where
- computing resources are dynamically allocated to meet the demands of an inhomogeneous set of consumers. Resources
- are not uniformly distributed, geographically or otherwise, as the nodes comprising the cloud are of variable type
- and processing power. Clients will submit job specifications (indicating the number and type of cores, ideal
- network topology, required run time, etc.) to the scheduler, which should designate a time to run and a cluster of
- nodes that adheres to the specification. The algorithm should maximize throughput (efficient use of resources)
- while maintaining fairness, with wait times minimal and consistent between jobs that place similar demands on the
- system.
+ 	computing resources are dynamically allocated to meet the demands of an inhomogeneous set of consumers. Resources
+ 	are not uniformly distributed, geographically or otherwise, as the nodes comprising the cloud are of variable type
+ 	and processing power. Clients will submit job specifications (indicating the number and type of cores, ideal
+	network topology, required run time, etc.) to the scheduler, which should designate a time to run and a cluster of
+	nodes that adheres to the specification. The algorithm should maximize throughput (efficient use of resources)
+	while maintaining fairness, with wait times minimal and consistent between jobs that place similar demands on the
+	system.
 	
 	In order to build an algorithm capable of operating on a complex, heterogeneous system of resources and consumers,
- we must consider the process from an abstract yet granular point of view. In an attempt to do so we have defined
- the system in terms of simple mathematical objects, and constructed an algebra over those objects to describe
- their interaction. By decomposing the scheduling process into its constituent parts, we were able to describe
- each component of the process in terms of this algebra and thus devise a mathematical model for the process as a
- whole. 
+	we must consider the process from an abstract yet granular point of view. In an attempt to do so we have defined
+	the system in terms of simple mathematical objects, and constructed an algebra over those objects to describe
+	their interaction. By decomposing the scheduling process into its constituent parts, we were able to describe
+	each component of the process in terms of this algebra and thus devise a mathematical model for the process as a
+	whole. 
 	
 	Due to the difficulty of processing such a dynamic, diverse system (given the sheer number of factors to account
- for), we elected to confront the problem with a reinforcement learning algorithm built on the aforementioned model.
- The algorithm is highly dependent on the system's partitioning into measurable (numerically describable)
- components, and typifying these components for efficient processing - thus the focus on separability and producing
- quantifiable descriptors of the system. What follows is a detailed specification of the resultant scheduling
- paradigm: first of the environment and scheduling process, component by component, and then the construction of
- the reinforcement model from those components.
+	for), we elected to confront the problem with a reinforcement learning algorithm built on the aforementioned model.
+	The algorithm is highly dependent on the system's partitioning into measurable (numerically describable)
+	components, and typifying these components for efficient processing - thus the focus on separability and producing
+	quantifiable descriptors of the system. What follows is a detailed specification of the resultant scheduling
+	paradigm: first of the environment and scheduling process, component by component, and then the construction of
+	the reinforcement model from those components.
 	
-	\newpage
+\newpage
 	
-	\part{Scheduling Scheme}
+\part{Scheduling Scheme}
 	
 	\addpic{figures/Intro-General.jpg}
 
-	
 	\addpic{figures/all-process.jpg}
 	
 	\addpic{figures/Macro-graph.png} 
@@ -133,29 +134,32 @@
 	\section{Consumer and Resource}
 	
 	\section{Main Process}
-
+	
+	\begin{enumerate}[label=\alph*.]
+	
+	\item Main Training Process
+	
 	\addpic{figures/Training-Main-Process.jpg}
 
 	
-	b. Nerual Network
+	\item Neural Network
 
 
 	\addpic{figures/Neural-Network.jpeg}
 	
-	c. Policy Generator
+	\item Policy Generator
 	
 	\addpic{figures/Policy-Generator.png}
 	
 	Bayesian Hierarchical Clustering
 	
-	d. Bins
+	\item Bins
 	
-	e. Joint Actions
-	
+	\item Joint Actions
 
 	\addpic{figures/Joint-action.jpg}
 
-
+	\end{enumerate}
 
 	
 	There are three agent actions: catch, wait and release. An agent can either catch unoccupied resources to assign to a consumer, make a consumer wait for a certain amount of time, or release the resources occupied by a consumer. Based on their corresponding policies, multiple agents can have different actions on one consumer. Then these actions will jointly apply to this consumer in a time order.
@@ -176,7 +180,7 @@
 		\end{definition}
 		
 		\begin{definition}
-			Let \emph{service} $v$ be the available resource can be provide which related with a subset of resource $R'$ and a boolean variable $\beta$ can be defined such that:
+			Let \emph{service} $v$ be the available resource can be provide which related with a subset of resource $R'$ and a Boolean variable $\beta$ can be defined such that:
 			\[
 			v := (R', \beta)
 			\]
@@ -207,15 +211,14 @@
 		\end{proposition}
 		
 		\begin{remark}
-			The binary operation $\cdot$ between two requirements is the same as the symbol, $\wedge$, used in boolean
- algebra to represent the join, $and$, between two boolean statements. Likewise, $\cdot$ operating on two sets
- is the intersection operation $\cap$. 
+			The binary operation $\cdot$ between two requirements is the same as the symbol, $\wedge$, used in Boolean
+ 			algebra to represent the join, $and$, between two Boolean statements. Likewise, $\cdot$ operating on two sets
+ 			is the intersection operation $\cap$. 
 		\end{remark}
 		
 		\begin{proof}
 			The proof of this proposition is very straightforward. Let $X$ be a set and $\rho$ be a requirement with
- required set $X$. Then,
-			
+ 			required set $X$. Then,
 			\begin{eqnarray}
 			\reqop{\rho}{X} & = & \setbuild{x}{X}{\rho(x) = 1}\\ 
 			& = & \setbuild{x}{X}{\rho_{1}(x)\cdot\rho_{2}(x) = 1}\\ 
@@ -229,8 +232,8 @@
 	
 		\begin{definition}
 			A set, $X$, is said to be inspectable if and only if there exists a function,
- $\func{\psi}{X}{\prod_{i \in I}{X_{i}}}$, where $X \ne X_{i}, \forall i \in I$. This function is referred to as an
- \emph{inspection function} of $X$.
+			$\func{\psi}{X}{\prod_{i \in I}{X_{i}}}$, where $X \ne X_{i}, \forall i \in I$. This function is referred to as an
+			\emph{inspection function} of $X$.
 		\end{definition}
 		
 		\begin{remark}
@@ -242,9 +245,9 @@
 			hold:
 			
 			\begin{enumerate}
-				\item   The required set, $X$, is inspectable.
+				\item The required set, $X$, is inspectable.
 				
-				\item   There exists a requirement, $\reqfunc{\varphi}{\prod_{i \in I}{X_{i}}}$,
+				\item There exists a requirement, $\reqfunc{\varphi}{\prod_{i \in I}{X_{i}}}$,
 				such that $\rho = \varphi \circ \psi$, where $\psi$ is an inspection function of $X$,
 				with $X \ne X_{i}, \forall i \in I$. The requirement, $\varphi$, is referred to as an
 				\emph{acceptance requirement} of X.
@@ -261,11 +264,9 @@
 			\]
 		\end{theorem}
 	
-
-	
 	\newpage
 	
-	\part{Reinforcement Model}
+\part{Reinforcement Model}
 
 	\section{Data Collection}
 
@@ -280,7 +281,6 @@
     consumer type into a policy advisor which then outputs policy parameters for a scheduling agent to use, for
     the duration of their search.
 	
-
 	\section{Policy Advisor}
 	The policy advisor is the mechanism in which consumers utilize to encode their specification into their
     representative scheduling agents. These agents then use the output given by the policy advisor corresponding
@@ -290,11 +290,7 @@
         The \emph{policy advisor} is function $\mathcal{P}: \Gamma \rightarrow \Theta$, where $\Gamma$ is the specification
 		parameter space and $\Theta$ is the policy parameter space.
     \end{definition}
-
-
 	
-
-
 	\newpage    
 
 	\begin{notation}
@@ -303,24 +299,24 @@
 		\notate{C}{a subset of consumers}\\
 		\notate{v}{a service}\\
 		\notate{V}{Set of services}\\
-		\notate{\rho(X)}{Requirement function}\\
-		\notate{\reqop{\rho}{X}}{Requirement operator with parameter set X}\\
-                \notate{\wedge}{And (joint)}\\
-                \notate{\cap}{intersection}\\
-                \notate{\psi(X)}{inspection function}\\
-                \notate{\phi}{acceptance requirement}\\
-		\notate{a}{An arriving process}\\
-		\notate{A,G}{Assignment actions}\\
-		\notate{g}{An assignment process}\\
-		\notate{d}{A departure process}\\
-		\notate{D}{A departure action}\\
-                \notate{G}{A graph with vertices V, and Edges E}\\
-                \notate{\psi(X)}{inspection function}\\
-                \notate{\path{G}{(n)}}{a path in graph G of length n}\\
-                \notate{\sqcup}{Disjoint union}\\
-                \notate{\cyclepath{G}(v)}{Cycle in graph G from vertex v to vertex v}\\
-                \notate{\mathcal{P}(\gamma)}{Policy advisor}
-        \end{notation}
+		\notate{\rho(X)}{requirement function}\\
+		\notate{\reqop{\rho}{X}}{requirement operator with parameter set X}\\
+        \notate{\wedge}{and (joint)}\\
+        \notate{\cap}{intersection}\\
+        \notate{\psi(X)}{inspection function}\\
+        \notate{\phi}{acceptance requirement}\\
+		\notate{a}{an arriving process}\\
+		\notate{A,G}{assignment actions}\\
+		\notate{g}{an assignment process}\\
+		\notate{d}{a departure process}\\
+		\notate{D}{a departure action}\\
+        \notate{G}{a graph with vertices V, and Edges E}\\
+        \notate{\psi(X)}{inspection function}\\
+        \notate{\path{G}{(n)}}{a path in graph G of length n}\\
+        \notate{\sqcup}{disjoint union}\\
+        \notate{\cyclepath{G}(v)}{cycle in graph G from vertex v to vertex v}\\
+        \notate{\mathcal{P}(\gamma)}{policy advisor}
+     \end{notation}
 
 	\newpage
 	

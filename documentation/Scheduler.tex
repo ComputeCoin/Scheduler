@@ -44,6 +44,10 @@
 	\}	
 }
 
+\makeatletter
+\@addtoreset{section}{part}
+\makeatother
+
 % Preamble
 \title{Scala Job Scheduler}
 \date{February 2018}
@@ -63,7 +67,8 @@
 	\newpage
 	\pagenumbering{arabic}
 	
-	\section{Introduction}
+	\addcontentsline{toc}{section}{Introduction}
+	\section*{Introduction}
 
 	
 	\indent
@@ -92,10 +97,11 @@
  paradigm: first of the environment and scheduling process, component by component, and then the construction of
  the reinforcement model from those components.
 	
-
-	\subsection{General Process}
+	\newpage
 	
-	\addpic{figures/Intro-General.jpg}	
+	\part{Scheduling Scheme}
+	
+	\addpic{figures/Intro-General.jpg}
 
 	
 	\addpic{figures/all-process.jpg}
@@ -113,20 +119,14 @@
 	The scheduler first takes in the consumer specifications and inspects the current resource space. Then both the specifications and resource states are collected by the training module. During the reinforcement training, the training module and resource space are constantly being updated, while resources are being assigned or released and consumers entering or leaving the scheduling process.
 	
 
-	\subsection{Consumer}
+	\section{Specification}
 	
+	\section{Consumer and Resource}
 	
-	\subsection{Scheduling Process}
+	\section{Main Process}
 
 	\addpic{figures/Training-Main-Process.jpg}
 
-
-
-	
-	
-	a. Pre-Training
-	
-	\addpic{figures/Pre-Train.jpg}
 	
 	b. Nerual Network
 
@@ -153,9 +153,6 @@
 		
 	4.
 	
-	\newpage
-	
-	\part{Consumers, Requirements and Specifications}
 	
 	\section{Consumer}
 	
@@ -255,37 +252,7 @@
 			\]
 		\end{theorem}
 	
-	\newpage
-	
-	\part{Resources}
-	
-	\newpage
-	
-	\part{Scheduling Process}
-	
-	\section{Process Decomposition}
-	
-		\begin{definition}
-			let $a$ represent the arriving process $a = (c, t_a)$. Then the assignment action A defined as:
-			\[
-			A = C * [0, \infty)
-			\]
-		\end{definition}
-		
-		\begin{definition}
-			let $g$ represent the assignment process, $g = (c,\sigma_w, v)$. Then the assignment action G can be defined as:
-			\[
-			G = C*[0,\sigma_m)*V
-			\]
-		\end{definition}
-		
-		\begin{definition}
-			let $d$ represent the departure process $d = (c, t_d)$, we also defined $\gamma(c) = min{\sigma_r,\sigma_m}.$ Then the
- departure action D defined as:
-			\[
-			D = C * [t_a, t_a + \sigma_w + \gamma(c)]
-			\]
-		\end{definition}
+
 	
 	\newpage
 	
@@ -327,9 +294,9 @@
 			
 			$\cyclepath{G}(v) = \pathall{G}(v,v)$
 		\end{definition}
->>>>>>> ad11d32cf6bbb82c3709311a38f4457dd25bef35
+
 	
-=======
+
 	\section{Policy Advisor}
 	The policy advisor is the mechanism in which consumers utilize to encode their specification into their
     representative scheduling agents. These agents then use the output given by the policy advisor corresponding

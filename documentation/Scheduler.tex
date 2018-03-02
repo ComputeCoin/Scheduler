@@ -10,6 +10,7 @@
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{nomencl}
+\makenomenclature
 
 % Theorems
 \theoremstyle{definition}
@@ -276,14 +277,14 @@
 	\section{Data Processing}
 	
 	\subsection{Consumer Classification}
-	Using bayesian hiearchical clustering, consumers are classified into a certain consumer type represented by a
-    numeric label (e.g. 1, 2). After classification, the consumer then enters their specfication parameters and
+	Using Bayesian hierarchical clustering, consumers are classified into a certain consumer type represented by a
+    numeric label (e.g. 1, 2). After classification, the consumer then enters their specification parameters and
     consumer type into a policy advisor which then outputs policy parameters for a scheduling agent to use, for
     the duration of their search.
 	
 	\section{Policy Advisor}
 	The policy advisor is the mechanism in which consumers utilize to encode their specification into their
-    representative scheduling agents. These agents then use the ouput given by the policy advisor corresponding
+    representative scheduling agents. These agents then use the output given by the policy advisor corresponding
     to their class in order to parameterize their policy. Upon completing this stage, the scheduling agent
     then starts to collect the resources specified by the consumer. The
 
@@ -295,6 +296,7 @@
 	
 	\addpic{./figures/Policy.png}
 	\newpage    
+
 	\part{Appendix}
 	\section{Mathematical Symbols and Notation}
 		\mbox{}
@@ -309,6 +311,7 @@
 			\nomenclature{$g$}{An assignment process}
 			\nomenclature{$d$}{A departure process}
 			\nomenclature{$D$}{A departure action}
+	\printnomenclature
 	\newpage
 	
 \end{document}

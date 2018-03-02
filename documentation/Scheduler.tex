@@ -95,26 +95,20 @@
 
 	\subsection{General Process}
 	
-<<<<<<< HEAD
 	\addpic{figures/Intro-General.jpg}	
-=======
-	\addpic{./figures/Intro1.jpg}	
->>>>>>> 72f150dad2174a44130e76e19219862709c0d79f
+
 	
 	\addpic{figures/all-process.jpg}
 	
 	\addpic{figures/Macro-graph.png} 
 	
-<<<<<<< HEAD
 	
 	Upon submission by user, a consumer (job) enters the scheduling process with its specifications. It leaves the scheduling process by starting consuming (running on) assigned resources. Once finished, the consumer gives feedback to the scheduler for further training improvement.
 	
 	Example: a job is submitted with specifications such as arrival time, maximum run time, required number of nodes or cores, memory size, CPU/GPU, etc. After it finishes running, it gives feedback, such as wait time, actual run time, user reward, etc, to the scheduler.
 	
 	\addpic{figures/Intro-Scheduler.jpg}
-=======
-	\addpic{./figures/Intro2.jpg}
->>>>>>> 72f150dad2174a44130e76e19219862709c0d79f
+
 	
 	The scheduler first takes in the consumer specifications and inspects the current resource space. Then both the specifications and resource states are collected by the training module. During the reinforcement training, the training module and resource space are constantly being updated, while resources are being assigned or released and consumers entering or leaving the scheduling process.
 	
@@ -123,24 +117,19 @@
 	
 	
 	\subsection{Scheduling Process}
-	
-	
-<<<<<<< HEAD
+
 	\addpic{figures/Training-Main-Process.jpg}
-=======
-	\addpic{./figures/Training2.jpg}
->>>>>>> 72f150dad2174a44130e76e19219862709c0d79f
+
+
+
 	
 	
 	a. Pre-Training
 	
-<<<<<<< HEAD
 	\addpic{figures/Pre-Train.jpg}
 	
 	b. Nerual Network
-=======
-	\addpic{./figures/Pre-Train.jpg}
->>>>>>> 72f150dad2174a44130e76e19219862709c0d79f
+
 
 	\addpic{figures/Neural-Network.jpeg}
 	
@@ -154,11 +143,11 @@
 	
 	e. Joint Actions
 	
-<<<<<<< HEAD
+
 	\addpic{figures/Joint-action.jpg}
-=======
-	\addpic{./figures/Joint-action.jpg}
->>>>>>> 72f150dad2174a44130e76e19219862709c0d79f
+
+
+
 	
 	There are three agent actions: catch, wait and release. An agent can either catch unoccupied resources to assign to a consumer, make a consumer wait for a certain amount of time, or release the resources occupied by a consumer. Based on their corresponding policies, multiple agents can have different actions on one consumer. Then these actions will jointly apply to this consumer in a time order.
 		
@@ -306,14 +295,14 @@
 	
 	\subsection{Policy Graph}
 	
-<<<<<<< HEAD
+
 	\subsection{Consumer Classification}
 	Using Bayesian hierarchical clustering, consumers are classified into a certain consumer type represented by a
     numeric label (e.g. 1, 2). After classification, the consumer then enters their specification parameters and
     consumer type into a policy advisor which then outputs policy parameters for a scheduling agent to use, for
     the duration of their search.
-=======
-<<<<<<< HEAD
+
+
 		\begin{definition} 
 			Let $G = (V, E, src, tgt)$ be a graph. A \emph{path of length n} in $G$, denoted $p \in$ $\path{G}{(n)}$, is a head-to-tail sequence:
 			\[
@@ -351,10 +340,10 @@
         A \emph{policy advisor}, $\mathcal{P}(\gamma)$
     \end{definition}
 
-	\addpic{./figures/Neural-Network.jpeg}
+
 	
-	\addpic{./figures/Policy.png}
->>>>>>> 72f150dad2174a44130e76e19219862709c0d79f
+
+
 	\newpage    
 
 	\part{Appendix}

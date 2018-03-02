@@ -103,7 +103,7 @@ ENV/
 .idea/
 
 # LaTeX
-.synctex.gz
-.toc
-.aux
-.log
+*.synctex.gz
+*.toc
+*.aux
+*.log

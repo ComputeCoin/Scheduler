@@ -160,11 +160,14 @@
 	\addpic{figures/Joint-action.jpg}
 
 	\end{enumerate}
-
 	
-	There are three agent actions: catch, wait and release. An agent can either catch unoccupied resources to assign to a consumer, make a consumer wait for a certain amount of time, or release the resources occupied by a consumer. Based on their corresponding policies, multiple agents can have different actions on one consumer. Then these actions will jointly apply to this consumer in a time order.
-		
-	4.
+	At the end of each time step, agents submit a \emph{joint action} to the system supervisor consisting of a sequence of elementary action units. These action units will be performed in order upon execution of the joint action. The basic action units are as follows:
+	
+	\begin{enumerate}
+		\item Catch - the agent acquires an available resource to be assigned to its consumer. Caught resources are held until consumed or a \emph{release} action is taken.
+		\item Release - the agent returns a held resource to the pool of available resources.
+		\item Wait - the agent delays consumption of resources until the subsequent time step. Wait actions may only occur once per joint action, and only as the last action in the sequence.
+	\end{enumerate}
 	
 	
 	\section{Consumer}
@@ -282,7 +285,7 @@
     the duration of their search.
 	
 	\section{Policy Advisor}
-	The policy advisor is the mechanism in which consumers utilize to encode their specification into their
+	The policy advisor is the mechanism which consumers utilize to encode their specification into their
     representative scheduling agents. These agents then use the output given by the policy advisor corresponding
     to their class in order to parameterize their policy. The policy advisor is defined as follows.
 
@@ -290,6 +293,10 @@
         The \emph{policy advisor} is function $\mathcal{P}: \Gamma \rightarrow \Theta$, where $\Gamma$ is the specification
 		parameter space and $\Theta$ is the policy parameter space.
     \end{definition}
+
+	\section{System Supervisor}
+	
+	Agent decisions are submitted to a system supervisor, which resolves collisions (conflicts) between requests
 	
 	\newpage    
 

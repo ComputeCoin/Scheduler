@@ -151,16 +151,21 @@
 	
 	\addpic{figures/Policy-Generator.png}
 	
+<<<<<<< HEAD
 	Bayesian Hierarchical Clustering
 	
 	\item Bins
 	
 	\item Joint Actions
+=======
+
+>>>>>>> agent_model
 
 	\addpic{figures/Joint-action.jpg}
 
 	\end{enumerate}
 	
+<<<<<<< HEAD
 	At the end of each time step, agents submit a \emph{joint action} to the system supervisor consisting of a sequence of elementary action units. These action units will be performed in order upon execution of the joint action. The basic action units are as follows:
 	
 	\begin{enumerate}
@@ -168,10 +173,17 @@
 		\item Release - the agent returns a held resource to the pool of available resources.
 		\item Wait - the agent delays consumption of resources until the subsequent time step. Wait actions may only occur once per joint action, and only as the last action in the sequence.
 	\end{enumerate}
+=======
+	There are three agent actions: catch, wait and release. An agent can either catch unoccupied resources to assign
+    to a consumer, make a consumer wait for a certain amount of time, or release the resources occupied by a consumer.
+    Based on their corresponding policies, multiple agents can have different actions on one consumer. Then these actions
+    will jointly apply to this consumer in a time order.
+>>>>>>> agent_model
 	
 	
 	\section{Consumer}
 	
+<<<<<<< HEAD
 		\begin{definition}
 			A \emph{consumer}, $c$, is a triple $(k, \phi, t)$, where $k \in \mathbb{N}$, $\phi$ is a specification, and $t \in \mathbb{R}^{+}$. The consumer $C$ is the subset of consumer $c$ which defined such that:
 			\[
@@ -192,6 +204,8 @@
 			\]
 		\end{definition}
 	
+=======
+>>>>>>> agent_model
 	\section{Requirements}
 	
 		\begin{definition}
@@ -214,14 +228,25 @@
 		\end{proposition}
 		
 		\begin{remark}
+<<<<<<< HEAD
 			The binary operation $\cdot$ between two requirements is the same as the symbol, $\wedge$, used in Boolean
  			algebra to represent the join, $and$, between two Boolean statements. Likewise, $\cdot$ operating on two sets
  			is the intersection operation $\cap$. 
+=======
+			The binary operation $\cdot$ between two requirements is the same as the symbol, $\wedge$, used in boolean
+            algebra to represent the join, $and$, between two boolean statements. Likewise, $\cdot$ operating on two sets
+            is the intersection operation $\cap$.
+>>>>>>> agent_model
 		\end{remark}
 		
 		\begin{proof}
 			The proof of this proposition is very straightforward. Let $X$ be a set and $\rho$ be a requirement with
+<<<<<<< HEAD
  			required set $X$. Then,
+=======
+            required set $X$. Then,
+			
+>>>>>>> agent_model
 			\begin{eqnarray}
 			\reqop{\rho}{X} & = & \setbuild{x}{X}{\rho(x) = 1}\\ 
 			& = & \setbuild{x}{X}{\rho_{1}(x)\cdot\rho_{2}(x) = 1}\\ 
@@ -235,8 +260,13 @@
 	
 		\begin{definition}
 			A set, $X$, is said to be inspectable if and only if there exists a function,
+<<<<<<< HEAD
 			$\func{\psi}{X}{\prod_{i \in I}{X_{i}}}$, where $X \ne X_{i}, \forall i \in I$. This function is referred to as an
 			\emph{inspection function} of $X$.
+=======
+            $\func{\psi}{X}{\prod_{i \in I}{X_{i}}}$, where $X \ne X_{i}, \forall i \in I$. This function is referred to as an
+            \emph{inspection function} of $X$.
+>>>>>>> agent_model
 		\end{definition}
 		
 		\begin{remark}
@@ -273,17 +303,38 @@
 
 	\section{Data Collection}
 
-	The data collected on consumers is as follows:
-	\begin{table}
+	The data collected about an agents trajectory within the scheduler includes, associated ID of the consumer, arrival
+    times, specification parameters, action sequences, rewards from the system and consumer, resource cluster, wait
+    times, and use time. The following is a more formal representation of the preceding sentence.
 
-	\end{table}
+    \begin{definition}
+    A trajectory, $\tau$, is an 8-tuple, $(c, \mathbf{\gamma}, \mathbf{\theta}, t, \mathbf{\delta}, R_{c})$, where c is a consumer, $\mathbf{\gamma}$ is a specification parameter,
+    $\mathbf{\gamma} \in \Gamma$, $\mathbf{\theta}$ is a policy parameter, $\mathbf{\theta} \in \Gamma$, $\vec{t}$
+    is a pair $(t_{a}, t_{d})$ where $t_{a}$ is an arrival time and $t_{d}$ is a departure time, $\mathbf{\delta}$
+    is a pair $(\delta_{w}, \delta_{u})$ where $\delta_{w}$ is the wait time and $\delta_{u}$ is the use time, and
+    $R_{c}$ is a list of resources that were ysed by the consumer, $c$.
+    \end{definition}
 
-	\section{Consumer Classification}
+
+	\subsection{Consumer Classification}
 	Using Bayesian hierarchical clustering, consumers are classified into a certain consumer type represented by a
     numeric label (e.g. 1, 2). After classification, the consumer then enters their specification parameters and
     consumer type into a policy advisor which then outputs policy parameters for a scheduling agent to use, for
     the duration of their search.
+<<<<<<< HEAD
 	
+=======
+
+    \begin{definition}
+        A \emph{partition} function is a function $\Phi_{X}: X \rightarrow \underline{K}$, where X is a
+        set and $\underline{K} = \{1, \ldots, K\}$, where $K \in \mathbb{N}$.
+    \end{definition}
+
+    \begin{remark}
+        The above partition function is the mechanism used to label users to the correct type.
+    \end{remark}
+
+>>>>>>> agent_model
 	\section{Policy Advisor}
 	The policy advisor is the mechanism which consumers utilize to encode their specification into their
     representative scheduling agents. These agents then use the output given by the policy advisor corresponding
@@ -294,10 +345,13 @@
 		parameter space and $\Theta$ is the policy parameter space.
     \end{definition}
 
+<<<<<<< HEAD
 	\section{System Supervisor}
 	
 	Agent decisions are submitted to a system supervisor, which resolves collisions (conflicts) between requests
 	
+=======
+>>>>>>> agent_model
 	\newpage    
 
 	\begin{notation}

@@ -85,8 +85,6 @@
 
 	\indent
 	
-
-	
 	The aim of this project is to design an optimal scheduling algorithm for a scalable computing cloud, where
  	computing resources are dynamically allocated to meet the demands of an inhomogeneous set of consumers. Resources
  	are not uniformly distributed, geographically or otherwise, as the nodes comprising the cloud are of variable type
@@ -110,8 +108,6 @@
 	quantifiable descriptors of the system. What follows is a detailed specification of the resultant scheduling
 	paradigm: first of the environment and scheduling process, component by component, and then the construction of
 	the reinforcement model from those components.
-	
-	
 	
 \newpage
 	
@@ -300,7 +296,11 @@
 
 	\section{System Supervisor}
 	
-	Agent decisions are submitted as joint actions to a system supervisor, which resolves collisions (conflicts) between requests
+	\indent
+	
+	Agent decisions are submitted as joint actions to a system supervisor, which resolves collisions between catch requests so as to maximize the net gain of all agents in the system. The gain function will be analytically constructed to provide functionality in the short-term, but will be replaced with a trained version once the reinforcement model has converged sufficiently for effective resolution. The supervisor then initiates consumption of collected resources, excluding those held by an agent whose joint action concluded with a wait operation.
+	
+	The supervisor also tracks the progression of each specification through the system, and distributes reward to the respective agents according to a function of the collected data and potential consumer feedback. In the instance of the scalable cloud, reward will be computed upon completion of the job, at which point the total time spent in the system (the sum of wait time and run time) and any consumer feedback will be available and may be factored into the calculation. To maximize fairness, longer wait times would be permissible for jobs that placed larger demands on the system (in cores or core hours). Total time is the main factor to consider, as minimizing wait time will maximize system utilization, while reduced run time is a result of optimized resource selection. Both times would be normalized relative to expected values derived from the specification parameters and the state of the system.
 	
 	\newpage    
 

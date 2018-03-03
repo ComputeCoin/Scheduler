@@ -10,6 +10,7 @@
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{enumitem}
+\usepackage{multirow}
 
 \newenvironment{notation}
 {
@@ -113,9 +114,9 @@
 	
 \part{Scheduling Scheme}
 	
-	%\addpic{figures/Intro-General.jpg}
+	\addpic{figures/Intro-General.jpg}
 
-	%\addpic{figures/all-process.jpg}
+	\addpic{figures/all-process.jpg}
 	
 	\addpic{figures/Macro-fix.png} 
 	
@@ -129,30 +130,33 @@
 	The scheduler first takes in the consumer specifications and inspects the current resource space. Then both the specifications and resource states are collected by the training module. During the reinforcement training, the training module and resource space are constantly being updated, while resources are being assigned or released and consumers entering or leaving the scheduling process.
 	
 
-	\section{Specification}
+	\section{Specifications}
 	
 	\section{Consumer and Resource}
 	
 	\section{Main Process}
 	
-	%\begin{enumerate}[label=\alph*.]
+	\begin{enumerate}[label=\alph*.]
 	
-	%\item Main Training Process
+	\item Main Training Process
 	
-	%\addpic{figures/Training-Main-Process.jpg}
+	\addpic{figures/Training-Main-Process.jpg}
+	
+	\item Neural Network
+	
+	\addpic{figures/Neural-Network.jpeg}
+	
+	\item Policy Generator
 
+	\addpic{figures/Policy-Generator.png}		
 	
-	%\item Neural Network
+	Bayesian Hierarchical Clustering
 	
-	%\item Policy Generator
+	\item Bins
 	
-	%Bayesian Hierarchical Clustering
-	
-	%\item Bins
-	
-	%\item Joint Actions
+	\item Joint Actions
 
-	%\end{enumerate}
+	\end{enumerate}
 
 	\addpic{figures/Joint-action.jpg}
 
@@ -168,12 +172,7 @@
 	
 	\newpage
 	
-	\addpic{figures/Neural-Network.jpeg}
-	
-	\addpic{figures/Policy-Generator.png}	
-	
-	\iffalse
-	%\section{Consumer}
+	\section{Consumer}
 	
 		\begin{definition}
 			A \emph{consumer}, $c$, is a triple $(k, \phi, t)$, where $k \in \mathbb{N}$, $\phi$ is a specification, and $t \in \mathbb{R}^{+}$. The consumer $C$ is the subset of consumer $c$ which defined such that:
@@ -195,7 +194,7 @@
 			\]
 		\end{definition}
 	
-	%\section{Requirements}
+	\section{Requirements}
 	
 		\begin{definition}
 			A \emph{requirement} is a function $\reqfunc{\rho}{X}$, where $X$ is a set and $\mathbb{B} = \{0,1\}$. The set $X$ is referred to as the required set of $\rho$.
@@ -234,7 +233,7 @@
 			\end{eqnarray}
 		\end{proof}
 	
-	%\section{Specifications}
+	\section{Specifications}
 	
 		\begin{definition}
 			A set, $X$, is said to be inspectable if and only if there exists a function,
@@ -269,7 +268,7 @@
 			\reqop{\phi}{X} = \prod_{i \in I}\reqop{\varphi_{i}}{X_{i}}
 			\]
 		\end{theorem}
-	\fi
+
 	
 	\newpage
 	

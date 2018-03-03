@@ -62,7 +62,7 @@
 
 % Preamble
 \title{Scala Job Scheduler}
-\date{February 2018}
+\date{March 2018}
 
 % --------------------------------------------------------------------------
 \begin{document}
@@ -113,9 +113,9 @@
 	
 \part{Scheduling Scheme}
 	
-	\addpic{figures/Intro-General.jpg}
+	%\addpic{figures/Intro-General.jpg}
 
-	\addpic{figures/all-process.jpg}
+	%\addpic{figures/all-process.jpg}
 	
 	\addpic{figures/Macro-fix.png} 
 	
@@ -135,31 +135,28 @@
 	
 	\section{Main Process}
 	
-	\begin{enumerate}[label=\alph*.]
+	%\begin{enumerate}[label=\alph*.]
 	
-	\item Main Training Process
+	%\item Main Training Process
 	
-	\addpic{figures/Training-Main-Process.jpg}
+	%\addpic{figures/Training-Main-Process.jpg}
 
 	
-	\item Neural Network
+	%\item Neural Network
+	
+	%\item Policy Generator
+	
+	%Bayesian Hierarchical Clustering
+	
+	%\item Bins
+	
+	%\item Joint Actions
 
-
-	\addpic{figures/Neural-Network.jpeg}
-	
-	\item Policy Generator
-	
-	\addpic{figures/Policy-Generator.png}
-	
-	Bayesian Hierarchical Clustering
-	
-	\item Bins
-	
-	\item Joint Actions
+	%\end{enumerate}
 
 	\addpic{figures/Joint-action.jpg}
 
-	\end{enumerate}
+	
 	
 	At the end of each time step, agents submit a \emph{joint action} to the system supervisor consisting of a sequence of elementary action units. These action units will be performed in order upon execution of the joint action. The basic action units are as follows:
 	
@@ -169,8 +166,14 @@
 		\item Wait - the agent delays consumption of resources until the subsequent time step. Wait actions may only occur once per joint action, and only as the last action in the sequence.
 	\end{enumerate}
 	
+	\newpage
 	
-	\section{Consumer}
+	\addpic{figures/Neural-Network.jpeg}
+	
+	\addpic{figures/Policy-Generator.png}	
+	
+	\iffalse
+	%\section{Consumer}
 	
 		\begin{definition}
 			A \emph{consumer}, $c$, is a triple $(k, \phi, t)$, where $k \in \mathbb{N}$, $\phi$ is a specification, and $t \in \mathbb{R}^{+}$. The consumer $C$ is the subset of consumer $c$ which defined such that:
@@ -192,7 +195,7 @@
 			\]
 		\end{definition}
 	
-	\section{Requirements}
+	%\section{Requirements}
 	
 		\begin{definition}
 			A \emph{requirement} is a function $\reqfunc{\rho}{X}$, where $X$ is a set and $\mathbb{B} = \{0,1\}$. The set $X$ is referred to as the required set of $\rho$.
@@ -231,7 +234,6 @@
 			\end{eqnarray}
 		\end{proof}
 	
-	\section{Specifications}
 	
 		\begin{definition}
 			A set, $X$, is said to be inspectable if and only if there exists a function,
@@ -266,6 +268,7 @@
 			\reqop{\phi}{X} = \prod_{i \in I}\reqop{\varphi_{i}}{X_{i}}
 			\]
 		\end{theorem}
+	\fi
 	
 	\newpage
 	

@@ -97,28 +97,21 @@
 	\indent
 	
 	The aim of this project is to design an optimal scheduling algorithm for a scalable computing cloud, where
- 	computing resources are dynamically allocated to meet the demands of an inhomogeneous set of consumers. Resources
+ 	computing resources are dynamically allocated to meet the diverse demands of an inhomogeneous set of consumers. Resources
  	are not uniformly distributed, geographically or otherwise, as the nodes comprising the cloud are of variable type
  	and processing power. Clients will submit job specifications (indicating the number and type of cores, ideal
 	network topology, required run time, etc.) to the scheduler, which should designate a time to run and a cluster of
-	nodes that adheres to the specification. The algorithm should maximize throughput (efficient use of resources)
-	while maintaining fairness, with wait times minimal and consistent between jobs that place similar demands on the
-	system.
+	nodes that adheres to the specification. The algorithm should minimize expected average total time in system for all users,
+	while maintaining fairness between jobs that place similar demands on the system. The algorithm should also be able to achieve
+	optimal scheduling and adapting under rapidly changing cloud environment conditions, while reducing number of accounted metrics
+	for scheduling optimization.
 	
-	In order to build an algorithm capable of operating on a complex, heterogeneous system of resources and consumers,
-	we must consider the process from an abstract yet granular point of view. In an attempt to do so we have defined
-	the system in terms of simple mathematical objects, and constructed an algebra over those objects to describe
-	their interaction. By decomposing the scheduling process into its constituent parts, we were able to describe
-	each component of the process in terms of this algebra and thus devise a mathematical model for the process as a
-	whole. 
-	
-	Due to the difficulty of processing such a dynamic, diverse system (given the sheer number of factors to account
-	for), we elected to confront the problem with a reinforcement learning algorithm built on the aforementioned model.
+	In such a dynamic, diverse system (given the sheer number of factors to account	for), traditional static scheduling algorithms, for example, linear programming, can often be nullified by rapidly changing and sometimes unreliable resources. Therefore we elected to confront the problem with a reinforcement learning algorithm built on the aforementioned model.
 	The algorithm is highly dependent on the system's partitioning into measurable (numerically describable)
 	components, and typifying these components for efficient processing - thus the focus on separability and producing
 	quantifiable descriptors of the system. What follows is a detailed specification of the resultant scheduling
-	paradigm: first of the environment and scheduling process, component by component, and then the construction of
-	the reinforcement model from those components.
+	paradigm: first of the reinforcement model PANDA (Policy Advisor Network and Decision Architecture), and then training of this
+	model and further discussions.
 	
 	\newpage
 	

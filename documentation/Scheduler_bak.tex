@@ -72,11 +72,6 @@
 	\pagenumbering{gobble}
 	\maketitle
 	
-	%Abstract
-	\begin{abstract}
-		We design a novel scheduling algorithm using multi-agent reinforcement learning model, specially for cloud environment with dynamically allocated computing resources and inhomogeneous requirements from consumers. 
-	\end{abstract}
-	
 	% Table of contents
 	\newpage
 	\tableofcontents
@@ -86,8 +81,7 @@
 	\pagenumbering{arabic}
 	
 	\addcontentsline{toc}{section}{Introduction}
-
-
+	
 	\section*{Introduction}
 
 	\indent
@@ -116,15 +110,13 @@
 	paradigm: first of the environment and scheduling process, component by component, and then the construction of
 	the reinforcement model from those components.
 	
-	\newpage
+\newpage
 	
-	\section{Previous Work}
+\part{Scheduling Scheme}
 	
-	\section{Policy Advisor Network and Decision Architecture (PANDA)}
-	
-	%\addpic{figures/Intro-General.jpg}
+	\addpic{figures/Intro-General.jpg}
 
-	%\addpic{figures/all-process.jpg}
+	\addpic{figures/all-process.jpg}
 	
 	\addpic{figures/Macro-fix.png} 
 	
@@ -136,6 +128,13 @@
 	\addpic{figures/Intro-Scheduler.jpg}
 	
 	The scheduler first takes in the consumer specifications and inspects the current resource space. Then both the specifications and resource states are collected by the training module. During the reinforcement training, the training module and resource space are constantly being updated, while resources are being assigned or released and consumers entering or leaving the scheduling process.
+	
+
+	\section{Specifications}
+	
+	\section{Consumer and Resource}
+	
+	\section{Main Process}
 	
 	\begin{enumerate}[label=\alph*.]
 	
@@ -170,6 +169,105 @@
 		\item Release - the agent returns a held resource to the pool of available resources.
 		\item Wait - the agent delays consumption of resources until the subsequent time step. Wait actions may only occur once per joint action, and only as the last action in the sequence.
 	\end{enumerate}
+	
+	\newpage
+	
+	\section{Consumer}
+	
+		\begin{definition}
+			A \emph{consumer}, $c$, is a triple $(k, \phi, t)$, where $k \in \mathbb{N}$, $\phi$ is a specification, and $t \in \mathbb{R}^{+}$. The consumer $C$ is the subset of consumer $c$ which defined such that:
+			\[
+			c = (\phi , \sigma_m)
+			\]
+			\[
+			C = 2^{\phi}*[0,\sigma_m)
+			\]
+		\end{definition}
+		
+		\begin{definition}
+			Let \emph{service} $v$ be the available resource can be provide which related with a subset of resource $R'$ and a Boolean variable $\beta$ can be defined such that:
+			\[
+			v := (R', \beta)
+			\]
+			\[
+			V = 2^{R}*{\ss}
+			\]
+		\end{definition}
+	
+	\section{Requirements}
+	
+		\begin{definition}
+			A \emph{requirement} is a function $\reqfunc{\rho}{X}$, where $X$ is a set and $\mathbb{B} = \{0,1\}$. The set $X$ is referred to as the required set of $\rho$.
+		\end{definition}
+		
+		\begin{definition}
+			A requirement $\rho$ is said to be \emph{separable} if and only if it may be written as $\rho(x) = \prod_{i \in I}{\rho_{i}(x)}$, where $\forall i \in I$, $\rho_{i}(x)$ is a requirement with required set $X$.
+		\end{definition}
+		
+		\begin{definition}
+			A \emph{requirement operator} is a mapping, $\mathbf{Req}: \mathbf{Set} \rightarrow \mathbf{Set}$, such that: \[\reqop{\rho}{X} := \setbuild{x}	{X}{\rho(x) = 1}.\]
+		\end{definition}
+		
+		\begin{proposition}
+			Given a requirement $\rho = \rho_{1}\cdot\rho_{2}$, where $\rho_{1}$ and $\rho_{2}$ are requirements with required set X, then: 
+			\[
+			\reqop{\rho}{X}\stackrel{~}{=}\reqop{\rho_{1}}{X}\cdot\reqop{\rho_{2}}{X}
+			\]
+		\end{proposition}
+		
+		\begin{remark}
+			The binary operation $\cdot$ between two requirements is the same as the symbol, $\wedge$, used in Boolean
+ 			algebra to represent the join, $and$, between two Boolean statements. Likewise, $\cdot$ operating on two sets
+ 			is the intersection operation $\cap$. 
+		\end{remark}
+		
+		\begin{proof}
+			The proof of this proposition is very straightforward. Let $X$ be a set and $\rho$ be a requirement with
+ 			required set $X$. Then,
+			\begin{eqnarray}
+			\reqop{\rho}{X} & = & \setbuild{x}{X}{\rho(x) = 1}\\ 
+			& = & \setbuild{x}{X}{\rho_{1}(x)\cdot\rho_{2}(x) = 1}\\ 
+			& = & \setbuild{x}{X}{\rho_{1}(x) = 1 \mathbin{and} \rho_{2}(x) = 1}\\ 
+			& = & \setbuild{x}{X}{\rho_{1}(x) = 1}\cdot\setbuild{x}{X}{\rho_{2}(x) = 1}\\
+			& = & \reqop{\rho_{1}}{X}\cdot\reqop{\rho_{2}}{X}
+			\end{eqnarray}
+		\end{proof}
+	
+	\section{Specifications}
+	
+		\begin{definition}
+			A set, $X$, is said to be inspectable if and only if there exists a function,
+			$\func{\psi}{X}{\prod_{i \in I}{X_{i}}}$, where $X \ne X_{i}, \forall i \in I$. This function is referred to as an
+			\emph{inspection function} of $X$.
+		\end{definition}
+		
+		\begin{remark}
+			The inspection function may also be expressed as, $\psi(x) = (\psi_{i}(x))_{i \in I}.$
+		\end{remark}
+		
+		\begin{definition}
+			A \emph{specification} is a requirement, $\reqfunc{\phi}{X}$, such that the following conditions
+			hold:
+			
+			\begin{enumerate}
+				\item The required set, $X$, is inspectable.
+				
+				\item There exists a requirement, $\reqfunc{\varphi}{\prod_{i \in I}{X_{i}}}$,
+				such that $\rho = \varphi \circ \psi$, where $\psi$ is an inspection function of $X$,
+				with $X \ne X_{i}, \forall i \in I$. The requirement, $\varphi$, is referred to as an
+				\emph{acceptance requirement} of X.
+			\end{enumerate}
+			
+		\end{definition}
+		
+		\begin{theorem}
+			Given a separable specification, $\phi$, with an acceptance requirement that is mutually independent,
+			$\varphi(x_i)_{i \in I}$, then following isomorphism holds:
+			
+			\[
+			\reqop{\phi}{X} = \prod_{i \in I}\reqop{\varphi_{i}}{X_{i}}
+			\]
+		\end{theorem}
 
 	
 	\newpage

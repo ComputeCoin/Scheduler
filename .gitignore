@@ -109,4 +109,3 @@ ENV/
 *.log
 *.nlo
 out/
-documentation/Scheduler_bak.tex

@@ -79,12 +79,26 @@
         %               - The policy advisor network is producing policy parameters for the scheduling agents to use
         %                 for the duration of their time in the system.
     	%   	3.  What is a joint action and how does it connect to the agents?
+        %               - There are three levels of action that are looked at, the agent action, the class action, and
+        %                 the system action.
+        %               - An agent action is produced by the actor network of an scheduling agent, a list of agent
+        %                 actions within the same class is a class action, and a list of class actions submited to the
+        %                 system is a system action, which is referred to in the diagram as the joint action of all the
+        %                 agents.
 
 
 	    \subsection{Model}
         % Questions:
         % 	    1.  Why use reinforcement learning over traditional methods for scheduling?
+        %               - Given the nature of the system the rigidness of other solutions would be a produce a critical
+        %                 problem in the efficiency and complexity of the scheduling.
+        %               - A reinforcement learning approach makes the system adaptable and flexible to changing conditions
+        %                 of the environment, which is very desirable.
         %	    2.  What are the overall benefits that this model hopes to bring to the table?
+        %               - This model hopes to be able to give insight into mulit-agent problems, as well as how to correct
+        %                 the relatively common sub-optimal solutions of greedy algorithms.
+        %               - Additionally the model hopes to show how reinforcement learning can be used usefully in solving
+        %                 combinatorial problem solving.
 
             \subsubsection{Policy Advisor}
             % Questions:
@@ -96,7 +110,11 @@
                 \paragraph{Topology}
                 % Questions:
                 %   	1. What do the colors represent in this diagram?
+                %              - The colors represent the different classes of specification parameter vectors.
+                %              - They give a better idea of how the topology of the neural network is organized,
+                %                using visual coding with colors.
                 %   	2. What do these numeric labels represent?
+                %              - The numeric labels are indicative of the specification paramter vectors.
 
                 % (insert advisor_topology diagram)
 

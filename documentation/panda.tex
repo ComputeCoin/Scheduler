@@ -18,10 +18,19 @@
 	\section{Introduction}
 	% Questions:
 	%   	1.  What is the problem that this paper is trying to solve?
+	%				- dynamic resource allocation and scheduling for diverse user requirements
 	%   	2.  What is the aim of this paper, with respect to the problem that has been
 	%   	    established?
+	%				- reduce expected average total time in system for all users
+	%				- optimal scheduling and adapting under rapidly changing environment conditions
+	%				- reduce number of accounted metrics
 	%   	3.  How are the circumstances surrounding your problem different from traditional job schedulers and
 	%	    computing environments?
+	%				- unreliable resources nullify traditional static scheduling algorithms
+	%					Examples:
+	%						- linear programming
+	%						- https://www.geeksforgeeks.org/gate-notes-operating-system-process-scheduling/
+	
 
 	\section{Previous Work}
 	% Questions:
@@ -35,8 +44,15 @@
 
 	% Questions:
 	%	    1.  What does this architecture plan to do that others can not do?
+	%				- handle dynamic agent population
+	%				- handle dynamic state space
+	%				- handle static situation as default	
 	%       2.  How is this model simpler than others?
+	%				- observe only time as metric (other metrics can be reduced to be about time)	
 	%  	    3.  What benefits does this architecture plan to produce?
+	%				- efficient and simpler scheduling
+	%				- counter greedy algorithm
+	%				- novel insight of scheduling processes	
 
 	    \subsection{Overview}
     	% Questions:

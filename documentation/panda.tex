@@ -11,6 +11,7 @@
 \begin{document}
 	\maketitle
 
+	% TODO:
 	\begin{abstract}
 		Hello Abstract!
 	\end{abstract}
@@ -20,6 +21,8 @@
 	%   1.  What is the problem that this paper is trying to solve?
 	% 	2.  What is the aim of this paper, with respect to the problem that has been
 	%   	established?
+	%	3.  How are the circumstances surrounding your problem different from traditional job schedulers and
+	%		computing environments?
 
 	\section{Previous Work}
 	% Questions:
@@ -54,7 +57,7 @@
 	% Questions:
 	%   1.  What is the role of the policy advisor?
 	%   2.  How does this interact with the rest of the model?
-	%   3.  Is there any benefit to in using this?
+	%   3.  Is there any benefit to using this part of the model?
 	%   4.  How long will it take to train this?
 
 	\paragraph{Topology}
@@ -70,11 +73,11 @@
 
 	\subsubsection{Agent Model}
 
-	\paragraph{Partial Oberservation and Attention Mechanism}
+	\paragraph{Partial Observation and Attention Mechanism}
 	% Questions:
 	% 	1.  How do the agents observe the space and render a decision based what they
 	%       observed?
-	%   2.  How does restricting their attention to a certain portion of the space help in %       their decision making?
+	%   2.  How does restricting their attention to a certain portion of the space help in their decision making?
 	%   3.  How do the agents interact with one another in this environent?
 	%   4.  What is the process for conflict resolution between agents?
 
@@ -83,10 +86,12 @@
 	%   1.  How do the mechanics of this mechanism work?
 	%   2.  What is there role concerning the model as a whole?
 	%   3.  What are the benefits that could come with this mechanism?
+	%   4.  What is to stop the agents from staying in this loop?
 
 	\subsubsection{System Supervisor}
 	% Question:
 	%   1.  What is the role of this part of the system?
+	%   2.  How does this help coordinate the agents actions?
 
 	\section{Training}
 
@@ -95,7 +100,9 @@
 	% 	1.  What needs to be pre-trained and why?
 	% 	2.  Are there any obvious benefits in doing this?
 	% 	3.  How long is pre-training going to take?
-	% 	4.  How do you plan on mitigating the set backs that could come with this?
+	% 	4.  How do you plan on mitigating the set backs that could come with the training?
+	%   5.  What assumptions are you making about the data set and are they justified?
+	%   6.  How does the system dynamically adapt to newly emerging classes?
 
 	\subsection{Model Training}
 	% Question:
@@ -109,12 +116,15 @@
 	%       scheduling?
 	% 	2.  What are the set backs on this approach to solving the problem?
 	% 	3.  How do you plan on mitigating the known set backs?
+	%   4.  How do you plan on setting this system up with no data?
 
 	\paragraph{Hybrid Approach}
 	% Question:
 	% 	1.  How does this approach mitigate the set backs that have been previously
 	%       mentioned?
-	% 	2.  How long will this hybrid approach have to be used until the real system is
+    %   2.  How do you plan an integrating both approaches without interfering with the integrity
+    %       of the training?
+	% 	3.  How long will this hybrid approach have to be used until the real system is
 	%       ready to take over?
 
 \end{document}

@@ -25,7 +25,7 @@
 	%				- optimal scheduling and adapting under rapidly changing environment conditions
 	%				- reduce number of accounted metrics
 	%   	3.  How are the circumstances surrounding your problem different from traditional job schedulers and
-	%	    computing environments?
+	%	        computing environments?
 	%				- unreliable resources nullify traditional static scheduling algorithms
 	%					Examples:
 	%						- linear programming
@@ -57,15 +57,27 @@
 	    \subsection{Overview}
     	% Questions:
     	%   	1.  How are different specification parameter classes being represented in this diagram?
+        %               - Each parameter class is represented using a color residing in the box labeled agents.
     	%   	2.  What do all of these colors mean?
+        %               - Every color is attributed to a specification parameter class.
    	    %   	3.  How many time steps is this taking?
+        %               - The diagram represents one time step of the entire algorithm.
     	%   	4.  How are these colored squares representative of agents?
+        %               - The square box represents a specification parameter class and there are a set of agents that
+        %                 exist within that class at any one time step.
 
 	    % (insert general model diagram)
 
    	    % Questions:
     	%   	1.  How do the specification parameter vectors interact with the policy advisor?
+        %               - When a consumer enters the system they submit a specification parameter vector, which is given
+        %                 to the policy advisor as input. The policy advisor produces a policy parameter vector which
+        %                 are then used as the weights of the actor network. The actor network is then used as the mechanism
+        %                 that the representing scheduling agent will sample from in order to perform actions within the
+        %                 system.
     	%   	2.  What is the policy advisor doing in the context of the diagram?
+        %               - The policy advisor network is producing policy parameters for the scheduling agents to use
+        %                 for the duration of their time in the system.
     	%   	3.  What is a joint action and how does it connect to the agents?
 
 

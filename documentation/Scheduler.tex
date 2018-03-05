@@ -96,22 +96,9 @@
 
 	\indent
 	
-	The aim of this project is to design an optimal scheduling algorithm for a scalable computing cloud, where
- 	computing resources are dynamically allocated to meet the diverse demands of an inhomogeneous set of consumers. Resources
- 	are not uniformly distributed, geographically or otherwise, as the nodes comprising the cloud are of variable type
- 	and processing power. Clients will submit job specifications (indicating the number and type of cores, ideal
-	network topology, required run time, etc.) to the scheduler, which should designate a time to run and a cluster of
-	nodes that adheres to the specification. The algorithm should minimize expected average total time in system for all users,
-	while maintaining fairness between jobs that place similar demands on the system. The algorithm should also be able to achieve
-	optimal scheduling and adapting under rapidly changing cloud environment conditions, while reducing number of accounted metrics
-	for scheduling optimization.
+	The aim of this project is to design an optimal scheduling algorithm for a scalable computing cloud, where computing resources are dynamically allocated to meet the diverse demands of an inhomogeneous set of consumers. Resources are not uniformly distributed, geographically or otherwise, as the nodes comprising the cloud are of variable type	and processing power. Clients will submit job specifications (indicating the number and type of cores, ideal network topology, arrival time, required run time, memory size, etc.) to the scheduler, which should designate a time to run and a cluster of nodes that adheres to the specification. The algorithm should minimize expected average total time in system for all users, while maintaining fairness between jobs that place similar demands on the system. The algorithm should also be able to achieve	optimal scheduling and adapting under rapidly changing cloud environment conditions, while reducing number of accounted metrics for scheduling optimization.
 	
-	In such a dynamic, diverse system (given the sheer number of factors to account	for), traditional static scheduling algorithms, for example, linear programming, can often be nullified by rapidly changing and sometimes unreliable resources. Therefore we elected to confront the problem with a reinforcement learning algorithm built on the aforementioned model.
-	The algorithm is highly dependent on the system's partitioning into measurable (numerically describable)
-	components, and typifying these components for efficient processing - thus the focus on separability and producing
-	quantifiable descriptors of the system. What follows is a detailed specification of the resultant scheduling
-	paradigm: first of the reinforcement model PANDA (Policy Advisor Network and Decision Architecture), and then training of this
-	model and further discussions.
+	In such a dynamic, diverse system (given the sheer number of factors to account	for), traditional static scheduling algorithms, for example, linear programming, can often be nullified by rapidly changing and sometimes unreliable resources. Therefore we elected to confront the problem with a reinforcement learning algorithm built on the aforementioned model.	The algorithm is highly dependent on the system's partitioning into measurable (numerically describable) components, and typifying these components for efficient processing - thus the focus on separability and producing quantifiable descriptors of the system. What follows is a detailed specification of the resultant scheduling paradigm: first of the reinforcement model PANDA (Policy Advisor Network and Decision Architecture), and then training of this model and further discussions.
 	
 	\newpage
 	
@@ -123,46 +110,47 @@
 		
 		\subsection{Overview}
 	
-	%\addpic{figures/Intro-General.jpg}
+		The diagram below shows the complete PANDA model, which represents one time step of the entire algorithm. Each parameter class is represented using a color residing in the box labeled agents. The square box represents a specification parameter class and there are a set of agents that exist within that class at any one time step.
+	
+		\addpic{figures/Macro-fix.png}
+	
+		Upon submission by user, a consumer (user) enters the scheduling process with its specifications. It leaves the scheduling process by starting consuming (running on) assigned resources. Once finished, the consumer gives feedback to the scheduler for further training improvement.
+	
+		\addpic{figures/Intro-Scheduler.jpg}
+	
+		The scheduler first takes in the consumer specifications and inspects the current resource space. Then both the specifications and resource states are collected by the training module. During the reinforcement training, the training module and resource space are constantly being updated, while resources are being assigned or released and consumers entering or leaving the scheduling process.
+	
+		\addpic{figures/Intro-General.jpg}
+	
+		\addpic{figures/all-process.jpg}
+	
+		\addpic{figures/Training-Main-Process.jpg}
+	
+		\addpic{figures/Neural-Network.jpeg}	
 
-	%\addpic{figures/all-process.jpg}
-	
-	\addpic{figures/Macro-fix.png} 
-	
-	
-	Upon submission by user, a consumer (job) enters the scheduling process with its specifications. It leaves the scheduling process by starting consuming (running on) assigned resources. Once finished, the consumer gives feedback to the scheduler for further training improvement.
-	
-	Example: a job is submitted with specifications such as arrival time, maximum run time, required number of nodes or cores, memory size, CPU/GPU, etc. After it finishes running, it gives feedback, such as wait time, actual run time, user reward, etc, to the scheduler.
-	
-	\addpic{figures/Intro-Scheduler.jpg}
-	
-	The scheduler first takes in the consumer specifications and inspects the current resource space. Then both the specifications and resource states are collected by the training module. During the reinforcement training, the training module and resource space are constantly being updated, while resources are being assigned or released and consumers entering or leaving the scheduling process.
-	
-	\begin{enumerate}[label=\alph*.]
-	
-	\item Main Training Process
-	
-	\addpic{figures/Training-Main-Process.jpg}
-	
-	\item Neural Network
-	
-	\addpic{figures/Neural-Network.jpeg}
-	
-	\item Policy Generator
+		\addpic{figures/Policy-Generator.png}
 
-	\addpic{figures/Policy-Generator.png}		
-	
-	Bayesian Hierarchical Clustering
-	
-	\item Bins
-	
-	\item Joint Actions
+		\addpic{figures/Joint-action.jpg}
 
-	\end{enumerate}
+		\subsection{Model}
+		
+		Given the nature of the dynamic and diverse system, the rigidness of other traditional scheduling solutions would be a critical problem in the efficiency and complexity of the scheduling. A reinforcement learning approach makes the system adaptable and flexible to changing conditions of the environment, which is very desirable. This model hopes to be able to give insight into multi-agent problems, as well as how to correct the relatively common sub-optimal solutions of greedy algorithms. Additionally the model hopes to show how reinforcement learning can be used usefully in combinatorial problem solving.
+		
+			\subsubsection{Policy Advisor Network}
+	
+			The policy advisor is the mechanism which consumers utilize to encode their specification into their representative scheduling agents. These agents then use the output given by the policy advisor corresponding to their class in order to parameterize their policy. The policy advisor is defined as follows.
+		
+			\begin{definition}
+				The \emph{policy advisor} is function $\mathcal{P}: \Gamma \rightarrow \Theta$, where $\Gamma$ is the specification parameter space and $\Theta$ is the policy parameter space.
+			\end{definition}
+				
 
-	\addpic{figures/Joint-action.jpg}
+				\paragraph{Topology}
+				
+				
 
 	
+	\paragraph{Catch-Release-Wait Mechanism (CRW)}
 	
 	At the end of each time step, agents submit a \emph{joint action} to the system supervisor consisting of a sequence of elementary action units. These action units will be performed in order upon execution of the joint action. The basic action units are as follows:
 	
@@ -177,28 +165,12 @@
 	
 \part{Reinforcement Model}
 
-	\section{Data Collection}
-
-	The data collected on consumers is as follows:
-	\begin{table}
-
-	\end{table}
-
 	\section{Consumer Classification}
 	Using Bayesian hierarchical clustering, consumers are classified into a certain consumer type represented by a
     numeric label (e.g. 1, 2). After classification, the consumer then enters their specification parameters and
     consumer type into a policy advisor which then outputs policy parameters for a scheduling agent to use, for
     the duration of their search.
 	
-	\section{Policy Advisor}
-	The policy advisor is the mechanism which consumers utilize to encode their specification into their
-    representative scheduling agents. These agents then use the output given by the policy advisor corresponding
-    to their class in order to parameterize their policy. The policy advisor is defined as follows.
-
-    \begin{definition}
-        The \emph{policy advisor} is function $\mathcal{P}: \Gamma \rightarrow \Theta$, where $\Gamma$ is the specification
-		parameter space and $\Theta$ is the policy parameter space.
-    \end{definition}
 
 	\section{System Supervisor}
 	

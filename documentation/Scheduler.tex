@@ -74,11 +74,11 @@
 	
 	%Abstract
 	\begin{abstract}
-		We design a novel scheduling architecture PANDA (Policy Advisor Network and Decision Architecture) using
-		multi-agent reinforcement learning model, specially for cloud environment with dynamically allocated computing
+		We present a novel scheduling architecture PANDA (Policy Advisor Network and Decision Architecture) using
+		multi-agent reinforcement learning model, specially designed for cloud environments with dynamically allocated computing
 		resources and inhomogeneous requirements from consumers. This architecture consists of policy advisor with
-		Bayesian hierarchical clustering, catch-release-wait agent action mechanism and reinforcement training,
-		which lead to its many advantages over traditional schedulers.
+		Bayesian hierarchical clustering, a catch-release-wait agent action mechanism and reinforcement training,
+		which result in many advantages over traditional schedulers.
 	\end{abstract}
 	
 	% Table of contents
@@ -93,9 +93,9 @@
 
 	\section*{Introduction}
 
-	The aim of this project is to design an optimal scheduling algorithm for a scalable computing cloud, where computing resources are dynamically allocated to meet the diverse demands of an inhomogeneous set of consumers. Resources are not uniformly distributed, geographically or otherwise, as the nodes comprising the cloud are of variable type	and processing power. Clients will submit job specifications (indicating the number and type of cores, ideal network topology, arrival time, required run time, memory size, etc.) to the scheduler, which should designate a time to run and a cluster of nodes that adheres to the specification. The algorithm should minimize expected average total time in system for all users, while maintaining fairness between jobs that place similar demands on the system. The algorithm should also be able to achieve	optimal scheduling and adapting under rapidly changing cloud environment conditions, while reducing number of accounted metrics for scheduling optimization.
+	The aim of this project is to design an optimal scheduling algorithm for a scalable computing cloud, where computing resources are dynamically allocated to meet the demands of an inhomogeneous set of consumers. Resources are not uniformly distributed, geographically or otherwise, as the nodes comprising the cloud are of variable type and processing power. Clients will submit job specifications (indicating the number and type of cores, ideal network topology, arrival time, required run time, memory size, etc.) to the scheduler, which should designate a time to run and a cluster of nodes that adheres to the specification. The algorithm should minimize expected average total time in system for all users, while maintaining fairness between jobs that place similar demands on the system. The algorithm should also be capable of adapting to and achieving optimal scheduling in highly variable cloud environments, while reducing the number of accounted metrics for scheduling optimization.
 	
-	In such a dynamic, diverse system (given the sheer number of factors to account	for), traditional static scheduling algorithms, for example, linear programming, can often be nullified by rapidly changing and sometimes unreliable resources. Therefore we elected to confront the problem with a reinforcement learning algorithm built on the aforementioned model.	The algorithm is highly dependent on the system's partitioning into measurable (numerically describable) components, and typifying these components for efficient processing - thus the focus on separability and producing quantifiable descriptors of the system. What follows is a detailed specification of the resultant scheduling paradigm: first of the reinforcement model PANDA (Policy Advisor Network and Decision Architecture), and then training of this model and further discussions.
+	In such a dynamic, diverse system (given the sheer number of factors to account	for), traditional static scheduling algorithms such as linear programming can often be nullified by rapidly changing and sometimes unreliable resources. Therefore, we elected to confront the problem with a reinforcement learning algorithm specifically adapted to this and similar environments. The algorithm is highly dependent on the system's partitioning into measurable (numerically describable) components, and typifying these components for efficient processing - thus we focused on separability and producing quantifiable descriptors of the system. What follows is a detailed specification of the resultant scheduling paradigm: first of the reinforcement model PANDA (Policy Advisor Network and Decision Architecture), and then training of this model and further discussions.
 	
 	
 	\section{Previous Work}

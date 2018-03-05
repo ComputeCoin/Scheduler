@@ -91,7 +91,6 @@
 	
 	\addcontentsline{toc}{section}{Introduction}
 
-
 	\section*{Introduction}
 
 	\indent
@@ -114,10 +113,9 @@
 	
 		\addpic{figures/Macro-fix.png}
 	
-		Upon submission by user, a consumer (user) enters the scheduling process with its specifications. It leaves the scheduling process by starting consuming (running on) assigned resources. Once finished, the consumer gives feedback to the scheduler for further training improvement.
-	
-		The scheduler first takes in the consumer specifications and inspects the current resource space. Then both the specifications and resource states are collected by the training module. During the reinforcement training, the training module and resource space are constantly being updated, while resources are being assigned or released and consumers entering or leaving the scheduling process.
-		
+		Upon submission by user, a consumer (user) enters the scheduling process and submits its specifications as a parameter vector, which is given to the policy advisor as input. The policy advisor produces a policy parameter vector which are then used as the weights of the actor network. The actor network is then used as the mechanism that the representing scheduling agent will sample from in order to perform actions within the system. In the end, the consumer leaves the scheduling process by starting consuming (running on) assigned resources. Once finished, the consumer gives feedback to the scheduler for further training improvement.
+
+		There are three levels of action that are looked at, the agent action, the class action, and the system action. An agent action is produced by the actor network of an scheduling agent, a list of agent actions within the same class is a class action, and a list of class actions submited to the system is a system action, which is referred to in the diagram as the joint action of all the agents.		
 
 		\subsection{Model}
 		
@@ -134,40 +132,44 @@
 
 				\paragraph{Topology}
 				
+				The diagram below shows a simplified advisor network topology. The colors represent the different classes of specification parameter vectors. The numeric labels are indicative of the specification paramter vectors.
+				
 				\addpic{figures/Neural-Network.jpeg}
 
+		\subsubsection{Agent Model}
+		
+			\paragraph{Partial Observation and Attention Mechanism}
 	
-	\paragraph{Catch-Release-Wait Mechanism (CRW)}
+			\paragraph{Catch-Release-Wait Mechanism (CRW)}
 	
-	At the end of each time step, agents submit a \emph{joint action} to the system supervisor consisting of a sequence of elementary action units. These action units will be performed in order upon execution of the joint action. The basic action units are as follows:
+			At the end of each time step, agents submit a \emph{joint action} to the system supervisor consisting of a sequence of elementary action units. These action units will be performed in order upon execution of the joint action. The basic action units are as follows:
 	
-	\begin{enumerate}
-		\item Catch - the agent acquires an available resource to be assigned to its consumer. Caught resources are held until consumed or a \emph{release} action is taken.
-		\item Release - the agent returns a held resource to the pool of available resources.
-		\item Wait - the agent delays consumption of resources until the subsequent time step. Wait actions may only occur once per joint action, and only as the last action in the sequence.
-	\end{enumerate}
+			\begin{enumerate}
+				\item Catch - the agent acquires an available resource to be assigned to its consumer. Caught resources are held until consumed or a \emph{release} action is taken.
+				\item Release - the agent returns a held resource to the pool of available resources.
+				\item Wait - the agent delays consumption of resources until the subsequent time step. Wait actions may only occur once per joint action, and only as the last action in the sequence.
+			\end{enumerate}
+		
+		\subsubsection{System Supervisor}
+		
+		Agent decisions are submitted as joint actions to a system supervisor, which resolves collisions between catch requests so as to maximize the net gain of all agents in the system. The gain function will be analytically constructed to provide functionality in the short-term, but will be replaced with a trained version once the reinforcement model has converged sufficiently for effective resolution. The supervisor then initiates consumption of collected resources, excluding those held by an agent whose joint action concluded with a wait operation.
+	
+		The supervisor also tracks the progression of each specification through the system, and distributes reward to the respective agents according to a function of the collected data and potential consumer feedback. In the instance of the scalable cloud, reward will be computed upon completion of the job, at which point the total time spent in the system (the sum of wait time and run time) and any consumer feedback will be available and may be factored into the calculation. To maximize fairness, longer wait times would be permissible for jobs that placed larger demands on the system (in cores or core hours). Total time is the main factor to consider, as minimizing wait time will maximize system utilization, while reduced run time is a result of optimized resource selection. Both times would be normalized relative to expected values derived from the specification parameters and the state of the system.
 
+
+	\section{Training}
 	
+		\subsection{Pre-Training}
+		
+		Using Bayesian hierarchical clustering, consumers are classified into a certain consumer type represented by a numeric label (e.g. 1, 2). After classification, the consumer then enters their specification parameters and consumer type into a policy advisor which then outputs policy parameters for a scheduling agent to use, for the duration of their search.
+	
+		\subsection{Model Training}
+		
+	\section{Discussion}
+	
+		\paragraph{Hybrid Approach}
+
 	\newpage
-	
-\part{Reinforcement Model}
-
-	\section{Consumer Classification}
-	Using Bayesian hierarchical clustering, consumers are classified into a certain consumer type represented by a
-    numeric label (e.g. 1, 2). After classification, the consumer then enters their specification parameters and
-    consumer type into a policy advisor which then outputs policy parameters for a scheduling agent to use, for
-    the duration of their search.
-	
-
-	\section{System Supervisor}
-	
-	\indent
-	
-	Agent decisions are submitted as joint actions to a system supervisor, which resolves collisions between catch requests so as to maximize the net gain of all agents in the system. The gain function will be analytically constructed to provide functionality in the short-term, but will be replaced with a trained version once the reinforcement model has converged sufficiently for effective resolution. The supervisor then initiates consumption of collected resources, excluding those held by an agent whose joint action concluded with a wait operation.
-	
-	The supervisor also tracks the progression of each specification through the system, and distributes reward to the respective agents according to a function of the collected data and potential consumer feedback. In the instance of the scalable cloud, reward will be computed upon completion of the job, at which point the total time spent in the system (the sum of wait time and run time) and any consumer feedback will be available and may be factored into the calculation. To maximize fairness, longer wait times would be permissible for jobs that placed larger demands on the system (in cores or core hours). Total time is the main factor to consider, as minimizing wait time will maximize system utilization, while reduced run time is a result of optimized resource selection. Both times would be normalized relative to expected values derived from the specification parameters and the state of the system.
-	
-	\newpage    
 
 	\begin{notation}
 		\notate{\gamma}{specification parameter}\\

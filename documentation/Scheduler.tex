@@ -100,7 +100,6 @@
 	In such a dynamic, diverse system (given the sheer number of factors to account	for), traditional static scheduling algorithms, for example, linear programming, can often be nullified by rapidly changing and sometimes unreliable resources. Therefore we elected to confront the problem with a reinforcement learning algorithm built on the aforementioned model.	The algorithm is highly dependent on the system's partitioning into measurable (numerically describable) components, and typifying these components for efficient processing - thus the focus on separability and producing quantifiable descriptors of the system. What follows is a detailed specification of the resultant scheduling paradigm: first of the reinforcement model PANDA (Policy Advisor Network and Decision Architecture), and then training of this model and further discussions.
 	
 	
-	
 	\section{Previous Work}
 	
 	\section{Policy Advisor Network and Decision Architecture (PANDA)}
@@ -128,6 +127,10 @@
 			\begin{definition}
 				The \emph{policy advisor} is function $\mathcal{P}: \Gamma \rightarrow \Theta$, where $\Gamma$ is the specification parameter space and $\Theta$ is the policy parameter space.
 			\end{definition}
+		
+			\begin{remark}
+				The policy advisor is a neural network, $\mathcal{P}_{\mathbf{w}}(\gamma)$, initialized with a hierarchal topology. This is done with respect to the expected clusters emerging in $\Gamma$.
+			\end{remark}
 				
 
 				\paragraph{Topology}
@@ -189,7 +192,7 @@
 		% 	    2.  How long is this training going to take?
 		% 	    3.  How do you plan on mitigating the known set backs?
 		
-		The model will be trained in using the data collected from the agents in the system and then applying the rewards of each individual agent onto the weights of the PA network. Currently, we are constructing methods for translating rewards to other specification and policy parameters through by using linear transformations. This is done in to overcome the problem of learning how to distribute rewards to different policy parameters, to force faster convergence of the PA network. This training is most likely going to take a long amount of time considering its robust application, however, the estimated time is unknown due to insufficient data on the system and rate of consumer arrivals. 
+		The model will be trained using the data collected on the agents in the system and then using the rewards and updated policy parameters from each individual agent to update the weights of the PAN. Each agent will collect reward at the end of each episode in the system (when a successful scheduling has occured). This training will most likely go under a slow convergence considering the parameters being trained are the weights of Currently, we are constructing methods for translating rewards to other specification and policy parameters through by using linear transformations. This method is explored as a way for overcoming the problem of learning how to distribute rewards for different policy parameters. This will hopefully lead to faster convergence, with respect to the PAN.
 		
 	\section{Discussion}
 	

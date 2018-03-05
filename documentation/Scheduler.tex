@@ -164,6 +164,12 @@
 		Using Bayesian hierarchical clustering, consumers are classified into a certain consumer type represented by a numeric label (e.g. 1, 2). After classification, the consumer then enters their specification parameters and consumer type into a policy advisor which then outputs policy parameters for a scheduling agent to use, for the duration of their search.
 	
 		\subsection{Model Training}
+		% Question:
+		% 	    1.  How exactly do you plan on training the model?
+		% 	    2.  How long is this training going to take?
+		% 	    3.  How do you plan on mitigating the known set backs?
+		
+		The model will be trained in using the data collected from the agents in the system and then applying the rewards of each individual agent onto the weights of the PA network. Currently, we are constructing methods for translating rewards to other specification and policy parameters through by using linear transformations. This is done in to overcome the problem of learning how to distribute rewards to different policy parameters, to force faster convergence of the PA network. This training is most likely going to take a long amount of time considering its robust application, however, the estimated time is unknown due to insufficient data on the system and rate of consumer arrivals. 
 		
 	\section{Discussion}
 	

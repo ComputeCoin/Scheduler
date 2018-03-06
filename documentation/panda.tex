@@ -126,13 +126,14 @@
 
 	        \subsubsection{Agent Model}
 
-                \paragraph{Partial Observation and Attention Mechanism}
+
+\paragraph{Partial Observation and Attention Mechanism}
                 % Questions:
                 % 	    1.  How do the agents observe the space and render a decision based what they
                 %           observed?
                 %   	2.  How does restricting their attention to a certain portion of the space help in their decision making?
                 %   	3.  How do the agents interact with one another in this environent?
-                %   	4.  What is the process for conflict resolution between agents?
+		%   	4.  What is the process for conflict resolution between agents?
 
                 % (insert agent_attention diagram)
 
@@ -169,9 +170,13 @@
 	% Question:
 	% 	    1.  To sum it all up, what are the major advantages of using PANDA for job
 	%           scheduling?
+	%		-The major advantages of using PANDA for job scheduling is that it allows to schedule jobs with a changing or 		%		dynamic environment, allows for more user autonomy, and looks at the problem from a meta standpoint as opposed 		%		to an individual basis.  This all allows for a more streamline scheduling experience that allows for a more 		%		cohesive system that relies on less metrics than a typical static scheduler.
 	% 	    2.  What are the set backs on this approach to solving the problem?
+	%		-The setbacks for this approach include focusing too much on the big picture, or metadata, instead of looking 		%		at individual cases to better substantiate useful data, and the idea of letting users as well as the policy 		%		advisor handle fairness may lead to potential conflicts between consumers.
 	% 	    3.  How do you plan on mitigating the known set backs?
+	%		-The plan is to collect consistent analysis of data that comes in with each consumer and create a relationship 		%		function between the parameters so we can extrapolate where conflicts occur, hence being able to push policy 		%		advisors to make certain decisions based on expectations of recent data.
 	%   	4.  How do you plan on setting this system up with no data?
+	%		-A general multitude of simulations will be run in order to get an idea of what possible conflicts may arise 		%		with our approach to this problem, allowing us to fine tune individual issues, which can allow us to handle 		%		problems that arise in the metadata before even receiving said data.
 
         \paragraph{Hybrid Approach}
         % Question:

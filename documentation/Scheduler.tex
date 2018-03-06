@@ -5,6 +5,7 @@
 \usepackage[english]{babel}
 
 \usepackage{amsthm}
+\usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
@@ -35,6 +36,7 @@
 
 \newtheorem*{remark}{Remark}
 \newtheorem*{theorem}{Theorem}
+
 
 % Commands
 \newcommand{\func}[3]{#1:#2\rightarrow#3}
@@ -141,8 +143,6 @@
 			\paragraph{Agents and Actor Networks}
 
 			Each consumer that enters the system is assigned an agent, which operates according to the policy output by the advisor network. The goal of an agent is to maximize reward collected by the PAN by obtaining the optimal set of resources that satisfies the consumer's specification, which occurs through an iterative process executed on each time step. The process is as follows:
-			
-			\addpic{figures/actor_network}
 
 			\begin{enumerate}
 
@@ -191,8 +191,30 @@
 		% 	    1.  How exactly do you plan on training the model?
 		% 	    2.  How long is this training going to take?
 		% 	    3.  How do you plan on mitigating the known set backs?
-
-		The model will be trained using the data collected on the agents in the system and then using the rewards and updated policy parameters from each individual agent to update the weights of the PAN. Each agent will collect reward at the end of each episode in the system (when a successful scheduling has occurred). This training will most likely go under a slow convergence considering the parameters being trained are the weights of Currently, we are constructing methods for translating rewards to other specification and policy parameters through by using linear transformations. This method is explored as a way for overcoming the problem of learning how to distribute rewards for different policy parameters. This will hopefully lead to faster convergence, with respect to the PAN.
+		
+		As was previously mentioned, the only metric that will be observed is the total time a consumer is in the system. With this in mind, we will first give a first attempt at a definition of an optimal scheduler. Let $c_{n}$ represent the $n$th consumer leaving system. Firstly, we will observe a stochastic process, $\mathcal{D} = \{(T_{n}, \delta_{n}, \mu_{n}); n \in \mathbb{N}\}$, where $T_{n}$ is the time between $c_{n}$ and $c_{n-1}$ times of occurence, $\delta_{n}$ is the total time consumer $c_{n}$ was in the system, and $\mu_{n}$ is the utility of consumer $c_{n}$.
+	
+		\begin{definition}
+			Let $\mathcal{D} = \{(T_{n}, \delta_{n}, \mu_{n}); n \in \mathbb{N}\}$ be a stochastic process and $\mathbf{c} = (c_{1}, \ldots ,c_{n})$ be a sequence of consumers that have left the system. A scheduling policy is said to be sufficient if
+			\[
+			\max_{i \in \underline{n}}\{\delta_{i}\} \le S_{n} \le \sum_{i \in \underline{n}}{\delta_{i}}
+			\] 
+			where $S_{n} = \sum_{i=1}^{n}{T_{i}}$.
+		\end{definition}
+		
+		\begin{remark}
+			The intuition following this definition is that a good scheduler will, depending on the resources, have the $n$th consumer departure greater than maximum total time among $\mathbf{c}$, if the resoures provided can admit an embarassingly parallel situation for consumer use, and less than the sum of all the total times in the system among $\mathbf{c}$.
+		\end{remark}
+	
+		The data that will be collected on the system are those corresponding to the arrival, scheduling, and departure process. The data set will be of the form
+		\[
+		T = \{(\gamma_{i}, W_{i},\vec{t}_{i}, \vec{\delta}_{i}, \mathcal{R}_{i}, r_{i})\}_{i = 1}^{n} 
+		\]
+		where $\gamma_{i}$ is a specfication parameter vector, $W_{i}$ are the weights used for $\gamma_{i}$, $\vec{t}_{i} = (t_{1}, t_{2}) \in \mathbb{R}_{+}^{2}$ such that $t_{1}$ is the arrival time and $t_{2}$ is the departure time of $\gamma_{i}$, $\vec{\delta}_{i} = (\delta_{w}, \delta_{u}) \in \mathbb{R}_{+}^{2}$ such that $\delta_{w}$ is the wait time and $\delta_{u}$ is the use time of $\gamma_{i}$, $\mathcal{R}_{i}$ is the set of resources assigned to $\gamma_{i}$, and $r_{i}$ is the reward given to $\gamma_{i}$. 
+		
+		From this data set we will be able to determine the data for the arrival, scheduling, departure processes. Additionally, any information that we will need to derive for PANDA will be derived from this data. 
+		
+		The model will be trained using the data collected on the agents in the system and then using the rewards and updated policy parameters from each individual agent to update the weights of the PAN. Each agent will collect reward at the end of each episode in the system (when a successful scheduling has occurred). This training will most likely go under a slow convergence considering the parameters being trained are the weights of the actor networks of the agents. Currently, we are constructing methods for translating rewards to other specification and policy parameters by using measure-preserving transformations. This method is explored as a way for overcoming the problem of learning how to distribute rewards for different policy parameters. This will hopefully lead to faster convergence, with respect to the PAN.
 
 	\section{Discussion}
 

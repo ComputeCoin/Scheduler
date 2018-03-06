@@ -1,0 +1,190 @@
+\documentclass{article}
+
+
+
+\title{Scala Job Scheduler}
+\author{Matthew Brulhardt, Neo Pei, Kiran Eiden, Xiaolong Huang, Sam Zurl}
+
+
+
+
+\begin{document}
+	\maketitle
+
+	\begin{abstract}
+		This is quite abstract!
+	\end{abstract}
+
+	\section{Introduction}
+	% Questions:
+	%   	1.  What is the problem that this paper is trying to solve?
+	%				- dynamic resource allocation and scheduling for diverse user requirements
+	%   	2.  What is the aim of this paper, with respect to the problem that has been
+	%   	    established?
+	%				- reduce expected average total time in system for all users
+	%				- optimal scheduling and adapting under rapidly changing environment conditions
+	%				- reduce number of accounted metrics
+	%   	3.  How are the circumstances surrounding your problem different from traditional job schedulers and
+	%	        computing environments?
+	%				- unreliable resources nullify traditional static scheduling algorithms
+	%					Examples:
+	%						- linear programming
+	%						- https://www.geeksforgeeks.org/gate-notes-operating-system-process-scheduling/
+	
+
+	\section{Previous Work}
+	% Questions:
+	% 	    1.  Where does the information of the prescribed method get inspired from?
+	% 	    2.  What work has been done concerning partially observable state spaces in
+	%           reinforcement learning?
+    %       3.  What work is being used from multi-agent environemnts?
+
+
+	\section{Policy Advisor Network and Decision Architecture (PANDA)}
+
+	% Questions:
+	%	    1.  What does this architecture plan to do that others can not do?
+	%				- handle dynamic agent population
+	%				- handle dynamic state space
+	%				- handle static situation as default	
+	%       2.  How is this model simpler than others?
+	%				- observe only time as metric (other metrics can be reduced to be about time)	
+	%  	    3.  What benefits does this architecture plan to produce?
+	%				- efficient and simpler scheduling
+	%				- counter greedy algorithm
+	%				- novel insight of scheduling processes	
+
+	    \subsection{Overview}
+    	% Questions:
+    	%   	1.  How are different specification parameter classes being represented in this diagram?
+        %               - Each parameter class is represented using a color residing in the box labeled agents.
+    	%   	2.  What do all of these colors mean?
+        %               - Every color is attributed to a specification parameter class.
+   	    %   	3.  How many time steps is this taking?
+        %               - The diagram represents one time step of the entire algorithm.
+    	%   	4.  How are these colored squares representative of agents?
+        %               - The square box represents a specification parameter class and there are a set of agents that
+        %                 exist within that class at any one time step.
+
+	    % (insert general model diagram)
+
+   	    % Questions:
+    	%   	1.  How do the specification parameter vectors interact with the policy advisor?
+        %               - When a consumer enters the system they submit a specification parameter vector, which is given
+        %                 to the policy advisor as input. The policy advisor produces a policy parameter vector which
+        %                 are then used as the weights of the actor network. The actor network is then used as the mechanism
+        %                 that the representing scheduling agent will sample from in order to perform actions within the
+        %                 system.
+    	%   	2.  What is the policy advisor doing in the context of the diagram?
+        %               - The policy advisor network is producing policy parameters for the scheduling agents to use
+        %                 for the duration of their time in the system.
+    	%   	3.  What is a joint action and how does it connect to the agents?
+        %               - There are three levels of action that are looked at, the agent action, the class action, and
+        %                 the system action.
+        %               - An agent action is produced by the actor network of an scheduling agent, a list of agent
+        %                 actions within the same class is a class action, and a list of class actions submited to the
+        %                 system is a system action, which is referred to in the diagram as the joint action of all the
+        %                 agents.
+
+
+	    \subsection{Model}
+        % Questions:
+        % 	    1.  Why use reinforcement learning over traditional methods for scheduling?
+        %               - Given the nature of the system the rigidness of other solutions would be a produce a critical
+        %                 problem in the efficiency and complexity of the scheduling.
+        %               - A reinforcement learning approach makes the system adaptable and flexible to changing conditions
+        %                 of the environment, which is very desirable.
+        %	    2.  What are the overall benefits that this model hopes to bring to the table?
+        %               - This model hopes to be able to give insight into mulit-agent problems, as well as how to correct
+        %                 the relatively common sub-optimal solutions of greedy algorithms.
+        %               - Additionally the model hopes to show how reinforcement learning can be used usefully in solving
+        %                 combinatorial problem solving.
+
+            \subsubsection{Policy Advisor}
+            % Questions:
+            %   	1.  What is the role of the policy advisor?
+            %   	2.  How does this interact with the rest of the model?
+            %   	3.  Is there any benefit to using this part of the model?
+            %   	4.  How long will it take to train this?
+
+                \paragraph{Topology}
+                % Questions:
+                %   	1. What do the colors represent in this diagram?
+                %              - The colors represent the different classes of specification parameter vectors.
+                %              - They give a better idea of how the topology of the neural network is organized,
+                %                using visual coding with colors.
+                %   	2. What do these numeric labels represent?
+                %              - The numeric labels are indicative of the specification paramter vectors.
+
+                % (insert advisor_topology diagram)
+
+                % Questions:
+                % 	    1.  How does the hierarchy topology connect with the pre-training?
+                % 	    2.  How does this hierarchy topology help in the reduction of training time?
+                % 	    3.  What do all the parts of the diagram represent?
+                %   	4.  Where is the direct connection between the hierarchy and reduced training time?
+
+	        \subsubsection{Agent Model}
+
+
+\paragraph{Partial Observation and Attention Mechanism}
+                % Questions:
+                % 	    1.  How do the agents observe the space and render a decision based what they
+                %           observed?
+                %   	2.  How does restricting their attention to a certain portion of the space help in their decision making?
+                %   	3.  How do the agents interact with one another in this environent?
+		%   	4.  What is the process for conflict resolution between agents?
+
+                % (insert agent_attention diagram)
+
+                \paragraph{Catch-Release-Wait Mechanism (CRW)}
+                % Question:
+                %   	1.  How do the mechanics of this mechanism work?
+                %   	2.  What is there role concerning the model as a whole?
+                %   	3.  What are the benefits that could come with this mechanism?
+                %   	4.  What is to stop the agents from staying in this loop for longer than necessary?
+
+            \subsubsection{System Supervisor}
+            % Question:
+            %   	1.  What is the role of this part of the system?
+            %   	2.  How does this help coordinate the agents actions?
+
+	\section{Training}
+
+        \subsection{Pre-Training}
+        % Question:
+        % 	    1.  What needs to be pre-trained and why?
+        % 	    2.  Are there any obvious benefits in doing this?
+        % 	    3.  How long is pre-training going to take?
+        % 	    4.  How do you plan on mitigating the set backs that could come with the training?
+        %   	5.  What assumptions are you making about the data set and are they justified?
+        %   	6.  How does the system dynamically adapt to newly emerging classes?
+
+        \subsection{Model Training}
+        % Question:
+        % 	    1.  How exactly do you plan on training the model?
+        % 	    2.  How long is this training going to take?
+        % 	    3.  How do you plan on mitigating the known set backs?
+
+	\section{Discussion}
+	% Question:
+	% 	    1.  To sum it all up, what are the major advantages of using PANDA for job
+	%           scheduling?
+	%		-The major advantages of using PANDA for job scheduling is that it allows to schedule jobs with a changing or 		%		dynamic environment, allows for more user autonomy, and looks at the problem from a meta standpoint as opposed 		%		to an individual basis.  This all allows for a more streamline scheduling experience that allows for a more 		%		cohesive system that relies on less metrics than a typical static scheduler.
+	% 	    2.  What are the set backs on this approach to solving the problem?
+	%		-The setbacks for this approach include focusing too much on the big picture, or metadata, instead of looking 		%		at individual cases to better substantiate useful data, and the idea of letting users as well as the policy 		%		advisor handle fairness may lead to potential conflicts between consumers.
+	% 	    3.  How do you plan on mitigating the known set backs?
+	%		-The plan is to collect consistent analysis of data that comes in with each consumer and create a relationship 		%		function between the parameters so we can extrapolate where conflicts occur, hence being able to push policy 		%		advisors to make certain decisions based on expectations of recent data.
+	%   	4.  How do you plan on setting this system up with no data?
+	%		-A general multitude of simulations will be run in order to get an idea of what possible conflicts may arise 		%		with our approach to this problem, allowing us to fine tune individual issues, which can allow us to handle 		%		problems that arise in the metadata before even receiving said data.
+
+        \paragraph{Hybrid Approach}
+        % Question:
+        % 	    1.  How does this approach mitigate the set backs that have been previously
+        %           mentioned?
+        %   	2.  How do you plan an integrating both approaches without interfering with the integrity
+        %           of the training?
+        % 	    3.  How long will this hybrid approach have to be used until the real system is
+        %           ready to take over?
+
+\end{document}

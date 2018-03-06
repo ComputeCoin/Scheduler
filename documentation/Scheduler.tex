@@ -5,16 +5,18 @@
 \usepackage[english]{babel}
 
 \usepackage{amsthm}
+\usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{enumitem}
+\usepackage{multirow}
 
 \newenvironment{notation}
 {
     \newpage
-    
+
     \paragraph{\Huge Notation}
     \begin{flushleft}
 }
@@ -35,6 +37,7 @@
 \newtheorem*{remark}{Remark}
 \newtheorem*{theorem}{Theorem}
 
+
 % Commands
 \newcommand{\func}[3]{#1:#2\rightarrow#3}
 \newcommand{\reqfunc}[2]{#1:#2\rightarrow\mathbb{B}}
@@ -50,259 +53,174 @@
 
 \newcommand{\setbuild}[3]
 {
-	\{\hspace{0.05in} 
-	#1 \in #2 \hspace{0.05in} 
+	\{\hspace{0.05in}
+	#1 \in #2 \hspace{0.05in}
 	| \hspace{0.05in}#3\hspace{0.05in}
-	\}	
+	\}
 }
 
 \makeatletter
 \@addtoreset{section}{part}
 \makeatother
 
+\setlength{\parskip}{\baselineskip}
+\setlength{\parindent}{0in}
+
 % Preamble
 \title{Scala Job Scheduler}
-\date{February 2018}
+\date{March 2018}
 
 % --------------------------------------------------------------------------
 \begin{document}
-	
+
 	% Title page
 	\pagenumbering{gobble}
 	\maketitle
-	
-	% Table of contents
-	\newpage
-	\tableofcontents
-	
+
+	%Abstract
+	\begin{abstract}
+		We present a novel scheduling architecture PANDA (Policy Advisor Network and Decision Architecture) using
+		multi-agent reinforcement learning model, specially designed for cloud environments with dynamically allocated computing
+		resources and inhomogeneous requirements from consumers. This architecture consists of policy advisor with
+		Bayesian hierarchical clustering, a catch-release-wait agent action mechanism and reinforcement training,
+		which result in many advantages over traditional schedulers.
+	\end{abstract}
+
 	% Begin main document
 	\newpage
 	\pagenumbering{arabic}
-	
+
 	\addcontentsline{toc}{section}{Introduction}
-	
+
 	\section*{Introduction}
 
-	\indent
-	
+	The aim of this project is to design an optimal scheduling algorithm for a scalable computing cloud, where computing resources are dynamically allocated to meet the demands of an inhomogeneous set of consumers. Resources are not uniformly distributed, geographically or otherwise, as the nodes comprising the cloud are of variable type and processing power. Clients will submit job specifications (indicating the number and type of cores, ideal network topology, arrival time, required run time, memory size, etc.) to the scheduler, which should designate a time to run and a cluster of nodes that adheres to the specification. The algorithm should minimize expected average total time in system for all users, while maintaining fairness between jobs that place similar demands on the system. The algorithm should also be capable of adapting to and achieving optimal scheduling in highly variable cloud environments, while reducing the number of accounted metrics for scheduling optimization.
 
-	
-	The aim of this project is to design an optimal scheduling algorithm for a scalable computing cloud, where
- 	computing resources are dynamically allocated to meet the demands of an inhomogeneous set of consumers. Resources
- 	are not uniformly distributed, geographically or otherwise, as the nodes comprising the cloud are of variable type
- 	and processing power. Clients will submit job specifications (indicating the number and type of cores, ideal
-	network topology, required run time, etc.) to the scheduler, which should designate a time to run and a cluster of
-	nodes that adheres to the specification. The algorithm should maximize throughput (efficient use of resources)
-	while maintaining fairness, with wait times minimal and consistent between jobs that place similar demands on the
-	system.
-	
-	In order to build an algorithm capable of operating on a complex, heterogeneous system of resources and consumers,
-	we must consider the process from an abstract yet granular point of view. In an attempt to do so we have defined
-	the system in terms of simple mathematical objects, and constructed an algebra over those objects to describe
-	their interaction. By decomposing the scheduling process into its constituent parts, we were able to describe
-	each component of the process in terms of this algebra and thus devise a mathematical model for the process as a
-	whole. 
-	
-	Due to the difficulty of processing such a dynamic, diverse system (given the sheer number of factors to account
-	for), we elected to confront the problem with a reinforcement learning algorithm built on the aforementioned model.
-	The algorithm is highly dependent on the system's partitioning into measurable (numerically describable)
-	components, and typifying these components for efficient processing - thus the focus on separability and producing
-	quantifiable descriptors of the system. What follows is a detailed specification of the resultant scheduling
-	paradigm: first of the environment and scheduling process, component by component, and then the construction of
-	the reinforcement model from those components.
-	
-	
-	
-\newpage
-	
-\part{Scheduling Scheme}
-	
-	\addpic{figures/Intro-General.jpg}
-
-	\addpic{figures/all-process.jpg}
-	
-	\addpic{figures/Macro-fix.png} 
-	
-	
-	Upon submission by user, a consumer (job) enters the scheduling process with its specifications. It leaves the scheduling process by starting consuming (running on) assigned resources. Once finished, the consumer gives feedback to the scheduler for further training improvement.
-	
-	Example: a job is submitted with specifications such as arrival time, maximum run time, required number of nodes or cores, memory size, CPU/GPU, etc. After it finishes running, it gives feedback, such as wait time, actual run time, user reward, etc, to the scheduler.
-	
-	\addpic{figures/Intro-Scheduler.jpg}
-	
-	The scheduler first takes in the consumer specifications and inspects the current resource space. Then both the specifications and resource states are collected by the training module. During the reinforcement training, the training module and resource space are constantly being updated, while resources are being assigned or released and consumers entering or leaving the scheduling process.
-	
-
-	\section{Specification}
-	
-	\section{Consumer and Resource}
-	
-	\section{Main Process}
-	
-	\begin{enumerate}[label=\alph*.]
-	
-	\item Main Training Process
-	
-	\addpic{figures/Training-Main-Process.jpg}
-
-	
-	\item Neural Network
+	In such a dynamic, diverse system (given the sheer number of factors to account	for), traditional static scheduling algorithms such as linear programming can often be nullified by rapidly changing and sometimes unreliable resources. Therefore, we elected to confront the problem with a reinforcement learning algorithm specifically adapted to this and similar environments. The algorithm is highly dependent on the system's partitioning into measurable (numerically describable) components, and typifying these components for efficient processing - thus we focused on separability and producing quantifiable descriptors of the system. What follows is a detailed specification of the resultant scheduling paradigm: first of the reinforcement model PANDA (Policy Advisor Network and Decision Architecture), and then training of this model and further discussions.
 
 
-	\addpic{figures/Neural-Network.jpeg}
-	
-	\item Policy Generator
-	
-	\addpic{figures/Policy-Generator.png}
-	
-	Bayesian Hierarchical Clustering
-	
-	\item Bins
-	
-	\item Joint Actions
+	\section{Previous Work}
 
-	\addpic{figures/Joint-action.jpg}
+	\section{Policy Advisor Network and Decision Architecture (PANDA)}
 
-	\end{enumerate}
-	
-	At the end of each time step, agents submit a \emph{joint action} to the system supervisor consisting of a sequence of elementary action units. These action units will be performed in order upon execution of the joint action. The basic action units are as follows:
-	
-	\begin{enumerate}
-		\item Catch - the agent acquires an available resource to be assigned to its consumer. Caught resources are held until consumed or a \emph{release} action is taken.
-		\item Release - the agent returns a held resource to the pool of available resources.
-		\item Wait - the agent delays consumption of resources until the subsequent time step. Wait actions may only occur once per joint action, and only as the last action in the sequence.
-	\end{enumerate}
-	
-	
-	\section{Consumer}
-	
-		\begin{definition}
-			A \emph{consumer}, $c$, is a triple $(k, \phi, t)$, where $k \in \mathbb{N}$, $\phi$ is a specification, and $t \in \mathbb{R}^{+}$. The consumer $C$ is the subset of consumer $c$ which defined such that:
-			\[
-			c = (\phi , \sigma_m)
-			\]
-			\[
-			C = 2^{\phi}*[0,\sigma_m)
-			\]
-		\end{definition}
+	This proposed reinforcement architecture can handle both dynamic agent population and state space when processing diverse system. It can also handle static resource space by default. This architecture observes the total time of a user being in system as the only metric for scheduling optimization, by reducing other metrics to be about time in the first place. From this perspective, the PANDA architecture is simpler and more efficient than traditional static schedulers. It can counter greedy scheduling algorithm to a more extensive degree, which in return gives novel insight of general scheduling processes.
+
+		\subsection{Overview}
+
+		The diagram below shows the complete PANDA model, which represents one time step of the entire algorithm. Each parameter class is represented using a color residing in the box labeled agents. The square box represents a specification parameter class and there are a set of agents that exist within that class at any one time step.
+
+		\addpic{figures/general_diagram.png}
+
+		Upon submission by user, a consumer (user) enters the scheduling process and submits its specifications as a parameter vector, which is given to the policy advisor as input. The policy advisor produces a policy parameter vector which are then used as the weights of the actor network. The actor network is then used as the mechanism that the representing scheduling agent will sample from in order to perform actions within the system. In the end, the consumer leaves the scheduling process by starting consuming (running on) assigned resources. Once finished, the consumer gives feedback to the scheduler for further training improvement.
+
+		There are three levels of action that are looked at, the agent action, the class action, and the system action. An agent action is produced by the actor network of an scheduling agent, a list of agent actions within the same class is a class action, and a list of class actions submitted to the system is a system action, which is referred to in the diagram as the joint action of all the agents.
+
+		\subsection{Model}
+
+		Given the nature of the dynamic and diverse system, the rigidness of other traditional scheduling solutions would be a critical problem in the efficiency and complexity of the scheduling. A reinforcement learning approach makes the system adaptable and flexible to changing conditions of the environment, which is very desirable. This model hopes to be able to give insight into multi-agent problems, as well as how to correct the relatively common sub-optimal solutions of greedy algorithms. Additionally the model hopes to show how reinforcement learning can be used usefully in combinatorial problem solving.
+
+			\subsubsection{Policy Advisor Network}
+
+			The policy advisor is the mechanism which consumers utilize to encode their specification into their representative scheduling agents. These agents then use the output given by the policy advisor corresponding to their class in order to parameterize their policy. The policy advisor is defined as follows.
+
+			\begin{definition}
+				The \emph{policy advisor} is function $\mathcal{P}: \Gamma \rightarrow \Theta$, where $\Gamma$ is the specification parameter space and $\Theta$ is the policy parameter space.
+			\end{definition}
+
+			\begin{remark}
+				The policy advisor is a neural network, $\mathcal{P}_{\mathbf{w}}(\gamma)$, initialized with a hierarchical topology. This is done with respect to the expected clusters emerging in $\Gamma$.
+			\end{remark}
+
+
+				\paragraph{Topology}
+
+				The diagram below shows a simplified advisor network topology. The colors represent the different classes of specification parameter vectors. The numeric labels are indicative of the specification parameter vectors.
+
+				\addpic{figures/advisor_topology.png}
+
+		\subsubsection{Agent Model}
 		
-		\begin{definition}
-			Let \emph{service} $v$ be the available resource can be provide which related with a subset of resource $R'$ and a Boolean variable $\beta$ can be defined such that:
-			\[
-			v := (R', \beta)
-			\]
-			\[
-			V = 2^{R}*{\ss}
-			\]
-		\end{definition}
-	
-	\section{Requirements}
-	
-		\begin{definition}
-			A \emph{requirement} is a function $\reqfunc{\rho}{X}$, where $X$ is a set and $\mathbb{B} = \{0,1\}$. The set $X$ is referred to as the required set of $\rho$.
-		\end{definition}
-		
-		\begin{definition}
-			A requirement $\rho$ is said to be \emph{separable} if and only if it may be written as $\rho(x) = \prod_{i \in I}{\rho_{i}(x)}$, where $\forall i \in I$, $\rho_{i}(x)$ is a requirement with required set $X$.
-		\end{definition}
-		
-		\begin{definition}
-			A \emph{requirement operator} is a mapping, $\mathbf{Req}: \mathbf{Set} \rightarrow \mathbf{Set}$, such that: \[\reqop{\rho}{X} := \setbuild{x}	{X}{\rho(x) = 1}.\]
-		\end{definition}
-		
-		\begin{proposition}
-			Given a requirement $\rho = \rho_{1}\cdot\rho_{2}$, where $\rho_{1}$ and $\rho_{2}$ are requirements with required set X, then: 
-			\[
-			\reqop{\rho}{X}\stackrel{~}{=}\reqop{\rho_{1}}{X}\cdot\reqop{\rho_{2}}{X}
-			\]
-		\end{proposition}
-		
-		\begin{remark}
-			The binary operation $\cdot$ between two requirements is the same as the symbol, $\wedge$, used in Boolean
- 			algebra to represent the join, $and$, between two Boolean statements. Likewise, $\cdot$ operating on two sets
- 			is the intersection operation $\cap$. 
-		\end{remark}
-		
-		\begin{proof}
-			The proof of this proposition is very straightforward. Let $X$ be a set and $\rho$ be a requirement with
- 			required set $X$. Then,
-			\begin{eqnarray}
-			\reqop{\rho}{X} & = & \setbuild{x}{X}{\rho(x) = 1}\\ 
-			& = & \setbuild{x}{X}{\rho_{1}(x)\cdot\rho_{2}(x) = 1}\\ 
-			& = & \setbuild{x}{X}{\rho_{1}(x) = 1 \mathbin{and} \rho_{2}(x) = 1}\\ 
-			& = & \setbuild{x}{X}{\rho_{1}(x) = 1}\cdot\setbuild{x}{X}{\rho_{2}(x) = 1}\\
-			& = & \reqop{\rho_{1}}{X}\cdot\reqop{\rho_{2}}{X}
-			\end{eqnarray}
-		\end{proof}
-	
-	\section{Specifications}
-	
-		\begin{definition}
-			A set, $X$, is said to be inspectable if and only if there exists a function,
-			$\func{\psi}{X}{\prod_{i \in I}{X_{i}}}$, where $X \ne X_{i}, \forall i \in I$. This function is referred to as an
-			\emph{inspection function} of $X$.
-		\end{definition}
-		
-		\begin{remark}
-			The inspection function may also be expressed as, $\psi(x) = (\psi_{i}(x))_{i \in I}.$
-		\end{remark}
-		
-		\begin{definition}
-			A \emph{specification} is a requirement, $\reqfunc{\phi}{X}$, such that the following conditions
-			hold:
-			
+			\paragraph{Agents and Actor Networks}
+
+			Each consumer that enters the system is assigned an agent, which operates according to the policy output by the advisor network. The goal of an agent is to maximize reward collected by the PAN by obtaining the optimal set of resources that satisfies the consumer's specification, which occurs through an iterative process executed on each time step. The process is as follows:
+
 			\begin{enumerate}
-				\item The required set, $X$, is inspectable.
-				
-				\item There exists a requirement, $\reqfunc{\varphi}{\prod_{i \in I}{X_{i}}}$,
-				such that $\rho = \varphi \circ \psi$, where $\psi$ is an inspection function of $X$,
-				with $X \ne X_{i}, \forall i \in I$. The requirement, $\varphi$, is referred to as an
-				\emph{acceptance requirement} of X.
+
+				\item Given the state of the system, its policy parameters, and its assigned specification, each agent selects an action to take based on a stochastic decision model. The action is a composite structure of atomic action units, and will be described in detail later in this section.
+
+				\item The action is submitted to the system supervisor, which regulates large-scale behavior and controls the supply of reward to the PAN. Actions received from all agents are then interpreted and applied to the environment, potentially inducing a state transition (between state categories, as states are clustered in the same manner as consumer specifications).
+
+				\item Data on all consumers are updated, and reward is calculated and delivered to the PAN. Policies are revised accordingly, and a form of supervised learning is employed to reconfigure the network itself to better conform to the new policies.
+
 			\end{enumerate}
-			
+
+			Agent function is driven by an actor network, which maps each potential component of the action to a real number measuring its expected value to the consumer given the current state type of the system. The parameters output by the PAN serve as weights for the action network, and as are the PANDA's means of manipulating agent activity. Here it is important to note that this algorithm differs from traditional reinforcement learning algorithms in that reward is dispensed to a PAN rather than the reinforcement agents. The weights on the agent's action networks themselves are not trained - instead, training is concentrated on the advisor network that generates the weights from consumer specifications. In fact, agents and their networks have finite lifetimes, as they are disposed of upon becoming unemployed, with collected data extracted and incorporated into the next iteration of the PAN.
+
+			\begin{remark}
+				An agent is said to be \emph{unemployed} when the consumer to which it has been assigned has departed from the system. As agents are specifically designed to cater to a particular consumer, unemployed agents have minimal value to the scheduler beyond the information they have gathered over their lifetimes.
+			\end{remark}
+
+			\paragraph{Partial Observation and Attention Mechanism}
+
+			\paragraph{Agent Actions}
+
+			At the end of each time step, agents submit an action to the system supervisor consisting of a three elementary action units. These action units will be performed in the order listed below upon execution of the action. The basic action units are as follows:
+
+			\begin{enumerate}
+				\item Catch - the agent acquires an available resource to be assigned to its consumer. Caught resources are held until consumed or a \emph{release} action is taken. Catch requests are submitted as a Boolean vector, with each component corresponding to an item in the pool of observed resources.
+				\item Release - the agent returns a held resource to the pool of available resources. Release requests are also submitted as a Boolean vector, with each component corresponding to an item in the pool of held resources.
+				\item Wait - the agent delays consumption of resources until the subsequent time step. Wait requests are submitted as a Boolean scalar, as only one wait action may be performed per time step.
+			\end{enumerate}
+
+			The action network output is mapped to a Boolean vector by applying the Gibbs softmax function and sampling from the resultant Boltzmann distribution.
+
+		\subsubsection{System Supervisor}
+
+		Agent decisions are submitted as actions to a system supervisor, which resolves collisions between catch requests\footnote{Collision resolution methods currently being considered are allocating the resources in question on a first come, first served basis, and allocating them on the basis of need, determined from the output of the agent's actor networks.}. The supervisor then initiates consumption of collected resources, excluding those held by an agent whose action included wait operation.
+
+		The supervisor also tracks the progression of each specification through the system, and distributes reward to the respective agents according to a function of the collected data and potential consumer feedback. In the instance of the scalable cloud, reward will be computed upon completion of the job, at which point the total time spent in the system (the sum of wait time and run time) and any consumer feedback will be available and may be factored into the calculation. To maximize fairness, longer wait times would be permissible for jobs that placed larger demands on the system (in cores or core hours). Total time is the main factor to consider, as minimizing wait time will maximize system utilization, while reduced run time is a result of optimized resource selection. Both times would be normalized relative to expected values derived from the specification parameters and the state of the system.
+
+	\section{Training}
+
+		\subsection{Pre-Training}
+
+		Using Bayesian hierarchical clustering, consumers are classified into a certain consumer type represented by a numeric label (e.g. 1, 2). After classification, the consumer then enters their specification parameters and consumer type into a policy advisor which then outputs policy parameters for a scheduling agent to use, for the duration of their search.
+
+		\subsection{Model Training}
+		% Question:
+		% 	    1.  How exactly do you plan on training the model?
+		% 	    2.  How long is this training going to take?
+		% 	    3.  How do you plan on mitigating the known set backs?
+		
+		As was previously mentioned, the only metric that will be observed is the total time a consumer is in the system. With this in mind, we will first give a first attempt at a definition of an optimal scheduler. Let $c_{n}$ represent the $n$th consumer leaving system. Firstly, we will observe a stochastic process, $\mathcal{D} = \{(T_{n}, \delta_{n}, \mu_{n}); n \in \mathbb{N}\}$, where $T_{n}$ is the time between $c_{n}$ and $c_{n-1}$ times of occurence, $\delta_{n}$ is the total time consumer $c_{n}$ was in the system, and $\mu_{n}$ is the utility of consumer $c_{n}$.
+	
+		\begin{definition}
+			Let $\mathcal{D} = \{(T_{n}, \delta_{n}, \mu_{n}); n \in \mathbb{N}\}$ be a stochastic process and $\mathbf{c} = (c_{1}, \ldots ,c_{n})$ be a sequence of consumers that have left the system. A scheduling policy is said to be sufficient if
+			\[
+			\max_{i \in \underline{n}}\{\delta_{i}\} \le S_{n} \le \sum_{i \in \underline{n}}{\delta_{i}}
+			\] 
+			where $S_{n} = \sum_{i=1}^{n}{T_{i}}$.
 		\end{definition}
 		
-		\begin{theorem}
-			Given a separable specification, $\phi$, with an acceptance requirement that is mutually independent,
-			$\varphi(x_i)_{i \in I}$, then following isomorphism holds:
-			
-			\[
-			\reqop{\phi}{X} = \prod_{i \in I}\reqop{\varphi_{i}}{X_{i}}
-			\]
-		\end{theorem}
+		\begin{remark}
+			The intuition following this definition is that a good scheduler will, depending on the resources, have the $n$th consumer departure greater than maximum total time among $\mathbf{c}$, if the resoures provided can admit an embarassingly parallel situation for consumer use, and less than the sum of all the total times in the system among $\mathbf{c}$.
+		\end{remark}
 	
+		The data that will be collected on the system are those corresponding to the arrival, scheduling, and departure process. The data set will be of the form
+		\[
+		T = \{(\gamma_{i}, W_{i},\vec{t}_{i}, \vec{\delta}_{i}, \mathcal{R}_{i}, r_{i})\}_{i = 1}^{n} 
+		\]
+		where $\gamma_{i}$ is a specfication parameter vector, $W_{i}$ are the weights used for $\gamma_{i}$, $\vec{t}_{i} = (t_{1}, t_{2}) \in \mathbb{R}_{+}^{2}$ such that $t_{1}$ is the arrival time and $t_{2}$ is the departure time of $\gamma_{i}$, $\vec{\delta}_{i} = (\delta_{w}, \delta_{u}) \in \mathbb{R}_{+}^{2}$ such that $\delta_{w}$ is the wait time and $\delta_{u}$ is the use time of $\gamma_{i}$, $\mathcal{R}_{i}$ is the set of resources assigned to $\gamma_{i}$, and $r_{i}$ is the reward given to $\gamma_{i}$. 
+		
+		From this data set we will be able to determine the data for the arrival, scheduling, departure processes. Additionally, any information that we will need to derive for PANDA will be derived from this data. 
+		
+		The model will be trained using the data collected on the agents in the system and then using the rewards and updated policy parameters from each individual agent to update the weights of the PAN. Each agent will collect reward at the end of each episode in the system (when a successful scheduling has occurred). This training will most likely go under a slow convergence considering the parameters being trained are the weights of the actor networks of the agents. Currently, we are constructing methods for translating rewards to other specification and policy parameters by using measure-preserving transformations. This method is explored as a way for overcoming the problem of learning how to distribute rewards for different policy parameters. This will hopefully lead to faster convergence, with respect to the PAN.
+
+	\section{Discussion}
+
+		\paragraph{Hybrid Approach}
+
 	\newpage
-	
-\part{Reinforcement Model}
-
-	\section{Data Collection}
-
-	The data collected on consumers is as follows:
-	\begin{table}
-
-	\end{table}
-
-	\section{Consumer Classification}
-	Using Bayesian hierarchical clustering, consumers are classified into a certain consumer type represented by a
-    numeric label (e.g. 1, 2). After classification, the consumer then enters their specification parameters and
-    consumer type into a policy advisor which then outputs policy parameters for a scheduling agent to use, for
-    the duration of their search.
-	
-	\section{Policy Advisor}
-	The policy advisor is the mechanism which consumers utilize to encode their specification into their
-    representative scheduling agents. These agents then use the output given by the policy advisor corresponding
-    to their class in order to parameterize their policy. The policy advisor is defined as follows.
-
-    \begin{definition}
-        The \emph{policy advisor} is function $\mathcal{P}: \Gamma \rightarrow \Theta$, where $\Gamma$ is the specification
-		parameter space and $\Theta$ is the policy parameter space.
-    \end{definition}
-
-	\section{System Supervisor}
-	
-	Agent decisions are submitted as joint actions to a system supervisor, which resolves collisions (conflicts) between requests
-	
-	\newpage    
 
 	\begin{notation}
 		\notate{\gamma}{specification parameter}\\
@@ -330,5 +248,5 @@
      \end{notation}
 
 	\newpage
-	
+
 \end{document}

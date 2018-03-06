@@ -163,6 +163,8 @@
 			\end{remark}
 
 			\paragraph{Partial Observation and Attention Mechanism}
+			
+			
 
 			\paragraph{Agent Actions}
 
@@ -174,7 +176,7 @@
 				\item Wait - the agent delays consumption of resources until the subsequent time step. Wait requests are submitted as a Boolean scalar, as only one wait action may be performed per time step.
 			\end{enumerate}
 
-			The actor network output is mapped to a Boolean vector by applying the Gibbs softmax function and sampling from the resultant Boltzmann distribution.
+			The actor network output is mapped to a Boolean vector by applying the softmax function and sampling from the resultant categorical distribution.
 
 		\subsubsection{System Supervisor}
 

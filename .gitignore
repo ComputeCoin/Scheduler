@@ -111,3 +111,7 @@ ENV/
 *.log
 *.nlo
 out/
+*.bbl
+*.bcf
+*.blg
+*.xml

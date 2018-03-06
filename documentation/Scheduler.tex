@@ -12,6 +12,11 @@
 \usepackage{caption}
 \usepackage{enumitem}
 \usepackage{multirow}
+ \usepackage[
+	backend=biber,
+	style=ieee,
+]{biblatex}
+\addbibresource{references.bib}
 
 \newenvironment{notation}
 {
@@ -43,7 +48,7 @@
 \newcommand{\reqfunc}[2]{#1:#2\rightarrow\mathbb{B}}
 \newcommand{\reqop}[2]{\mathbf{Req}_{#1}(#2)}
 
-\newcommand{\path}[2]{\mathbf{Path}^{#2}_{#1}}
+\newcommand{\Path}[2]{\mathbf{Path}^{#2}_{#1}}
 \newcommand{\pathall}[1]{\mathbf{Path}_{#1}}
 \newcommand{\cyclepath}[1]{\mathbf{Cycle}_{#1}}
 
@@ -225,5 +230,11 @@
 	\section{Discussion}
 
 		\paragraph{Hybrid Approach}
+
+	\newpage
+	
+	\cite{carastan2017obtaining}
+
+	\printbibliography
 
 \end{document}

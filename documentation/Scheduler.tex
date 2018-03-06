@@ -115,8 +115,11 @@
 		\subsection{Overview}
 
 		The diagram below shows the complete PANDA model, which represents one time step of the entire algorithm. Each parameter class is represented using a color residing in the box labeled agents. The square box represents a specification parameter class and there are a set of agents that exist within that class at any one time step.
-
-		\addpic{figures/general_diagram.png}
+	
+	 	  
+	 	\addpic{figures/general_diagram}
+	 	.\hspace{2cm}  Figure 1:  General Scheduling Process (PANDA)			
+		
 
 		Upon submission by a user, a consumer enters the scheduling process and submits its specifications as a parameter vector, which is given to the policy advisor as input. The policy advisor produces a policy parameter vector which is then used as the weights of the actor network. The actor network is then used as the mechanism that the representing scheduling agent will sample from in order to perform actions within the system. In the end, the consumer leaves the scheduling process by consuming (running on) assigned resources. Once finished, the consumer gives feedback to the scheduler for further training improvement.
 
@@ -144,6 +147,7 @@
 				The diagram below shows a simplified PAN topology. The colors represent the different classes of the specification parameter space. The numeric labels are indicative of the specification parameter vectors.
 
 				\addpic{figures/advisor_topology.png}
+		 		.\hspace{3 cm}  Figure 2:  Advisor Topology	
 
 		\subsubsection{Agent Model}
 		
@@ -152,7 +156,8 @@
 			Each consumer that enters the system is assigned an agent, which operates according to the policy output by the advisor network. The goal of an agent is to maximize reward collected by the PAN by obtaining the optimal set of resources that satisfies the consumer's specification. Resource collection occurs through the following iterative process, executed on each time step:
 			
 			\addpic{figures/actor_network}
-
+			.\hspace{3.5cm}  Figure 3:  Actor Network
+			
 			\begin{enumerate}
 
 				\item Given the state of the system, its policy parameters, and its assigned specification, each agent selects an action to take based on a stochastic decision model. The action is a composite structure of atomic action units, and will be described in detail later in this section.
@@ -180,6 +185,7 @@
 			At the end of each time step, agents submit an action to the system supervisor consisting of three elementary action units. These action units will be performed in the order listed below upon execution of the action. The basic action units are as follows:
 			
 			\addpic{figures/agent_action.png}
+			.\hspace{3.5 cm}  Figure 4:  Agent Action	
 			
 			\begin{enumerate}
 				\item Catch - the agent acquires an available resource to be assigned to its consumer. Caught resources are held until consumed or a \emph{release} action is taken. Catch requests are submitted as a Boolean vector, with each component corresponding to an item in the pool of observed resources.

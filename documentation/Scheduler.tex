@@ -109,7 +109,7 @@
 	
 	\section{Preliminary Data Processing}
 	
-	In the interest of improving efficiency and accelerating convergence of the reinforcement model, aspects of the environment are grouped utilizing a probabilistic approach to agglomerative hierarchical clustering called Bayesian hierarchical clustering (Heller and Ghahramani 2005). Using this method, consumers, resources, and states are classified into types, each representable by a numeric label (e.g. 1, 2). After classification, consumer specification parameters and consumer types are fed into a policy advisor network, which then outputs policy parameters for a scheduling agent to use for the duration of their search. Node and state types are reserved for components of the agent decision model, where they can greatly improve algorithmic performance simply by reducing their respective spaces to tractable sizes.
+	In the interest of improving efficiency and accelerating convergence of the reinforcement model, aspects of the environment are grouped utilizing a probabilistic approach to agglomerative hierarchical clustering called Bayesian hierarchical clustering (Heller and Ghahramani 2005). Using this method, consumers, resources, and states are classified into types, each representable by a numeric label (e.g. 1, 2). After classification, consumer specification parameters and consumer types are fed into a policy advisor network, which then outputs policy parameters for a scheduling agent to use for the duration of their search. Resource and state types are reserved for components of the agent decision model, where they can greatly improve algorithmic performance simply by reducing their respective spaces to tractable sizes.
 
 	\section{Policy Advisor Network and Decision Architecture (PANDA)}
 
@@ -174,7 +174,9 @@
 
 			\paragraph{Partial Observation and Attention Mechanism}
 			
-			In an effort to reduce the time complexity of the agent decision process, 
+			In an effort to reduce the time complexity of the agent decision process, agent observation is limited to subset of viable resources rather than the entire resource space. This form of agent perception is not unlike that of humans, who tend to fixate on objects of interest and filter out irrelevant features of their environment. To mimic a human-like attention mechanism, the agents thus apply an appropriately named filter function $\func{\mathcal{F}}{Set}{Set}$ to sets of resources as they become available for consumption. Mathematically speaking, $\mathcal{F}$ maps a set of resources $X$ to some $X' \subseteq X$, such that $X'$ contains only those elements of $X$ whose expected value to the consumer eclipses a certain threshold. 
+			
+			The implementation of this function hinges on how the relative value of a resource may be estimated without compromising efficiency or relying on static numerical thresholds, which could compromise performance when operating within a dynamic environment. A potential solution employs the categorical representation of resources by assigning a weight to each resource type based on its conformity to the specification. As each cluster occupies some location in N-dimensional space, given by its center point, a weighted average of the type locations may be computed to estimate the ideal location for a resource given the consumer's specification. Resources within a certain distance limit (perhaps some function of the variance in type location) pass the filter, and are integrated into the agent's pool of observed resources.
 
 			\paragraph{Agent Actions}
 
@@ -246,6 +248,10 @@
 		\begin{remark}
 			This approach will be dealt with on a cautionary level because the integrity of scheduling data will be affected as different scheduling algorithms are used. We will take this as an opportunity to gather large amounts of data that exceed the currently available data in literature and given out by other companies (e.g. Google Cloud Platform and Amazon Web Services).
 		\end{remark}
+	
+	\section{Future Work}
+	
+	In future work, we will be establishing more formal and concrete definitions on scheduling policies concerning generic resources. We will be exploring this by utilizing literature on measure-preserving dynamical systems, decentralized partially observable Markov decision processes, and competitive/cooperative multi-agent systems. Additionally, we will be observing and analyzing the real-time data we recieve from the system, in order to guide the future of the architecture in the right direction. We will also be keeping the integrity of the data as our highest priority, as for it to have no dependence on the scheduling system that is used. This choice should only effect observations such as interdeparture times and the average total time in the system for a consumer.
 
 	\newpage
 	

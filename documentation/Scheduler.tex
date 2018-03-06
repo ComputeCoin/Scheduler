@@ -85,7 +85,7 @@
 
 	%Abstract
 	\begin{abstract}
-		We present a novel scheduling architecture PANDA (Policy Advisor Network and Decision Architecture) using a multi-agent reinforcement learning model, specially designed for cloud environments with dynamic allocation of computing resources for inhomogeneous consumer specifications. The architecture consists of a policy advisor network (PAN), designed with a hierarchical topology yielded from Bayesian hierarchical clustering analysis on consumer specifications, a catch-release-wait actor network used by scheduling agents  which are trained using reinforcement learning methods, which result in many advantages over traditional schedulers.
+		We present a novel scheduling architecture PANDA (Policy Advisor Network and Decision Architecture) built on a multi-agent reinforcement learning model, specially designed for inhomogeneous and elastic cloud environments where resources are delivered on-demand to an inconstant stream of consumers. To combat environmental instability, the architecture makes use of a policy advisor network (PAN), designed with a hierarchical topology yielded from a Bayesian hierarchical clustering analysis on consumer specifications, computing resources, and environmental states. Decision-making is decentralized, but scheduling agents operate in a collaborative environment and share a joint return distributed to the PAN, which translates the clustered consumer specifications into weights on the actor networks driving agent decisions. This design results in many advantages over traditional schedulers, among them improved adaptability, optimized resource selection, and robustness in the face of an otherwise intractable environment.
 	\end{abstract}
 
 	% Begin main document
@@ -96,9 +96,9 @@
 
 	\section*{Introduction}
 
-	The aim of this project is to design an optimal scheduling algorithm for a scalable computing cloud, where computing resources are dynamically allocated to meet the demands of an inhomogeneous set of consumers. Resources are not uniformly distributed, geographically or otherwise, as the nodes comprising the cloud are of variable type and processing power. Clients will submit job specifications (indicating the number and type of cores, ideal network topology, arrival time, required run time, memory size, etc.) to the scheduler, which should designate a time to run and a cluster of nodes that adheres to the specification. The algorithm should minimize expected average total time in system for all users, while maintaining fairness between jobs that place similar demands on the system. The algorithm should also be capable of adapting to and achieving optimal scheduling in highly variable cloud environments, while reducing the number of accounted metrics for scheduling optimization.
+	The aim of this project is to design an optimal scheduling algorithm for an elastic computing cloud, where computing resources are dynamically allocated to meet the demands of a broad range of consumers. Resources are not uniformly distributed, geographically or otherwise, as the nodes comprising the cloud are of variable type and processing power. Clients will submit job specifications (indicating the number and type of cores, ideal network topology, arrival time, required run time, memory size, etc.) to the scheduler, which should designate a time to run and a cluster of nodes that adheres to the specification. The algorithm should minimize expected average total time in system for all users, while maintaining fairness between jobs that place similar demands on the system. The algorithm should also be capable of adapting to and achieving optimal scheduling in highly variable cloud environments, while reducing the number of accounted metrics for scheduling optimization.
 
-	In such a dynamic, diverse system (given the sheer number of factors to account	for), traditional static scheduling algorithms such as linear programming can often be nullified by rapidly changing and sometimes unreliable resources. Therefore, we elected to confront the problem with a reinforcement learning algorithm specifically adapted to this and similar environments. The algorithm is highly dependent on the system's partitioning into measurable (numerically describable) components, and typifying these components for efficient processing - thus we focused on separability and producing quantifiable descriptors of the system. What follows is a detailed specification of the resultant scheduling paradigm: first of the reinforcement model PANDA (Policy Advisor Network and Decision Architecture), and then training of this model and further discussions.
+	In such a dynamic, diverse system (given the sheer number of factors to account	for), traditional static scheduling algorithms such as linear programming can often be nullified by rapidly changing and at times unreliable resource pools. Therefore, we elected to confront the problem with a reinforcement learning algorithm specifically adapted to this and similar environments. The algorithm is highly dependent on the system's partitioning into measurable (numerically describable) components, and typifying these components for efficient processing - thus we focused on separability and producing quantifiable descriptors of the system. What follows is a detailed specification of the resultant scheduling paradigm: first of the reinforcement model PANDA (Policy Advisor Network and Decision Architecture), and then the training of this model and further discussions.
 
 
 	%\section{Previous Work}
@@ -106,7 +106,7 @@
 	
 	\section{Preliminary Data Processing}
 	
-	In the interest of improving efficiency and accelerating convergence of the reinforcement model, aspects of the environment are grouped utilizing a probabilistic approach to agglomerative hierarchical clustering called Bayesian hierarchical clustering (Heller and Ghahramani 2005). Using this method, consumers, resources, and states are classified into types, each representable by a numeric label (e.g. 1, 2). After classification, consumer specification parameters and consumer types are fed into a policy advisor network, which then outputs policy parameters for a scheduling agent to use for the duration of their search. Resource and state types are reserved for components of the agent decision model, where they can greatly improve algorithmic performance simply by reducing their respective spaces to tractable sizes.
+	In the interest of improving efficiency and accelerating convergence of the reinforcement model, aspects of the environment are grouped utilizing a probabilistic approach to agglomerative hierarchical clustering called Bayesian hierarchical clustering. Using this method, consumers, resources, and states are classified into types, each representable by a numeric label (e.g. 1, 2). After classification, consumer specification parameters and consumer types are fed into a policy advisor network, which then outputs policy parameters for a scheduling agent to use for the duration of their search. Resource and state types are reserved for components of the agent decision model, where they can greatly improve algorithmic performance simply by reducing their respective spaces to tractable sizes.
 
 	\section{Policy Advisor Network and Decision Architecture (PANDA)}
 
@@ -187,8 +187,6 @@
 				\item Wait - the agent delays consumption of resources until the subsequent time step. Wait requests are submitted as a Boolean scalar, as only one wait action may be performed per time step.
 			\end{enumerate}
 		
-			
-
 			The actor network output is mapped to a Boolean vector by applying the softmax function and sampling from the resultant categorical distribution.
 
 		\subsubsection{System Supervisor}
@@ -250,7 +248,7 @@
 	
 	\section{Future Work}
 	
-	In future work, we will be establishing more formal and concrete definitions on scheduling policies concerning generic resources. We will be exploring this by utilizing literature on measure-preserving dynamical systems, decentralized partially observable Markov decision processes, and competitive/cooperative multi-agent systems. Additionally, we will be observing and analyzing the real-time data we recieve from the system, in order to guide the future of the architecture in the right direction. We will also be keeping the integrity of the data as our highest priority, as for it to have no dependence on the scheduling system that is used. This choice should only a  ffect observations such as interdeparture times and the average total time in the system for a consumer.
+	In future work, we will be establishing more formal and concrete definitions on scheduling policies concerning generic resources. We will be exploring this by utilizing literature on measure-preserving dynamical systems, decentralized partially observable Markov decision processes, and competitive/cooperative multi-agent systems. Additionally, we will be observing and analyzing the real-time data we receive from the system, in order to guide the future of the architecture in the right direction. We will also be keeping the integrity of the data as our highest priority, as for it to have no dependence on the scheduling system that is used. This choice should only affect observations such as interdeparture times and the average total time in the system for a consumer.
 
 	%\newpage
 	

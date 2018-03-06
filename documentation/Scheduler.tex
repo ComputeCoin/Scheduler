@@ -194,19 +194,20 @@
 		% 	    2.  How long is this training going to take?
 		% 	    3.  How do you plan on mitigating the known set backs?
 		
-		As was previously mentioned, the only metric that will be observed is the total time a consumer is in the system. With this in mind, we will first give a first attempt at a definition of an optimal scheduler. Let $c_{n}$ represent the $n$th consumer leaving system. Firstly, we will observe a stochastic process, $\mathcal{D} = \{(T_{n}, \delta_{n}, \mu_{n}); n \in \mathbb{N}\}$, where $T_{n}$ is the time between $c_{n}$ and $c_{n-1}$ times of occurence, $\delta_{n}$ is the total time consumer $c_{n}$ was in the system, and $\mu_{n}$ is the utility of consumer $c_{n}$.
+		As was previously mentioned, the only metric that will be observed is the total time a consumer is in the system. With this in mind, we will first give a first attempt at a definition of what constitutes a sufficient scheduling policy. Let $c_{n}$ represent the $n$th consumer leaving system. Firstly, we will observe a stochastic process, $\mathcal{D} = \{(T_{n}, \delta_{n}, \mu_{n}); n \in \mathbb{N}\}$, where $T_{n}$ is the time between $c_{n}$ and $c_{n-1}$ times of occurence, $\delta_{n}$ is the total time consumer $c_{n}$ was in the system, and $\mu_{n}$ is the utility of consumer $c_{n}$.
 	
 		\begin{definition}
 			Let $\mathcal{D} = \{(T_{n}, \delta_{n}, \mu_{n}); n \in \mathbb{N}\}$ be a stochastic process and $\mathbf{c} = (c_{1}, \ldots ,c_{n})$ be a sequence of consumers that have left the system. A scheduling policy is said to be sufficient if
 			\[
-			\max_{i \in \underline{n}}\{\delta_{i}\} \le S_{n} \le \sum_{i \in \underline{n}}{\delta_{i}}
+			S_{n} \in \left[\hspace{0.1in}\max_{i \in \underline{n}}\{\delta_{i}\}, \hspace{0.1in} \sum_{i \in \underline{n}}{\delta_{i}}\right] \subseteq \mathbb{R}_{+}
 			\] 
 			where $S_{n} = \sum_{i=1}^{n}{T_{i}}$.
 		\end{definition}
 		
 		\begin{remark}
-			The intuition following this definition is that a good scheduler will, depending on the resources, have the $n$th consumer departure greater than maximum total time among $\mathbf{c}$, if the resources provided can admit an embarrassingly parallel situation for consumer use, and less than the sum of all the total times in the system among $\mathbf{c}$.
+			The distance of $S_{n}$ from the lower and upper bound represent the degree of parallel uses of the resources, the lower bound being embarassingly parallel and the upper bound being strictly sequential.
 		\end{remark}
+		The intuition following this definition is that a sufficient scheduling policy will effectively , depending on the resources, force the sum of interdeparture times to fall within these bounds. If $S_{n}$ falls above the upper bound then the scheduling policy was \emph{inefficient}.
 	
 		The data that will be collected on the system are those corresponding to the arrival, scheduling, and departure process. The data set will be of the form
 		\[
@@ -219,7 +220,21 @@
 		The model will be trained using the data collected on the agents in the system and then using the rewards and updated policy parameters from each individual agent to update the weights of the PAN. Each agent will collect reward at the end of each episode in the system (when a successful scheduling has occurred). This training will most likely go under a slow convergence considering the parameters being trained are the weights of the actor networks of the agents. Currently, we are constructing methods for translating rewards to other specification and policy parameters by using measure-preserving transformations. This method is explored as a way for overcoming the problem of learning how to distribute rewards for different policy parameters. This will hopefully lead to faster convergence, with respect to the PAN.
 
 	\section{Discussion}
+	
+		The major advantages of using PANDA for job scheduling is that it allows to schedule jobs with a dynamic environment, allows for more user autonomy, and looks at the problem from a meta standpoint as opposed to an individual basis.  This all allows for a more streamline scheduling experience that allows for a more cohesive system that relies on less metrics than a typical static scheduler.
+		
+		The setbacks for this approach include focusing too much on the big picture, or metadata, instead of looking at individual cases to better substantiate useful data, and the idea of letting users as well as the policy advisor handle fairness may lead to potential conflicts between consumers.
+		
+		The plan is to collect consistent analysis of data that comes in with each consumer and create a relationship function between the parameters so we can extrapolate where conflicts occur, hence being able to push policy advisors to make certain decisions based on expectations of recent data.
+		
+		A general multitude of simulations will be run in order to get an idea of what possible conflicts may arise with our approach to this problem, allowing us to fine tune individual issues, which can allow us to handle problems that arise in the metadata before even receiving said data.
 
-		\paragraph{Hybrid Approach}
+		\paragraph{Hybrid Approach} 
+		
+		In order to integrate PANDA into a real-time system we will gradually transition from a static model. We will implement a cake-cutting algorithm that will use a discrete envy-free protocol, equipped for handling any number of agents. 
+		
+		\begin{remark}
+			This approach will be dealt with on a cautionary level because the integrity of scheduling data will be affected as different scheduling algorithms are used. We will take this as an opportunity to gather large amounts of data that exceed the currently available data in literature and given out by other companies (e.g. Google Cloud Platform and Amazon Web Services).
+		\end{remark}
 
 \end{document}

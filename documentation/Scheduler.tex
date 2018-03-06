@@ -142,7 +142,9 @@
 		
 			\paragraph{Agents and Actor Networks}
 
-			Each consumer that enters the system is assigned an agent, which operates according to the policy output by the advisor network. The goal of an agent is to maximize reward collected by the PAN by obtaining the optimal set of resources that satisfies the consumer's specification, which occurs through an iterative process executed on each time step. The process is as follows:
+			Each consumer that enters the system is assigned an agent, which operates according to the policy output by the advisor network. The goal of an agent is to maximize reward collected by the PAN by obtaining the optimal set of resources that satisfies the consumer's specification. Resource collection occurs through through the following iterative process, executed on each time step:
+			
+			\addpic{figures/actor_network}
 
 			\begin{enumerate}
 
@@ -154,7 +156,7 @@
 
 			\end{enumerate}
 
-			Agent function is driven by an actor network, which maps each potential component of the action to a real number measuring its expected value to the consumer given the current state type of the system. The parameters output by the PAN serve as weights for the action network, and as are the PANDA's means of manipulating agent activity. Here it is important to note that this algorithm differs from traditional reinforcement learning algorithms in that reward is dispensed to a PAN rather than the reinforcement agents. The weights on the agent's action networks themselves are not trained - instead, training is concentrated on the advisor network that generates the weights from consumer specifications. In fact, agents and their networks have finite lifetimes, as they are disposed of upon becoming unemployed, with collected data extracted and incorporated into the next iteration of the PAN.
+			Agent decision-making is driven a neural network known as an actor network, uniquely configured to meet the demands of the agent's consumer. Each actor network is a function $\func{\alpha}{S \times A}{\mathbb{R}}$, such that $\alpha_\theta(a | s)$ is a measure of the expected value of the action $a$ to the consumer. The parameters output by the PAN serve as weights for the actor network, and as such are the PANDA's means of manipulating agent activity. Here it is important to note that this algorithm differs from traditional reinforcement learning algorithms in that reward is dispensed to a PAN rather than the reinforcement agents. The weights on the agent's actor networks themselves are not trained - instead, training is concentrated on the advisor network that generates the weights from consumer specifications. In fact, agents and their networks have finite lifetimes, as they are disposed of upon becoming unemployed, with collected data extracted and incorporated into the next iteration of the PAN.
 
 			\begin{remark}
 				An agent is said to be \emph{unemployed} when the consumer to which it has been assigned has departed from the system. As agents are specifically designed to cater to a particular consumer, unemployed agents have minimal value to the scheduler beyond the information they have gathered over their lifetimes.
@@ -172,13 +174,13 @@
 				\item Wait - the agent delays consumption of resources until the subsequent time step. Wait requests are submitted as a Boolean scalar, as only one wait action may be performed per time step.
 			\end{enumerate}
 
-			The action network output is mapped to a Boolean vector by applying the Gibbs softmax function and sampling from the resultant Boltzmann distribution.
+			The actor network output is mapped to a Boolean vector by applying the Gibbs softmax function and sampling from the resultant Boltzmann distribution.
 
 		\subsubsection{System Supervisor}
 
-		Agent decisions are submitted as actions to a system supervisor, which resolves collisions between catch requests\footnote{Collision resolution methods currently being considered are allocating the resources in question on a first come, first served basis, and allocating them on the basis of need, determined from the output of the agent's actor networks.}. The supervisor then initiates consumption of collected resources, excluding those held by an agent whose action included wait operation.
-
-		The supervisor also tracks the progression of each specification through the system, and distributes reward to the respective agents according to a function of the collected data and potential consumer feedback. In the instance of the scalable cloud, reward will be computed upon completion of the job, at which point the total time spent in the system (the sum of wait time and run time) and any consumer feedback will be available and may be factored into the calculation. To maximize fairness, longer wait times would be permissible for jobs that placed larger demands on the system (in cores or core hours). Total time is the main factor to consider, as minimizing wait time will maximize system utilization, while reduced run time is a result of optimized resource selection. Both times would be normalized relative to expected values derived from the specification parameters and the state of the system.
+		Agent decisions are submitted as actions to a system supervisor, which resolves collisions between catch requests\footnote{Collision resolution methods currently being considered are (a) allocating the resources in question on a first come, first served basis, and (b) allocating them on the basis of need, determined from the output of the agent's actor networks.}. Once conflicts are resolved, the agent actions are executed in order of submission. The supervisor then initiates consumption of collected resources, excluding those held by an agent whose action included wait operation. 
+		
+		The supervisor also tracks the progression of each specification through the system, and distributes reward to the respective agents according to a function of the collected data and potential consumer feedback. In the instance of the scalable cloud, reward will be computed upon completion of the job, at which point the total time spent in the system (the sum of wait time and run time) and any consumer feedback will be available and may be factored into the calculation. To maximize fairness, longer wait times would be permissible for jobs that placed larger demands on the system (in core hours). Total time is the main factor to consider, as minimizing wait time will maximize system utilization, while reduced run time is a result of optimized resource selection. Both times would be normalized relative to expected values derived from the specification parameters and the state of the system.
 
 	\section{Training}
 
@@ -203,14 +205,14 @@
 		\end{definition}
 		
 		\begin{remark}
-			The intuition following this definition is that a good scheduler will, depending on the resources, have the $n$th consumer departure greater than maximum total time among $\mathbf{c}$, if the resoures provided can admit an embarassingly parallel situation for consumer use, and less than the sum of all the total times in the system among $\mathbf{c}$.
+			The intuition following this definition is that a good scheduler will, depending on the resources, have the $n$th consumer departure greater than maximum total time among $\mathbf{c}$, if the resources provided can admit an embarrassingly parallel situation for consumer use, and less than the sum of all the total times in the system among $\mathbf{c}$.
 		\end{remark}
 	
 		The data that will be collected on the system are those corresponding to the arrival, scheduling, and departure process. The data set will be of the form
 		\[
 		T = \{(\gamma_{i}, W_{i},\vec{t}_{i}, \vec{\delta}_{i}, \mathcal{R}_{i}, r_{i})\}_{i = 1}^{n} 
 		\]
-		where $\gamma_{i}$ is a specfication parameter vector, $W_{i}$ are the weights used for $\gamma_{i}$, $\vec{t}_{i} = (t_{1}, t_{2}) \in \mathbb{R}_{+}^{2}$ such that $t_{1}$ is the arrival time and $t_{2}$ is the departure time of $\gamma_{i}$, $\vec{\delta}_{i} = (\delta_{w}, \delta_{u}) \in \mathbb{R}_{+}^{2}$ such that $\delta_{w}$ is the wait time and $\delta_{u}$ is the use time of $\gamma_{i}$, $\mathcal{R}_{i}$ is the set of resources assigned to $\gamma_{i}$, and $r_{i}$ is the reward given to $\gamma_{i}$. 
+		where $\gamma_{i}$ is a specification parameter vector, $W_{i}$ are the weights used for $\gamma_{i}$, $\vec{t}_{i} = (t_{1}, t_{2}) \in \mathbb{R}_{+}^{2}$ such that $t_{1}$ is the arrival time and $t_{2}$ is the departure time of $\gamma_{i}$, $\vec{\delta}_{i} = (\delta_{w}, \delta_{u}) \in \mathbb{R}_{+}^{2}$ such that $\delta_{w}$ is the wait time and $\delta_{u}$ is the use time of $\gamma_{i}$, $\mathcal{R}_{i}$ is the set of resources assigned to $\gamma_{i}$, and $r_{i}$ is the reward given to $\gamma_{i}$. 
 		
 		From this data set we will be able to determine the data for the arrival, scheduling, departure processes. Additionally, any information that we will need to derive for PANDA will be derived from this data. 
 		
@@ -219,34 +221,5 @@
 	\section{Discussion}
 
 		\paragraph{Hybrid Approach}
-
-	\newpage
-
-	\begin{notation}
-		\notate{\gamma}{specification parameter}\\
-		\notate{\Gamma}{specification parameter space}\\
-		\notate{C}{a subset of consumers}\\
-		\notate{v}{a service}\\
-		\notate{V}{Set of services}\\
-		\notate{\rho(X)}{requirement function}\\
-		\notate{\reqop{\rho}{X}}{requirement operator with parameter set X}\\
-        \notate{\wedge}{and (joint)}\\
-        \notate{\cap}{intersection}\\
-        \notate{\psi(X)}{inspection function}\\
-        \notate{\phi}{acceptance requirement}\\
-		\notate{a}{an arriving process}\\
-		\notate{A,G}{assignment actions}\\
-		\notate{g}{an assignment process}\\
-		\notate{d}{a departure process}\\
-		\notate{D}{a departure action}\\
-        \notate{G}{a graph with vertices V, and Edges E}\\
-        \notate{\psi(X)}{inspection function}\\
-        \notate{\path{G}{(n)}}{a path in graph G of length n}\\
-        \notate{\sqcup}{disjoint union}\\
-        \notate{\cyclepath{G}(v)}{cycle in graph G from vertex v to vertex v}\\
-        \notate{\mathcal{P}(\gamma)}{policy advisor}
-     \end{notation}
-
-	\newpage
 
 \end{document}

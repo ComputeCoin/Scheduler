@@ -140,7 +140,7 @@
 		
 			\paragraph{Agents and Actor Networks}
 
-			Each consumer that enters the system is assigned an agent, which operates according to the policy output by the advisor network. The goal of an agent is to maximize reward collected by the PAN by obtaining the optimal set of resources that satisfies the consumer's specification, which occurs through an iterative process executed on each time step. The process is as follows:
+			Each consumer that enters the system is assigned an agent, which operates according to the policy output by the advisor network. The goal of an agent is to maximize reward collected by the PAN by obtaining the optimal set of resources that satisfies the consumer's specification. Resource collection occurs through through the following iterative process, executed on each time step:
 
 			\begin{enumerate}
 
@@ -152,7 +152,7 @@
 
 			\end{enumerate}
 
-			Agent function is driven by an actor network, which maps each potential component of the action to a real number measuring its expected value to the consumer given the current state type of the system. The parameters output by the PAN serve as weights for the action network, and as are the PANDA's means of manipulating agent activity. Here it is important to note that this algorithm differs from traditional reinforcement learning algorithms in that reward is dispensed to a PAN rather than the reinforcement agents. The weights on the agent's action networks themselves are not trained - instead, training is concentrated on the advisor network that generates the weights from consumer specifications. In fact, agents and their networks have finite lifetimes, as they are disposed of upon becoming unemployed, with collected data extracted and incorporated into the next iteration of the PAN.
+			Agent decision-making is driven a neural network known as an actor network, uniquely configured to meet the demands of the agent's consumer. Each actor network is a function $\func{\alpha}{S \times A}{\mathbb{R}}$, such that $\alpha_\theta(a | s)$ is a measure of the expected value of the action $a$ to the consumer. The parameters output by the PAN serve as weights for the actor network, and as such are the PANDA's means of manipulating agent activity. Here it is important to note that this algorithm differs from traditional reinforcement learning algorithms in that reward is dispensed to a PAN rather than the reinforcement agents. The weights on the agent's actor networks themselves are not trained - instead, training is concentrated on the advisor network that generates the weights from consumer specifications. In fact, agents and their networks have finite lifetimes, as they are disposed of upon becoming unemployed, with collected data extracted and incorporated into the next iteration of the PAN.
 
 			\begin{remark}
 				An agent is said to be \emph{unemployed} when the consumer to which it has been assigned has departed from the system. As agents are specifically designed to cater to a particular consumer, unemployed agents have minimal value to the scheduler beyond the information they have gathered over their lifetimes.
@@ -170,13 +170,11 @@
 				\item Wait - the agent delays consumption of resources until the subsequent time step. Wait requests are submitted as a Boolean scalar, as only one wait action may be performed per time step.
 			\end{enumerate}
 
-			The action network output is mapped to a Boolean vector by applying the Gibbs softmax function and sampling from the resultant Boltzmann distribution.
+			The actor network output is mapped to a Boolean vector by applying the Gibbs softmax function and sampling from the resultant Boltzmann distribution.
 
 		\subsubsection{System Supervisor}
 
-		Agent decisions are submitted as actions to a system supervisor, which resolves collisions between catch requests\footnote{Collision resolution methods currently being considered are allocating the resources in question on a first come, first served basis, and allocating them on the basis of need, determined from the output of the agent's actor networks.}. The supervisor then initiates consumption of collected resources, excluding those held by an agent whose action included wait operation.
-
-		The supervisor also tracks the progression of each specification through the system, and distributes reward to the respective agents according to a function of the collected data and potential consumer feedback. In the instance of the scalable cloud, reward will be computed upon completion of the job, at which point the total time spent in the system (the sum of wait time and run time) and any consumer feedback will be available and may be factored into the calculation. To maximize fairness, longer wait times would be permissible for jobs that placed larger demands on the system (in cores or core hours). Total time is the main factor to consider, as minimizing wait time will maximize system utilization, while reduced run time is a result of optimized resource selection. Both times would be normalized relative to expected values derived from the specification parameters and the state of the system.
+		Agent decisions are submitted as actions to a system supervisor, which resolves collisions between catch requests\footnote{Collision resolution methods currently being considered are allocating the resources in question on a first come, first served basis, and allocating them on the basis of need, determined from the output of the agent's actor networks.}. The supervisor then initiates consumption of collected resources, excluding those held by an agent whose action included wait operation. The supervisor also tracks the progression of each specification through the system, and distributes reward to the respective agents according to a function of the collected data and potential consumer feedback. In the instance of the scalable cloud, reward will be computed upon completion of the job, at which point the total time spent in the system (the sum of wait time and run time) and any consumer feedback will be available and may be factored into the calculation. To maximize fairness, longer wait times would be permissible for jobs that placed larger demands on the system (in core hours). Total time is the main factor to consider, as minimizing wait time will maximize system utilization, while reduced run time is a result of optimized resource selection. Both times would be normalized relative to expected values derived from the specification parameters and the state of the system.
 
 	\section{Training}
 

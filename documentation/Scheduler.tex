@@ -171,6 +171,8 @@
 				\item Release - the agent returns a held resource to the pool of available resources. Release requests are also submitted as a Boolean vector, with each component corresponding to an item in the pool of held resources.
 				\item Wait - the agent delays consumption of resources until the subsequent time step. Wait requests are submitted as a Boolean scalar, as only one wait action may be performed per time step.
 			\end{enumerate}
+		
+			\addpic{figures/agent_action.png}
 
 			The action network output is mapped to a Boolean vector by applying the Gibbs softmax function and sampling from the resultant Boltzmann distribution.
 

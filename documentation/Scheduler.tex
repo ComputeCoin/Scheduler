@@ -119,18 +119,18 @@
 
 		Upon submission by a user, a consumer enters the scheduling process and submits its specifications as a parameter vector, which is given to the policy advisor as input. The policy advisor produces a policy parameter vector which is then used as the weights of the actor network. The actor network is then used as the mechanism that the representing scheduling agent will sample from in order to perform actions within the system. In the end, the consumer leaves the scheduling process by consuming (running on) assigned resources. Once finished, the consumer gives feedback to the scheduler for further training improvement.
 
-		There are three levels of action under analysis, the agent action, the class action, and the system action. An agent action is produced by the actor network of a scheduling agent, a class action is a list of agent actions within the same class, and system action is a list of class actions submitted to the system, which is referred to in the diagram as the joint action of all the agents.
+		There are three levels of action under analysis, the agent action, the class action, and the system action. An agent action is produced by the actor network of a scheduling agent, a class action is a list of agent actions within the same class, and a system action is a list of class actions submitted to the system, which is referred to in the diagram as the joint action of all the agents.
 
 		\subsection{Model}
 
-		Given the nature of the dynamic and diverse system, the rigidness of other traditional scheduling solutions would be a critical problem in the efficiency and complexity of the scheduling. A reinforcement learning approach makes the system adaptable and flexible to changing conditions of the environment, which is very desirable. This model hopes to be able to give insight into multi-agent problems, as well as how to correct the relatively common sub-optimal solutions of greedy algorithms. Additionally the model hopes to show how reinforcement learning can be used usefully in combinatorial problem solving.
+		Given the nature of the dynamic and diverse system, the rigidness of other traditional scheduling solutions would be a critical problem in the efficiency and complexity of the scheduling. A reinforcement learning approach makes the system adaptable and flexible to changing conditions of the environment, which is very desirable. This model hopes to be able to give insight into multi-agent problems, as well as how to correct the relatively common sub-optimal solutions of greedy algorithms. Additionally the model hopes to show how reinforcement learning can be useful in combinatorial problem solving.
 
 			\subsubsection{Policy Advisor Network (PAN)}
 
 			The policy advisor is the mechanism which consumers utilize to encode their specification into their representative scheduling agents. These agents then use the output given by the policy advisor corresponding to their class in order to parameterize their policy. The policy advisor is defined as follows.
 
 			\begin{definition}
-				The \emph{policy advisor} is function $\mathcal{P}: \Gamma \rightarrow \Theta$, where $\Gamma$ is the specification parameter space and $\Theta$ is the policy parameter space.
+				The \emph{policy advisor} is a function $\mathcal{P}: \Gamma \rightarrow \Theta$, where $\Gamma$ is the specification parameter space and $\Theta$ is the policy parameter space.
 			\end{definition}
 
 			\begin{remark}
@@ -140,7 +140,7 @@
 
 				\paragraph{Topology}
 
-				The diagram below shows a simplified advisor network topology. The colors represent the different classes of specification parameter vectors. The numeric labels are indicative of the specification parameter vectors.
+				The diagram below shows a simplified PAN topology. The colors represent the different classes of the specification parameter space. The numeric labels are indicative of the specification parameter vectors.
 
 				\addpic{figures/advisor_topology.png}
 
@@ -148,7 +148,7 @@
 		
 			\paragraph{Agents and Actor Networks}
 
-			Each consumer that enters the system is assigned an agent, which operates according to the policy output by the advisor network. The goal of an agent is to maximize reward collected by the PAN by obtaining the optimal set of resources that satisfies the consumer's specification. Resource collection occurs through through the following iterative process, executed on each time step:
+			Each consumer that enters the system is assigned an agent, which operates according to the policy output by the advisor network. The goal of an agent is to maximize reward collected by the PAN by obtaining the optimal set of resources that satisfies the consumer's specification. Resource collection occurs through the following iterative process, executed on each time step:
 			
 			\addpic{figures/actor_network}
 
@@ -162,7 +162,7 @@
 
 			\end{enumerate}
 
-			Agent decision-making is driven a neural network known as an actor network, uniquely configured to meet the demands of the agent's consumer. Each actor network is a function $\func{\alpha}{S \times A}{\mathbb{R}}$, such that $\alpha_\theta(a | s)$ is a measure of the expected value of the action $a$ to the consumer. The parameters output by the PAN serve as weights for the actor network, and as such are the PANDA's means of manipulating agent activity. Here it is important to note that this algorithm differs from traditional reinforcement learning algorithms in that reward is dispensed to a PAN rather than the reinforcement agents. The weights on the agent's actor networks themselves are not trained - instead, training is concentrated on the advisor network that generates the weights from consumer specifications. In fact, agents and their networks have finite lifetimes, as they are disposed of upon becoming unemployed, with collected data extracted and incorporated into the next iteration of the PAN.
+			Agent decision-making is driven by a neural network known as an actor network, uniquely configured to meet the demands of the agent's consumer. Each actor network is a function $\func{\alpha}{S \times A}{\mathbb{R}}$, such that $\alpha_\theta(a | s)$ is a measure of the expected value of the action $a$ to the consumer. The parameters output by the PAN serve as weights for the actor network, and as such are the PANDA's means of manipulating agent activity. Here it is important to note that this algorithm differs from traditional reinforcement learning algorithms in that reward is dispensed to a PAN rather than the reinforcement agents. The weights on the agent's actor networks themselves are not trained - instead, training is concentrated on the PAN that generates the weights from consumer specifications. In fact, agents and their networks have finite lifetimes, as they are disposed of upon becoming unemployed, with collected data extracted and incorporated into the next iteration of the PAN.
 
 			\begin{remark}
 				An agent is said to be \emph{unemployed} when the consumer to which it has been assigned has departed from the system. As agents are specifically designed to cater to a particular consumer, unemployed agents have minimal value to the scheduler beyond the information they have gathered over their lifetimes.
@@ -170,27 +170,29 @@
 
 			\paragraph{Partial Observation and Attention Mechanism}
 			
-			In an effort to reduce the time complexity of the agent decision process, agent observation is limited to subset of viable resources rather than the entire resource space. This form of agent perception is not unlike that of humans, who tend to fixate on objects of interest and filter out irrelevant features of their environment. To mimic a human-like attention mechanism, the agents thus apply an appropriately named filter function $\func{\mathcal{F}}{Set}{Set}$ to sets of resources as they become available for consumption. Mathematically speaking, $\mathcal{F}$ maps a set of resources $X$ to some $X' \subseteq X$, such that $X'$ contains only those elements of $X$ whose expected value to the consumer eclipses a certain threshold. 
+			In an effort to reduce the time complexity of the agent decision process, agent observation is limited to subset of viable resources rather than the entire resource space. This form of agent perception is not unlike that of humans, who tend to fixate on objects of interest and filter out irrelevant features of their environment. To mimic a human-like attention mechanism, the agents thus apply an appropriately named filter function $\mathcal{F}: \mathbf{Set} \rightarrow \mathbf{Set}$ to sets of resources as they become available for consumption. Mathematically speaking, $\mathcal{F}$ maps a set of resources $X$ to some $X' \subseteq X$, such that $X'$ contains only those elements of $X$ whose expected value to the consumer eclipses a certain threshold. 
 			
 			The implementation of this function hinges on how the relative value of a resource may be estimated without compromising efficiency or relying on static numerical thresholds, which could compromise performance when operating within a dynamic environment. A potential solution employs the categorical representation of resources by assigning a weight to each resource type based on its conformity to the specification. As each cluster occupies some location in N-dimensional space, given by its center point, a weighted average of the type locations may be computed to estimate the ideal location for a resource given the consumer's specification. Resources within a certain distance limit (perhaps some function of the variance in type location) pass the filter, and are integrated into the agent's pool of observed resources.
 
 			\paragraph{Agent Actions}
 
-			At the end of each time step, agents submit an action to the system supervisor consisting of a three elementary action units. These action units will be performed in the order listed below upon execution of the action. The basic action units are as follows:
-
+			At the end of each time step, agents submit an action to the system supervisor consisting of three elementary action units. These action units will be performed in the order listed below upon execution of the action. The basic action units are as follows:
+			
+			\addpic{figures/agent_action.png}
+			
 			\begin{enumerate}
 				\item Catch - the agent acquires an available resource to be assigned to its consumer. Caught resources are held until consumed or a \emph{release} action is taken. Catch requests are submitted as a Boolean vector, with each component corresponding to an item in the pool of observed resources.
 				\item Release - the agent returns a held resource to the pool of available resources. Release requests are also submitted as a Boolean vector, with each component corresponding to an item in the pool of held resources.
 				\item Wait - the agent delays consumption of resources until the subsequent time step. Wait requests are submitted as a Boolean scalar, as only one wait action may be performed per time step.
 			\end{enumerate}
 		
-			\addpic{figures/agent_action.png}
+			
 
 			The actor network output is mapped to a Boolean vector by applying the softmax function and sampling from the resultant categorical distribution.
 
 		\subsubsection{System Supervisor}
 
-		Agent decisions are submitted as actions to a system supervisor, which resolves collisions between catch requests\footnote{Collision resolution methods currently being considered are (a) allocating the resources in question on a first come, first served basis, and (b) allocating them on the basis of need, determined from the output of the agent's actor networks.}. Once conflicts are resolved, the agent actions are executed in order of submission. The supervisor then initiates consumption of collected resources, excluding those held by an agent whose action included wait operation. 
+		Agent decisions are submitted as actions to a system supervisor, which resolves collisions between catch requests\footnote{Collision resolution methods currently being considered are (a) allocating the resources in question on a first come, first served basis, and (b) allocating them on the basis of need, determined from the output of the agent's actor networks.}. Once conflicts are resolved, the agent actions are executed in order of submission. The supervisor then initiates consumption of collected resources, excluding those held by an agent whose action included a wait operation. 
 		
 		The supervisor also tracks the progression of each specification through the system, and distributes reward to the respective agents according to a function of the collected data and potential consumer feedback. In the instance of the scalable cloud, reward will be computed upon completion of the job, at which point the total time spent in the system (the sum of wait time and run time) and any consumer feedback will be available and may be factored into the calculation. To maximize fairness, longer wait times would be permissible for jobs that placed larger demands on the system (in core hours). Total time is the main factor to consider, as minimizing wait time will maximize system utilization, while reduced run time is a result of optimized resource selection. Both times would be normalized relative to expected values derived from the specification parameters and the state of the system.
 
@@ -223,13 +225,13 @@
 		\]
 		where $\gamma_{i}$ is a specification parameter vector, $W_{i}$ are the weights used for $\gamma_{i}$, $\vec{t}_{i} = (t_{1}, t_{2}) \in \mathbb{R}_{+}^{2}$ such that $t_{1}$ is the arrival time and $t_{2}$ is the departure time of $\gamma_{i}$, $\vec{\delta}_{i} = (\delta_{w}, \delta_{u}) \in \mathbb{R}_{+}^{2}$ such that $\delta_{w}$ is the wait time and $\delta_{u}$ is the use time of $\gamma_{i}$, $\mathcal{R}_{i}$ is the set of resources assigned to $\gamma_{i}$, and $r_{i}$ is the reward given to $\gamma_{i}$. 
 		
-		From this data set we will be able to determine the data for the arrival, scheduling, departure processes. Additionally, any information that we will need to derive for PANDA will be derived from this data. 
+		From this data set we will be able to determine the data for the arrival, scheduling, departure processes. Additionally, any information required by the PANDA will be derived from this data set. 
 		
-		The model will be trained using the data collected on the agents in the system and then using the rewards and updated policy parameters from each individual agent to update the weights of the PAN. Each agent will collect reward at the end of each episode in the system (when a successful scheduling has occurred). This training will most likely go under a slow convergence considering the parameters being trained are the weights of the actor networks of the agents. Currently, we are constructing methods for translating rewards to other specification and policy parameters by using measure-preserving transformations. This method is explored as a way for overcoming the problem of learning how to distribute rewards for different policy parameters. This will hopefully lead to faster convergence, with respect to the PAN.
+		The model will be trained using the data collected on the agents in the system, using the rewards and updated policy parameters from each individual agent to update the weights of the PAN. Each agent will collect reward at the end of each episode in the system (when a successful scheduling has occurred). This training will most likely under go a slow convergence considering the parameters being trained are the weights of the actor networks of the agents. Currently, we are constructing methods for translating rewards to other specification and policy parameters by using measure-preserving transformations. This method is explored as a way for overcoming the problem of learning how to distribute rewards for different policy parameters. This will hopefully lead to faster convergence, with respect to the PAN.
 
 	\section{Discussion}
 	
-		The major advantages of using PANDA for job scheduling is that it allows to schedule jobs with a dynamic environment, allows for more user autonomy, and looks at the problem from a meta standpoint as opposed to an individual basis.  This all allows for a more streamline scheduling experience that allows for a more cohesive system that relies on less metrics than a typical static scheduler.
+		The major advantages of using PANDA for job scheduling is that it allows to schedule jobs within a dynamic environment, allows for more user autonomy, and looks at the problem from a meta standpoint as opposed to an individual basis.  This all allows for a more streamline scheduling experience that allows for a more cohesive system that relies on less metrics than a typical static scheduler.
 		
 		The setbacks for this approach include focusing too much on the big picture, or metadata, instead of looking at individual cases to better substantiate useful data, and the idea of letting users as well as the policy advisor handle fairness may lead to potential conflicts between consumers.
 		
@@ -247,7 +249,7 @@
 	
 	\section{Future Work}
 	
-	In future work, we will be establishing more formal and concrete definitions on scheduling policies concerning generic resources. We will be exploring this by utilizing literature on measure-preserving dynamical systems, decentralized partially observable Markov decision processes, and competitive/cooperative multi-agent systems. Additionally, we will be observing and analyzing the real-time data we recieve from the system, in order to guide the future of the architecture in the right direction. We will also be keeping the integrity of the data as our highest priority, as for it to have no dependence on the scheduling system that is used. This choice should only effect observations such as interdeparture times and the average total time in the system for a consumer.
+	In future work, we will be establishing more formal and concrete definitions on scheduling policies concerning generic resources. We will be exploring this by utilizing literature on measure-preserving dynamical systems, decentralized partially observable Markov decision processes, and competitive/cooperative multi-agent systems. Additionally, we will be observing and analyzing the real-time data we recieve from the system, in order to guide the future of the architecture in the right direction. We will also be keeping the integrity of the data as our highest priority, as for it to have no dependence on the scheduling system that is used. This choice should only affect observations such as interdeparture times and the average total time in the system for a consumer.
 
 	\newpage
 	

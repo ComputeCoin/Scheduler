@@ -100,6 +100,10 @@
 
 
 	\section{Previous Work}
+	
+	\section{Preliminary Data Processing}
+	
+	In the interest of improving efficiency and accelerating convergence of the reinforcement model, aspects of the environment are grouped utilizing a probabilistic approach to agglomerative hierarchical clustering called Bayesian hierarchical clustering (Heller and Ghahramani 2005). Using this method, consumers, resources, and states are classified into types, each representable by a numeric label (e.g. 1, 2). After classification, consumer specification parameters and consumer types are fed into a policy advisor network, which then outputs policy parameters for a scheduling agent to use for the duration of their search. Node and state types are reserved for components of the agent decision model, where they can greatly improve algorithmic performance simply by reducing their respective spaces to tractable sizes.
 
 	\section{Policy Advisor Network and Decision Architecture (PANDA)}
 
@@ -119,7 +123,7 @@
 
 		Given the nature of the dynamic and diverse system, the rigidness of other traditional scheduling solutions would be a critical problem in the efficiency and complexity of the scheduling. A reinforcement learning approach makes the system adaptable and flexible to changing conditions of the environment, which is very desirable. This model hopes to be able to give insight into multi-agent problems, as well as how to correct the relatively common sub-optimal solutions of greedy algorithms. Additionally the model hopes to show how reinforcement learning can be used usefully in combinatorial problem solving.
 
-			\subsubsection{Policy Advisor Network}
+			\subsubsection{Policy Advisor Network (PAN)}
 
 			The policy advisor is the mechanism which consumers utilize to encode their specification into their representative scheduling agents. These agents then use the output given by the policy advisor corresponding to their class in order to parameterize their policy. The policy advisor is defined as follows.
 
@@ -164,7 +168,7 @@
 
 			\paragraph{Partial Observation and Attention Mechanism}
 			
-			
+			In an effort to reduce the time complexity of the agent decision process, 
 
 			\paragraph{Agent Actions}
 
@@ -187,10 +191,6 @@
 		The supervisor also tracks the progression of each specification through the system, and distributes reward to the respective agents according to a function of the collected data and potential consumer feedback. In the instance of the scalable cloud, reward will be computed upon completion of the job, at which point the total time spent in the system (the sum of wait time and run time) and any consumer feedback will be available and may be factored into the calculation. To maximize fairness, longer wait times would be permissible for jobs that placed larger demands on the system (in core hours). Total time is the main factor to consider, as minimizing wait time will maximize system utilization, while reduced run time is a result of optimized resource selection. Both times would be normalized relative to expected values derived from the specification parameters and the state of the system.
 
 	\section{Training}
-
-		\subsection{Pre-Training}
-
-		Using Bayesian hierarchical clustering, consumers are classified into a certain consumer type represented by a numeric label (e.g. 1, 2). After classification, the consumer then enters their specification parameters and consumer type into a policy advisor which then outputs policy parameters for a scheduling agent to use, for the duration of their search.
 
 		\subsection{Model Training}
 		% Question:

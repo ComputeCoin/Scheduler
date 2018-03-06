@@ -11,6 +11,11 @@
 \usepackage{caption}
 \usepackage{enumitem}
 \usepackage{multirow}
+ \usepackage[
+	backend=biber,
+	style=ieee,
+]{biblatex}
+\addbibresource{references.bib}
 
 \newenvironment{notation}
 {
@@ -41,7 +46,7 @@
 \newcommand{\reqfunc}[2]{#1:#2\rightarrow\mathbb{B}}
 \newcommand{\reqop}[2]{\mathbf{Req}_{#1}(#2)}
 
-\newcommand{\path}[2]{\mathbf{Path}^{#2}_{#1}}
+\newcommand{\Path}[2]{\mathbf{Path}^{#2}_{#1}}
 \newcommand{\pathall}[1]{\mathbf{Path}_{#1}}
 \newcommand{\cyclepath}[1]{\mathbf{Cycle}_{#1}}
 
@@ -217,12 +222,16 @@
 		\notate{D}{a departure action}\\
         \notate{G}{a graph with vertices V, and Edges E}\\
         \notate{\psi(X)}{inspection function}\\
-        \notate{\path{G}{(n)}}{a path in graph G of length n}\\
+        \notate{\Path{G}{(n)}}{a path in graph G of length n}\\
         \notate{\sqcup}{disjoint union}\\
         \notate{\cyclepath{G}(v)}{cycle in graph G from vertex v to vertex v}\\
         \notate{\mathcal{P}(\gamma)}{policy advisor}
      \end{notation}
 
 	\newpage
+	
+	\cite{carastan2017obtaining}
+
+	\printbibliography
 
 \end{document}

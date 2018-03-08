@@ -101,8 +101,9 @@
 	In such a dynamic, diverse system (given the sheer number of factors to account	for), traditional static scheduling algorithms such as linear programming can often be nullified by rapidly changing and at times unreliable resource pools. Therefore, we elected to confront the problem with a reinforcement learning algorithm specifically adapted to this and similar environments. The algorithm is highly dependent on the system's partitioning into measurable (numerically describable) components, and typifying these components for efficient processing - thus we focused on separability and producing quantifiable descriptors of the system. What follows is a detailed specification of the resultant scheduling paradigm: first of the reinforcement model PANDA (Policy Advisor Network and Decision Architecture), and then the training of this model and further discussions.
 
 
-	%\section{Previous Work}
+	\section{Previous Work}
 	
+	Traditional scheduling theory has been thoroughly studied, with different approaches such as deterministic and stochastic models and wide range of system implementations \cite{pinedo2016scheduling}. In recent years, along with the significant advances of deep learning, multi-agent, multi-task learning in non-stationary environments have started to attract attention \cite{al2017continuous, omidshafiei2017deep, foerster2016learning, tampuu2017multiagent, bansal2017emergent, frans2017meta}. Combining these two areas would provide a solution mechanism to the dynamic scheduling problem. Several similar scheduling studies concerning the dynamic environments \cite{tang2009fault, carastan2017obtaining} showed that this issue has been of growing importance in large-scale HPC and cloud platforms. However, most of the previous studies have not taken into account the full range of the changing factors in a highly distributed cloud environment, while maintaining good scheduling performance.
 	
 	\section{Preliminary Data Processing}
 	
@@ -246,7 +247,7 @@
 
 		\paragraph{Hybrid Approach} 
 		
-		In order to integrate PANDA into a real-time system we will gradually transition from a static model. We will implement a cake-cutting algorithm (\cite{procaccia2015cake, aziz2016discrete}) that will use a discrete envy-free protocol, equipped for handling any number of agents. 
+		In order to integrate PANDA into a real-time system we will gradually transition from a static model. We will implement a cake-cutting algorithm \cite{procaccia2015cake, aziz2016discrete} that will use a discrete envy-free protocol, equipped for handling any number of agents. 
 		
 		\begin{remark}
 			This approach will be dealt with on a cautionary level because the integrity of scheduling data will be affected as different scheduling algorithms are used. We will take this as an opportunity to gather large amounts of data that exceed the currently available data in literature and given out by other companies (e.g. Google Cloud Platform and Amazon Web Services).

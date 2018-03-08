@@ -210,25 +210,43 @@
 		% 	    2.  How long is this training going to take?
 		% 	    3.  How do you plan on mitigating the known set backs?
 		
-		As was previously mentioned, the only metric that will be observed is the total time a consumer is in the system. With this in mind, we will first give a first attempt at a definition of what constitutes a sufficient scheduling policy. Let $c_{n}$ represent the $n$th consumer leaving system. Firstly, we will observe a stochastic process, $\mathcal{D} = \{(T_{n}, \delta_{n}, \mu_{n}); n \in \mathbb{N}\}$, where $T_{n}$ is the time between $c_{n}$ and $c_{n-1}$ times of occurence, $\delta_{n}$ is the total time consumer $c_{n}$ was in the system, and $\mu_{n}$ is the utility of consumer $c_{n}$.
+		As was previously mentioned, the only metric that will be observed is the total time a consumer is in the system. With this in mind, we will first give a first attempt at a definition of what constitutes a valid schedule. Let $c_{n}$ represent the $n$th consumer leaving system. Firstly, we will observe a stochastic process, $\mathcal{D} = \{(T_{n}, \delta_{n}, \mu_{n}); n \in \mathbb{N}\}$, where $T_{n}$ is the time between $c_{n}$ and $c_{n-1}$ times of occurence, $\delta_{n}$ is the total time consumer $c_{n}$ was in the system, and $\mu_{n}$ is the utility of consumer $c_{n}$.
+		
+		\addpic{figures/consumer-departure-process.png}
 	
 		\begin{definition}
-			Let $\mathcal{D} = \{(T_{n}, \delta_{n}, \mu_{n}); n \in \mathbb{N}\}$ be a stochastic process and $\mathbf{c} = (c_{1}, \ldots ,c_{n})$ be a sequence of consumers that have left the system. A scheduling policy is said to be sufficient if
+			Let $\mathcal{D} = \{(T_{n}, \delta_{n}, \mu_{n}); n \in \mathbb{N}\}$ be a stochastic process and $\mathbf{c} = (c_{1}, \ldots ,c_{n})$ be a sequence of consumers that have left the system. A scheduling policy is said to be \emph{valid} if
 			\[
-			S_{n} \in \left[\hspace{0.1in}\max_{i \in \underline{n}}\{\delta_{i}\}, \hspace{0.1in} \sum_{i \in \underline{n}}{\delta_{i}}\right] \subseteq \mathbb{R}_{+}
+			D_{n} \in \left[\hspace{0.1in}\max_{i \in \underline{n}}\{\delta_{i}\}, \hspace{0.1in} \sum_{i \in \underline{n}}{\delta_{i}}\right] \subseteq \mathbb{R}_{+}
 			\] 
-			where $S_{n} = \sum_{i=1}^{n}{T_{i}}$.
+			where $D_{n} = \sum_{i=1}^{n}{T_{i}}$.
 		\end{definition}
 		
 		\begin{remark}
 			The distance of $S_{n}$ from the lower and upper bound represent the degree of parallel uses of the resources, the lower bound being embarrassingly parallel and the upper bound being strictly sequential.
 		\end{remark}
-<<<<<<< HEAD
-			
-=======
-		The intuition following this definition is that a sufficient scheduling policy will effectively , depending on the resources, force the sum of inter-departure times to fall within these bounds. If $S_{n}$ falls above the upper bound then the scheduling policy was \emph{inefficient}.
+				
+		The intuition following this definition is that a valid scheduling policy will effectively , depending on the resources, force the sum of interdeparture times to fall within these bounds. If $D_{n}$ falls above the upper bound then the scheduling policy was \emph{invalid}. Therefore, the desired objective in a schedule is to minimize the expected lower bound of the interval, and maximize the expected difference of $D_{n}$ from the upper bound of the interval.
+		
+		Here is a list of some metrics for scheduling and our reasons for believing they are dependent on time.
+		\flushleft 
+		\begin{enumerate}
+			\item[(1)] \mbox{\emph{Flow Rate (throughput)}} \\
+			The flow rate is the number of jobs that the system can process within a given time interval. This is dependent on the interdeparture times, the maximum total time and the sum of all total times a job is in the system. A minmization in expected interdeparture times will lead to more jobs being completed in a given time interval, meaning a higher flow rate.
+			\item[(2)] \mbox{\emph{System Utilization}} \\
+			If the system is being utilized to its full capacity it would mean that it could complete more jobs within a given time interval than if it was not being fully utilized, which is along the lines of maximizing flow rate.
+			\item[(3)] \mbox{\emph{Fairness}} \\
+			Fairness is a subjective metric because it is completely dependent on the agents claiming unfairness. Additionally most literature tries to maximize fairness, however, this seems odd for the fact that there is no optimal level of fairness, there is just equilibrium on total time in the system among agents. In which case the goal would be to minimize deviation from equilibrium, hence minimizing unfairness by minimizing variance among total times in the system. It is much easier to see what is not fair than what is fair. With that in mind it should ultimately be up to the users instead of the creators. If they feel that the scheduling is unfair then they should be given the option to say so. This has the benefit of being able to directly know what constitutes a "fair" scheduling algorithm. On that note, we can be sure that all agents would like to be in the system for as short of a time as possible, hence minimizing the expected total time in system would, at worst, have no effect on the fairness and would, at best, render a less unfair system.
+		\end{enumerate}
 	
->>>>>>> 8639ce573969ac7a3e4c90fa8d2c6e6183e49f10
+		Given this definition there are some reward functions that will be reviewed and chosen based on performance of the scheduler. At the agent level the goal is to minimize the total time that their job is in the system, at the class level it is to minimize unfairness among agents within the class, and at the system level it is to minimize the sum of interdeparture times. Additionally, one could consider an optimal schedule $s^{*}$ to be
+		\[
+		s^{*} = \mbox{arg}\max_{s}
+		\left(
+			\sum_{i \in \underline{n}}{\delta_{i}} - D_{n}
+		\right).
+		\]
+	
 		The data that will be collected on the system are those corresponding to the arrival, scheduling, and departure process. The data set will be of the form
 		\[
 		T = \{(\gamma_{i}, W_{i},\vec{t}_{i}, \vec{\delta}_{i}, \mathcal{R}_{i}, r_{i})\}_{i = 1}^{n} 
@@ -241,17 +259,11 @@
 
 	\section{Discussion}
 	
-		The major advantages of using PANDA for job scheduling is that it allows to schedule jobs within a dynamic environment, allows for more user autonomy, and looks at the problem from a meta standpoint as opposed to an individual basis.  This all allows for a more streamline scheduling experience that allows for a more cohesive system that relies on less metrics than a typical static scheduler.
-		
-		The setbacks for this approach include focusing too much on the big picture, or metadata, instead of looking at individual cases to better substantiate useful data, and the idea of letting users as well as the policy advisor handle fairness may lead to potential conflicts between consumers.
-		
-		The plan is to collect consistent analysis of data that comes in with each consumer and create a relationship function between the parameters so we can extrapolate where conflicts occur, hence being able to push policy advisors to make certain decisions based on expectations of recent data.
-		
-		A general multitude of simulations will be run in order to get an idea of what possible conflicts may arise with our approach to this problem, allowing us to fine tune individual issues, which can allow us to handle problems that arise in the metadata before even receiving said data.
+		The major advantages of using PANDA for job scheduling is its potential for online scheduling. This provides a more streamline scheduling experience while rendering a cohesive system that relies on less metrics than a typical static scheduler. A general multitude of simulations will be run in order to locate conflicts that may arise with our approach to this problem, allowing us to fine tune individual issues which can prevent problems that may arise in the metadata before recieving the data.
 
 		\paragraph{Hybrid Approach} 
 		
-		In order to integrate PANDA into a real-time system we will gradually transition from a static model. We will implement a cake-cutting algorithm \cite{procaccia2015cake, aziz2016discrete} that will use a discrete envy-free protocol, equipped for handling any number of agents. 
+		In order to integrate PANDA into a real-time system we will gradually transition from an static model. We could implement a cake-cutting algorithm \cite{procaccia2015cake, aziz2016discrete} that will use a discrete envy-free protocol, equipped for handling any number of agents. 
 		
 		\begin{remark}
 			This approach will be dealt with on a cautionary level because the integrity of scheduling data will be affected as different scheduling algorithms are used. We will take this as an opportunity to gather large amounts of data that exceed the currently available data in literature and given out by other companies (e.g. Google Cloud Platform and Amazon Web Services).
@@ -259,7 +271,7 @@
 	
 	\section{Future Work}
 	
-	In future work, we will be establishing more formal and concrete definitions on scheduling policies concerning generic resources. We will be exploring this by utilizing literature on measure-preserving dynamical systems, decentralized partially observable Markov decision processes, and competitive/cooperative multi-agent systems. Additionally, we will be observing and analyzing the real-time data we receive from the system, in order to guide the future of the architecture in the right direction. We will also be keeping the integrity of the data as our highest priority, as for it to have no dependence on the scheduling system that is used. This choice should only affect observations such as inter-departure times and the average total time in the system for a consumer.
+	In future work, we will be establishing more formal and concrete definitions on scheduling policies (better than what there currently is). We will be exploring this by utilizing literature on measure-preserving dynamical systems, decentralized partially observable Markov decision processes, and competitive/cooperative multi-agent systems. Additionally, we will be observing and analyzing the real-time data we receive from the system, in order to guide the future of the architecture in the right direction. We will also be keeping the integrity of the data as our highest priority, as for it to have no dependence on the scheduling system that is used. This choice should only affect observations such as inter-departure times and the average total time in the system for a consumer.
 
 	\newpage
 

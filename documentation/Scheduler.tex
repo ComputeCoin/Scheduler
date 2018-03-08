@@ -12,7 +12,7 @@
 \usepackage{caption}
 \usepackage{enumitem}
 \usepackage{multirow}
- \usepackage[
+\usepackage[
 	backend=biber,
 	style=ieee,
 ]{biblatex}
@@ -101,8 +101,9 @@
 	In such a dynamic, diverse system (given the sheer number of factors to account	for), traditional static scheduling algorithms such as linear programming can often be nullified by rapidly changing and at times unreliable resource pools. Therefore, we elected to confront the problem with a reinforcement learning algorithm specifically adapted to this and similar environments. The algorithm is highly dependent on the system's partitioning into measurable (numerically describable) components, and typifying these components for efficient processing - thus we focused on separability and producing quantifiable descriptors of the system. What follows is a detailed specification of the resultant scheduling paradigm: first of the reinforcement model PANDA (Policy Advisor Network and Decision Architecture), and then the training of this model and further discussions.
 
 
-	%\section{Previous Work}
+	\section{Previous Work}
 	
+	Traditional scheduling theory has been thoroughly studied, with different approaches such as deterministic and stochastic models and wide range of system implementations \cite{pinedo2016scheduling}. In recent years, along with the significant advances of deep learning, multi-agent, multi-task learning in non-stationary environments have started to attract attention \cite{al2017continuous, omidshafiei2017deep, foerster2016learning, tampuu2017multiagent, bansal2017emergent, frans2017meta}. Combining these two areas would provide a solution mechanism to the dynamic scheduling problem. Several similar scheduling studies concerning the dynamic environments \cite{tang2009fault, carastan2017obtaining} showed that this issue has been of growing importance in large-scale HPC and cloud platforms. However, most of the previous studies have not taken into account the full range of the changing factors in a highly distributed cloud environment, while maintaining good scheduling performance.
 	
 	\section{Preliminary Data Processing}
 	
@@ -115,8 +116,11 @@
 		\subsection{Overview}
 
 		The diagram below shows the complete PANDA model, which represents one time step of the entire algorithm. Each parameter class is represented using a color residing in the box labeled agents. The square box represents a specification parameter class and there are a set of agents that exist within that class at any one time step.
-
-		\addpic{figures/general_diagram.png}
+	
+	 	  
+	 	\addpic{figures/general_diagram}
+	 	.\hspace{2cm}  Figure 1:  General Scheduling Process (PANDA)			
+		
 
 		Upon submission by a user, a consumer enters the scheduling process and submits its specifications as a parameter vector, which is given to the policy advisor as input. The policy advisor produces a policy parameter vector which is then used as the weights of the actor network. The actor network is then used as the mechanism that the representing scheduling agent will sample from in order to perform actions within the system. In the end, the consumer leaves the scheduling process by consuming (running on) assigned resources. Once finished, the consumer gives feedback to the scheduler for further training improvement.
 
@@ -144,6 +148,7 @@
 				The diagram below shows a simplified PAN topology. The colors represent the different classes of the specification parameter space. The numeric labels are indicative of the specification parameter vectors.
 
 				\addpic{figures/advisor_topology.png}
+		 		.\hspace{3 cm}  Figure 2:  Advisor Topology	
 
 		\subsubsection{Agent Model}
 		
@@ -152,7 +157,8 @@
 			Each consumer that enters the system is assigned an agent, which operates according to the policy output by the advisor network. The goal of an agent is to maximize reward collected by the PAN by obtaining the optimal set of resources that satisfies the consumer's specification. Resource collection occurs through the following iterative process, executed on each time step:
 			
 			\addpic{figures/actor_network}
-
+			.\hspace{3.5cm}  Figure 3:  Actor Network
+			
 			\begin{enumerate}
 
 				\item Given the state of the system, its policy parameters, and its assigned specification, each agent selects an action to take based on a stochastic decision model. The action is a composite structure of atomic action units, and will be described in detail later in this section.
@@ -180,6 +186,7 @@
 			At the end of each time step, agents submit an action to the system supervisor consisting of three elementary action units. These action units will be performed in the order listed below upon execution of the action. The basic action units are as follows:
 			
 			\addpic{figures/agent_action.png}
+			.\hspace{3.5 cm}  Figure 4:  Agent Action	
 			
 			\begin{enumerate}
 				\item Catch - the agent acquires an available resource to be assigned to its consumer. Caught resources are held until consumed or a \emph{release} action is taken. Catch requests are submitted as a Boolean vector, with each component corresponding to an item in the pool of observed resources.
@@ -214,9 +221,14 @@
 		\end{definition}
 		
 		\begin{remark}
-			The distance of $S_{n}$ from the lower and upper bound represent the degree of parallel uses of the resources, the lower bound being embarassingly parallel and the upper bound being strictly sequential.
+			The distance of $S_{n}$ from the lower and upper bound represent the degree of parallel uses of the resources, the lower bound being embarrassingly parallel and the upper bound being strictly sequential.
 		\end{remark}
+<<<<<<< HEAD
 			
+=======
+		The intuition following this definition is that a sufficient scheduling policy will effectively , depending on the resources, force the sum of inter-departure times to fall within these bounds. If $S_{n}$ falls above the upper bound then the scheduling policy was \emph{inefficient}.
+	
+>>>>>>> 8639ce573969ac7a3e4c90fa8d2c6e6183e49f10
 		The data that will be collected on the system are those corresponding to the arrival, scheduling, and departure process. The data set will be of the form
 		\[
 		T = \{(\gamma_{i}, W_{i},\vec{t}_{i}, \vec{\delta}_{i}, \mathcal{R}_{i}, r_{i})\}_{i = 1}^{n} 
@@ -239,7 +251,7 @@
 
 		\paragraph{Hybrid Approach} 
 		
-		In order to integrate PANDA into a real-time system we will gradually transition from a static model. We will implement a cake-cutting algorithm that will use a discrete envy-free protocol, equipped for handling any number of agents. 
+		In order to integrate PANDA into a real-time system we will gradually transition from a static model. We will implement a cake-cutting algorithm \cite{procaccia2015cake, aziz2016discrete} that will use a discrete envy-free protocol, equipped for handling any number of agents. 
 		
 		\begin{remark}
 			This approach will be dealt with on a cautionary level because the integrity of scheduling data will be affected as different scheduling algorithms are used. We will take this as an opportunity to gather large amounts of data that exceed the currently available data in literature and given out by other companies (e.g. Google Cloud Platform and Amazon Web Services).
@@ -247,12 +259,10 @@
 	
 	\section{Future Work}
 	
-	In future work, we will be establishing more formal and concrete definitions on scheduling policies concerning generic resources. We will be exploring this by utilizing literature on measure-preserving dynamical systems, decentralized partially observable Markov decision processes, and competitive/cooperative multi-agent systems. Additionally, we will be observing and analyzing the real-time data we receive from the system, in order to guide the future of the architecture in the right direction. We will also be keeping the integrity of the data as our highest priority, as for it to have no dependence on the scheduling system that is used. This choice should only affect observations such as interdeparture times and the average total time in the system for a consumer.
+	In future work, we will be establishing more formal and concrete definitions on scheduling policies concerning generic resources. We will be exploring this by utilizing literature on measure-preserving dynamical systems, decentralized partially observable Markov decision processes, and competitive/cooperative multi-agent systems. Additionally, we will be observing and analyzing the real-time data we receive from the system, in order to guide the future of the architecture in the right direction. We will also be keeping the integrity of the data as our highest priority, as for it to have no dependence on the scheduling system that is used. This choice should only affect observations such as inter-departure times and the average total time in the system for a consumer.
 
-	%\newpage
-	
-	%\cite{carastan2017obtaining}
+	\newpage
 
-	%\printbibliography
+	\printbibliography
 
 \end{document}

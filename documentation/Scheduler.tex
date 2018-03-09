@@ -186,7 +186,7 @@
 			At the end of each time step, agents submit an action to the system supervisor consisting of three elementary action units. These action units will be performed in the order listed below upon execution of the action. The basic action units are as follows:
 			
 			\addpic{figures/agent_action.png}
-			.\hspace{3.5 cm}  Figure 4:  Agent Action	
+				.\hspace{3.5 cm}  Figure 4:  Agent Action	
 			
 			\begin{enumerate}
 				\item Catch - the agent acquires an available resource to be assigned to its consumer. Caught resources are held until consumed or a \emph{release} action is taken. Catch requests are submitted as a Boolean vector, with each component corresponding to an item in the pool of observed resources.
@@ -200,7 +200,7 @@
 
 		Agent decisions are submitted as actions to a system supervisor, which resolves collisions between catch requests\footnote{Collision resolution methods currently being considered are (a) allocating the resources in question on a first come, first served basis, and (b) allocating them on the basis of need, determined from the output of the agent's actor networks.}. Once conflicts are resolved, the agent actions are executed in order of submission. The supervisor then initiates consumption of collected resources, excluding those held by an agent whose action included a wait operation. 
 		
-		The supervisor also tracks the progression of each specification through the system, and distributes reward to the respective agents according to a function of the collected data and potential consumer feedback. In the instance of the scalable cloud, reward will be computed upon completion of the job, at which point the total time spent in the system (the sum of wait time and run time) and any consumer feedback will be available and may be factored into the calculation. To maximize fairness, longer wait times would be permissible for jobs that placed larger demands on the system (in core hours). Total time is the main factor to consider, as minimizing wait time will maximize system utilization, while reduced run time is a result of optimized resource selection. Both times would be normalized relative to expected values derived from the specification parameters and the state of the system.
+		The supervisor also tracks the progression of each specification through the system, and distributes reward to the respective agents according to a function of the collected data and potential consumer feedback. In the instance of the scalable cloud, reward will be computed upon completion of the job, at which point the total time spent in the system (the sum of wait time and run time) and any consumer feedback will be available and may be factored into the calculation. To maximize fairness, longer wait times would be permissible for jobs that placed larger demands on the system (in core hours). Total time is the main factor to consider, as minimizing wait time will maximize system utilization, while  reduced run time is a result of optimized resource selection. Both times would be normalized relative to expected values derived from the specification parameters and the state of the system.
 
 	\section{Training}
 
@@ -232,20 +232,21 @@
 		\flushleft 
 		\begin{enumerate}
 			\item[(1)] \mbox{\emph{Flow Rate (throughput)}} \\
-			The flow rate is the number of jobs that the system can process within a given time interval. This is dependent on the interdeparture times, the maximum total time and the sum of all total times a job is in the system. A minmization in expected interdeparture times will lead to more jobs being completed in a given time interval, meaning a higher flow rate.
+			The flow rate is the number of jobs that the system can process within a given time interval. This is dependent on the interdeparture times, the maximum total time and the sum of all total times a job is in the system. A minimization in expected interdeparture times will lead to more jobs being completed in a given time interval, meaning a higher flow rate.
 			\item[(2)] \mbox{\emph{System Utilization}} \\
 			If the system is being utilized to its full capacity it would mean that it could complete more jobs within a given time interval than if it was not being fully utilized, which is along the lines of maximizing flow rate.
 			\item[(3)] \mbox{\emph{Fairness}} \\
-			Fairness is a subjective metric because it is completely dependent on the agents claiming unfairness. Additionally most literature tries to maximize fairness, however, this seems odd for the fact that there is no optimal level of fairness, there is just equilibrium on total time in the system among agents. In which case the goal would be to minimize deviation from equilibrium, hence minimizing unfairness by minimizing variance among total times in the system. It is much easier to see what is not fair than what is fair. With that in mind it should ultimately be up to the users instead of the creators. If they feel that the scheduling is unfair then they should be given the option to say so. This has the benefit of being able to directly know what constitutes a "fair" scheduling algorithm. On that note, we can be sure that all agents would like to be in the system for as short of a time as possible, hence minimizing the expected total time in system would, at worst, have no effect on the fairness and would, at best, render a less unfair system.
+			Fairness is a subjective metric because it is completely dependent on the agents claiming unfairness. Additionally most literature tries to maximize fairness, however, this seems odd for the fact that there is no optimal level of fairness, there is just equilibrium on total time in the system among agents. In which case the goal would be to minimize deviation from equilibrium, hence minimizing unfairness by minimizing variance among total times in the system. It is much easier to see what is not fair than what is fair, therefore it should ultimately be up to the users instead of the creators. If they feel that the scheduling is unfair then they should be given the option to say so. This has the benefit of being able to directly know what constitutes a "fair" scheduling algorithm. Additionally, we can be sure that all agents would like to be in the system for as short of a time as possible, hence minimizing the expected total time in system would, at worst, have no effect on the fairness and would, at best, render a less unfair system.
 		\end{enumerate}
 	
-		Given this definition there are some reward functions that will be reviewed and chosen based on performance of the scheduler. At the agent level the goal is to minimize the total time that their job is in the system, at the class level it is to minimize unfairness among agents within the class, and at the system level it is to minimize the sum of interdeparture times. Additionally, one could consider an optimal schedule $s^{*}$ to be
-		\[
-		s^{*} = \mbox{arg}\max_{s}
-		\left(
-			\sum_{i \in \underline{n}}{\delta_{i}} - D_{n}
-		\right).
-		\]
+		Given this definition there are some reward functions that will be reviewed and chosen based on performance of the scheduler. At the agent level the goal is to minimize the total time that their job is in the system, at the class level it is to minimize unfairness among agents within the class, and at the system level it is to minimize the sum of interdeparture times. 
+		%Additionally, one could consider an optimal schedule $s^{*}$ to be
+		%\[
+		%s^{*} = \mbox{arg}\max_{s}
+		%\left(
+		%	\sum_{i \in \underline{n}}{\delta_{i}} - D_{n}
+		%\right).
+		%\]
 	
 		The data that will be collected on the system are those corresponding to the arrival, scheduling, and departure process. The data set will be of the form
 		\[

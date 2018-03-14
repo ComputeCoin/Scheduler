@@ -213,6 +213,7 @@
 		As was previously mentioned, the only metric that will be observed is the total time a consumer is in the system. With this in mind, we will first give a first attempt at a definition of what constitutes a valid schedule. Let $c_{n}$ represent the $n$th consumer leaving system. Firstly, we will observe a stochastic process, $\mathcal{D} = \{(T_{n}, \delta_{n}, \mu_{n}); n \in \mathbb{N}\}$, where $T_{n}$ is the time between $c_{n}$ and $c_{n-1}$ times of occurrence, $\delta_{n}$ is the total time consumer $c_{n}$ was in the system, and $\mu_{n}$ is the utility of consumer $c_{n}$.
 		
 		\addpic{figures/consumer-departure-process.png}
+		.\hspace{3.5 cm}  Figure 5:  Consumer Departure Process	
 	
 		\begin{definition}
 			Let $\mathcal{D} = \{(T_{n}, \delta_{n}, \mu_{n}); n \in \mathbb{N}\}$ be a stochastic process and $\mathbf{c} = (c_{1}, \ldots ,c_{n})$ be a sequence of consumers that have left the system. A scheduling policy is said to be \emph{valid} if

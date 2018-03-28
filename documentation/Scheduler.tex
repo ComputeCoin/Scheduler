@@ -118,8 +118,8 @@
 		The diagram below shows the complete PANDA model, which represents one time step of the entire algorithm. Each parameter class is represented using a color residing in the box labeled agents. The square box represents a specification parameter class and there are a set of agents that exist within that class at any one time step.
 	
 	 	  
-	 	\addpic{figures/general_diagram_2}
-	 	.\hspace{2cm}  Figure 1:  General Scheduling Process (PANDA)			
+	 	\addpic{figures/general_diagram}
+	 	.\hspace{2cm}  Figure 1:  General Scheduling Process (PANDA)			 
 		
 
 		Upon submission by a user, a consumer enters the scheduling process and submits its specifications as a parameter vector, which is given to the policy advisor as input. The policy advisor produces a policy parameter vector which is then used as the weights of the actor network. The actor network is then used as the mechanism that the representing scheduling agent will sample from in order to perform actions within the system. In the end, the consumer leaves the scheduling process by consuming (running on) assigned resources. Once finished, the consumer gives feedback to the scheduler for further training improvement.

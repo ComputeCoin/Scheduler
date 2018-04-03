@@ -122,7 +122,33 @@
 	 	.\hspace{2cm}  Figure 1:  General Scheduling Process (PANDA)			 
 		
 
-		Upon submission by a user, a consumer enters the scheduling process and submits its specifications as a parameter vector, which is given to the policy advisor as input. The policy advisor produces a policy parameter vector which is then used as the weights of the actor network. The actor network is then used as the mechanism that the representing scheduling agent will sample from in order to perform actions within the system. In the end, the consumer leaves the scheduling process by consuming (running on) assigned resources. Once finished, the consumer gives feedback to the scheduler for further training improvement.
+		%
+		% Process:
+		% 	a) Submission:
+		% 	 	-User fills in parameters for resource constraints and submits job.
+		%		-Parameter constraints are mapped to a real-valued vector.
+		%		-Parameter vector is classified as being a certain consumer type (some 
+		%		 positive integer we refer to as the consumer's class label).
+		% 	b) Construction:
+		%		-Use the class label of the parameter vector and policy advisor outputs 
+		%                the actor network parameters for the consumer's representative 
+		%		 scheduling agent.
+		% 	c) Allocation:
+		%		-The consumer's agent then selects the resources that meet the  
+		%        	 specification
+		% 	d) Consumption:
+		%		-The consumer uses its allocation of resources for whatever purposes it 
+		%                might serve them.
+		\begin{enumerate}
+			\item[(a) $\mathbf{Submission}$]
+			Upon submission by a user, a consumer enters the scheduling process and submits its specifications as a parameter vector. The parameter vector is classified as being a certain consumer type (some positive integer we refer to as the consumer's class label), and then both the label and the parameter vector are given to the policy advisor as input. 
+			\item[(b) $\mathbf{Construction}$]
+			Using the class label and the parameter vector, the policy advisor outputs the actor network parameters for the consumer's representative scheduling agent.
+			\item[(c) $\mathbf{Allocation}$]
+			The actor network is then used as the mechanism that the representing scheduling agent will sample from in order to perform actions within the system. In the end, the consumer leaves the scheduling process by consuming (running on) assigned resources. Once finished, the consumer gives feedback to the scheduler for further training improvement.
+			\item[(d) $\mathbf{Consumption}$]
+			In the end, the consumer leaves the scheduling process by consuming (running on) assigned resources. Once finished, the consumer gives feedback to the scheduler for further training improvement.
+		\end{enumerate}
 
 		There are three levels of action under analysis, the agent action, the class action, and the system action. An agent action is produced by the actor network of a scheduling agent, a class action is a list of agent actions within the same class, and a system action is a list of class actions submitted to the system, which is referred to in the diagram as the joint action of all the agents.
 

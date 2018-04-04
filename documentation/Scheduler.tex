@@ -223,12 +223,12 @@
 				.\hspace{3.5 cm}  Figure 4:  Agent Action	
 			
 			\begin{enumerate}
-				\item[(A)] \mbox{$\mathbf{catch}$}\\
+				\item[(A)] \mbox{$\mathbf{Catch}$}\\
 				 The agent acquires an available resource to be assigned to its consumer. Caught resources are held until consumed or a \emph{release} action is taken. Catch requests are submitted as a Boolean vector, with each component corresponding to an item in the pool of observed resources.
 				\item[(B)] \mbox{$\mathbf{Release}$}\\
 				 The agent returns a held resource to the pool of available resources. Release requests are also submitted as a Boolean vector, with each component corresponding to an item in the pool of held resources.
 				\item[(C)] \mbox{$\mathbf{Wait}$}\\
-				The agent delays consumption of resources until the subsequent time step. Wait requests are submitted as a Boolean scalar, as only one wait action may be performed per time step.
+				T he agent delays consumption of resources until the subsequent time step. Wait requests are submitted as a Boolean scalar, as only one wait action may be performed per time step.
 			\end{enumerate}
 		
 			The actor network output is mapped to a Boolean vector by applying the softmax function and sampling from the resultant categorical distribution.
@@ -270,7 +270,7 @@
 		\flushleft 
 		\begin{enumerate}
 			
-			\item[(A)] \mbox{$\mathbf{Flow \hspace{0.05in} Rate \hspace{0.05in} (throughput)}$} \\
+			\item[(A)] \mbox{$\mathbf{Flow \hspace{0.05in} Rate \hspace{0.05in} (Throughput)}$} \\
 			The flow rate is the number of jobs that the system can process within a given time interval. This is dependent on the interdeparture times, the maximum total time and the sum of all total times a job is in the system. A minimization in expected interdeparture times will lead to more jobs being completed in a given time interval, meaning a higher flow rate.
 			\item[(B)] \mbox{$\mathbf{System \hspace{0.05in} Utilization}$} \\
 			If the system is being utilized to its full capacity it would mean that it could complete more jobs within a given time interval than if it was not being fully utilized, which is along the lines of maximizing flow rate.

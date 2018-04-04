@@ -223,9 +223,12 @@
 				.\hspace{3.5 cm}  Figure 4:  Agent Action	
 			
 			\begin{enumerate}
-				\item Catch - the agent acquires an available resource to be assigned to its consumer. Caught resources are held until consumed or a \emph{release} action is taken. Catch requests are submitted as a Boolean vector, with each component corresponding to an item in the pool of observed resources.
-				\item Release - the agent returns a held resource to the pool of available resources. Release requests are also submitted as a Boolean vector, with each component corresponding to an item in the pool of held resources.
-				\item Wait - the agent delays consumption of resources until the subsequent time step. Wait requests are submitted as a Boolean scalar, as only one wait action may be performed per time step.
+				\item[(A)] \mbox{$\mathbf{catch}$}\\
+				 The agent acquires an available resource to be assigned to its consumer. Caught resources are held until consumed or a \emph{release} action is taken. Catch requests are submitted as a Boolean vector, with each component corresponding to an item in the pool of observed resources.
+				\item[(B)] \mbox{$\mathbf{Release}$}\\
+				 The agent returns a held resource to the pool of available resources. Release requests are also submitted as a Boolean vector, with each component corresponding to an item in the pool of held resources.
+				\item[(C)] \mbox{$\mathbf{Wait}$}\\
+				The agent delays consumption of resources until the subsequent time step. Wait requests are submitted as a Boolean scalar, as only one wait action may be performed per time step.
 			\end{enumerate}
 		
 			The actor network output is mapped to a Boolean vector by applying the softmax function and sampling from the resultant categorical distribution.
@@ -266,11 +269,12 @@
 		Here is a list of some metrics for scheduling and our reasons for believing they are dependent on time.
 		\flushleft 
 		\begin{enumerate}
-			\item[(1)] \mbox{\emph{Flow Rate (throughput)}} \\
+			
+			\item[(A)] \mbox{$\mathbf{Flow \hspace{0.05in} Rate \hspace{0.05in} (throughput)}$} \\
 			The flow rate is the number of jobs that the system can process within a given time interval. This is dependent on the interdeparture times, the maximum total time and the sum of all total times a job is in the system. A minimization in expected interdeparture times will lead to more jobs being completed in a given time interval, meaning a higher flow rate.
-			\item[(2)] \mbox{\emph{System Utilization}} \\
+			\item[(B)] \mbox{$\mathbf{System \hspace{0.05in} Utilization}$} \\
 			If the system is being utilized to its full capacity it would mean that it could complete more jobs within a given time interval than if it was not being fully utilized, which is along the lines of maximizing flow rate.
-			\item[(3)] \mbox{\emph{Fairness}} \\
+			\item[(C)] \mbox{$\mathbf{Fairness}$} \\
 			Fairness is a subjective metric because it is completely dependent on the agents claiming unfairness. Additionally most literature tries to maximize fairness, however, this seems odd for the fact that there is no optimal level of fairness, there is just equilibrium on total time in the system among agents. In which case the goal would be to minimize deviation from equilibrium, hence minimizing unfairness by minimizing variance among total times in the system. It is much easier to see what is not fair than what is fair, therefore it should ultimately be up to the users instead of the creators. If they feel that the scheduling is unfair then they should be given the option to say so. This has the benefit of being able to directly know what constitutes a "fair" scheduling algorithm. Additionally, we can be sure that all agents would like to be in the system for as short of a time as possible, hence minimizing the expected total time in system would, at worst, have no effect on the fairness and would, at best, render a less unfair system.
 		\end{enumerate}
 	

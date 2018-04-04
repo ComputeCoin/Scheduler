@@ -140,13 +140,21 @@
 		%		-The consumer uses its allocation of resources for whatever purposes it 
 		%                might serve them.
 		\begin{enumerate}
-			\item[(a) $\mathbf{Submission}$]
+			%item[(a)] \mbox{\emph{Flow Rate (throughput)}} \\
+			%\item(a) $\mathbf{Submission}$]\\
+			\item[(A)] \mbox{$\mathbf{Submission}$}\\
 			Upon submission by a user, a consumer enters the scheduling process and submits its specifications as a parameter vector. The parameter vector is classified as being a certain consumer type (some positive integer we refer to as the consumer's class label), and then both the label and the parameter vector are given to the policy advisor as input. 
-			\item[(b) $\mathbf{Construction}$]
+			%\item[(b) $\mathbf{Construction}$]\\
+			\item[(B)] \mbox{$\mathbf{Construction}$}\\
 			Using the class label and the parameter vector, the policy advisor outputs the actor network parameters for the consumer's representative scheduling agent.
-			\item[(c) $\mathbf{Allocation}$]
+			
+			%\item[(c) $\mathbf{Allocation}$]\\
+			\newpage
+			\item[(C)] \mbox{$\mathbf{Allocation}$}\\
 			The actor network is then used as the mechanism that the representing scheduling agent will sample from in order to perform actions within the system. In the end, the consumer leaves the scheduling process by consuming (running on) assigned resources. Once finished, the consumer gives feedback to the scheduler for further training improvement.
-			\item[(d) $\mathbf{Consumption}$]
+			
+			%\item[(d) $\mathbf{Consumption}$]
+			\item[(D)] \mbox{$\mathbf{Consumption}$}\\
 			In the end, the consumer leaves the scheduling process by consuming (running on) assigned resources. Once finished, the consumer gives feedback to the scheduler for further training improvement.
 		\end{enumerate}
 
